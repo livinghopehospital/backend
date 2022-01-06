@@ -27,8 +27,8 @@ branchSchema.statics.createBranch =  function createBranch(BranchDetails){
     
 }
 
-branchSchema.statics.findBranch = function findBranches(){
-    const branch =  new Branch.find({});
+branchSchema.statics.findBranches =async function findBranches(){
+    const branch = await  Branch.find({});
     return branch;
 }
 branchSchema.statics.updateBranch = function findBranch(branchId,data){
