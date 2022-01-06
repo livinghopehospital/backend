@@ -1,14 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const { databaseAuthentication } = require('./config/database');
-const { HttpError } = require('./middlewares/errors/http-error');
+const cors = require('cors');
 const app = express();
 
 const storeRouter = require('./routes/route');
 
 
 app.use(express.json());
-
+app.use(cors());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
