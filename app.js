@@ -9,6 +9,11 @@ const storeRouter = require('./routes/route');
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
+    next();
+  });
 app.use('/api/v1/',storeRouter);
 
 
