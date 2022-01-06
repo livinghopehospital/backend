@@ -27,7 +27,7 @@ const loginStaff =async(req,res,next)=>{
                  branch_id:staff.branch,
              }
              const token  =  signToken({payload});
-             httpResponse({status_code:200, response_message:'success',data:token,res});
+             httpResponse({status_code:200, response_message:'success',data:{token},res});
              return;
          }
          const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
