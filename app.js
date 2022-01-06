@@ -23,7 +23,7 @@ app.use((error,req,res,next)=>{
 
 
 app.use((req,res,next)=>{
-  res.status(404).json({response_message:'The requested route is not found on this server'})
+  res.status(404).json({status_code:404,response_message:'The requested route is not found on this server'})
 })
 
 databaseAuthentication().then(()=>{

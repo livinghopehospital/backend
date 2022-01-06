@@ -1,8 +1,12 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
+const joi = require('joi');
+const joiError = require("../../middlewares/errors/joi-error");
 
-
+const fieldValidation = joi.object({
+  productId: joi.string().required()
+});
 
 const updateProducts =async(req,res,next)=>{
     /***
@@ -12,8 +16,9 @@ const updateProducts =async(req,res,next)=>{
      */
     try {
       const {price,quantity} = req.body;
-      const {productId} = req.params;
-      const mproduct = await product.findProduct(productId);
+      const pValidation = await fieldValidation.validateAsync(req.params);
+     
+      const mproduct = await product.findProduct(pValidation.productId);
       if (mproduct) {
         const data ={
           product_price:price,
@@ -33,8 +38,7 @@ const updateProducts =async(req,res,next)=>{
         return next(err);
       }    
     } catch (error) {
-        const err = new HttpError(500, error.message);
-        return next(err);
+        joiError(error,next);
     }
 }
 
