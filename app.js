@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { databaseAuthentication } = require('./config/database');
+const { HttpError } = require('./middlewares/errors/http-error');
 const app = express();
 
 const storeRouter = require('./routes/route');
@@ -18,6 +19,12 @@ app.use((error,req,res,next)=>{
     } else {
         res.status(error.status_code || 500).json({ status_code: error.status_code, response_message: error.response_message || 'An unknown error occured' });  
     }
+})
+
+
+app.use((req,res,next)=>{
+    const err = new HttpError(404, 'The requested route is not found on this server')
+    return next(err);
 })
 
 databaseAuthentication().then(()=>{

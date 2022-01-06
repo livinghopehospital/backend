@@ -10,7 +10,7 @@ const { User } = require('../../model/user/user');
 const loginStaff =async(req,res,next)=>{
     try {
      const loginDetails  = joi.object({
-         staff_username: joi.string().required(),
+         staff_username: joi.string().required().lowercase(),
          password:  joi.string().required(),
          branch_id: joi.string().required()
      });
