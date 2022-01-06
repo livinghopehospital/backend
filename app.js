@@ -23,8 +23,7 @@ app.use((error,req,res,next)=>{
 
 
 app.use((req,res,next)=>{
-    const err = new HttpError(404, 'The requested route is not found on this server')
-    return next(err);
+  res.status(404).json({response_message:'The requested route is not found on this server'})
 })
 
 databaseAuthentication().then(()=>{
