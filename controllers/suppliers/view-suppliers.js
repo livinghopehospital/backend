@@ -12,7 +12,7 @@ const viewAllSuppliers = async(req,res,next)=>{
               httpResponse({status_code:200, response_message:'Supplier found', data:{supplier},res});
           }else{
             const err = new HttpError(400, 'You have not added any product supplier.Please add supplier');
-            return (err);
+            return next(err);
           }
       } catch (error) {
           const e = new HttpError(500, error.message);
