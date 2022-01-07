@@ -6,7 +6,11 @@ const joi = require('joi');
 
 
 const supplierFieldValidation = joi.object({
-  supplier_name: joi.string().required()
+  supplier_name: joi.string().required(),
+  supplier_address: joi.string(),
+  supplier_phone: joi.string(),
+  supplier_email: joi.string(),
+  contact_person: joi.string()
 });
 
 const supplierSchema = new mongoose.Schema({
