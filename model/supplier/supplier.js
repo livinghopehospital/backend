@@ -20,21 +20,21 @@ const supplierSchema = new mongoose.Schema({
 
 
 supplierSchema.statics.createSupplier = function createSupplier(supplier){
-    return new supplier(supplier)
+    return new Supplier(supplier)
 }
 
 supplierSchema.statics.findsupplier = async function(){
 
-    const supplier = await supplier.find({});
+    const supplier = await Supplier.find({});
     return supplier;
 }
 
 supplierSchema.statics.deleteSupplier = async function deleteSupplier(supplierId){
-    const supplier = await supplier.findOneAndDelete({_id:supplierId});
+    const supplier = await Supplier.findOneAndDelete({_id:supplierId});
     return supplier;
 }
 supplierSchema.statics.updateSupplier = async function updateSupplier(supplierId, data){
-    const supplier = await supplier.findOneAndUpdate({_id:supplierId},data);
+    const supplier = await Supplier.findOneAndUpdate({_id:supplierId},data);
     return supplier;
 }
 const Supplier = mongoose.model('supplier', supplierSchema);
