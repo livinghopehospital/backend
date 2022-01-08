@@ -26,38 +26,38 @@ const productSchema = new mongoose.Schema({
 
 
 
-productSchema.statics.createProduct = function createProduct(product){
-    return new product(product)
+productSchema.statics.createProduct = function createProduct(mproduct){
+    return new product(mproduct)
 }
 
 productSchema.statics.findProducts = async function findProducts(){
 
-    const product = await product.find({});
-    return product;
+    const mproduct = await product.find({});
+    return mproduct;
 }
 
 productSchema.statics.findProduct = async function findProduct(productId){
-    const product = await product.findOne({_id:productId});
-    return product;
+    const mproduct = await product.findOne({_id:productId});
+    return mproduct;
 }
 
 productSchema.statics.findProductByBarcode = async function findProductByBarcode(product_barcode){
-    const product = await product.findOne({product_barcode});
-    return product;
+    const mproduct = await product.findOne({product_barcode});
+    return mproduct;
 }
 
 productSchema.statics.deleteProduct = async function(productId){
-    const product = await product.findOneAndDelete({_id:productId});
-    return product;
+    const mproduct = await product.findOneAndDelete({_id:productId});
+    return mproduct;
 }
 productSchema.statics.updateProduct = async function updateProduct(productId, data){
-    const product = await product.findOneAndUpdate({_id:productId},data);
-    return product;
+    const mproduct = await product.findOneAndUpdate({_id:productId},data);
+    return mproduct;
 }
 
 productSchema.statics.manageProductSales = async function manageProductSales(product_barcode, data){
-    const product = await product.findOneAndUpdate({product_barcode},data);
-    return product;
+    const mproduct = await product.findOneAndUpdate({product_barcode},data);
+    return mproduct;
 }
 
 const product = mongoose.model('product', productSchema);

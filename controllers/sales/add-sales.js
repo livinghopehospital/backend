@@ -7,7 +7,7 @@ const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
-const { salesFieldValidation, sales, salesSchema } = require("../../model/sales/sales")
+const { salesFieldValidation, Sales, salesSchema } = require("../../model/sales/sales")
 
 const addSales = async(req,res,next)=>{
     try {
@@ -20,7 +20,7 @@ const addSales = async(req,res,next)=>{
                });  
         }
        const mSales = await salesFieldValidation.validateAsync(req.body); 
-       const addNewSales = sales.createSales(mSales);
+       const addNewSales = Sales.createSales(mSales);
        /****check if the purchased qty is not greater than the current qty */
        /***find product, deduct the qty from the current qty */
        const mproduct = await product.findProductByBarcode(mSales.product_barcode);
