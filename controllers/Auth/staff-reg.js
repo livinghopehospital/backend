@@ -36,7 +36,7 @@ const viewStaff = async(req,res,next)=>{
         const e = new HttpError(400, 'You have not registered any staff');
         return next(e);
     } catch (error) {
-        
+        console.log(error);
         const e = new HttpError(400, error.mesage);
         return next(e);
     }

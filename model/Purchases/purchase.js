@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const purchaseSchema = new mongoose.Schema({
     purchase_date: {type: Date, required: true},
-    branch:{ type:mongoose.Types.ObjectId,ref:'brnach'},
+    branch:{ type:mongoose.Types.ObjectId,ref:'Branch'},
     supplier:{type: mongoose.Types.ObjectId, ref:'supplier'},
     product: {type:mongoose.Types.ObjectId, ref:'product'},
     purchase_quantity: {type:Number, required:true},
@@ -18,7 +18,7 @@ purchaseSchema.statics.addPurchase = function addPurchase(purchaseDetails){
 }
 
 purchaseSchema.statics.findPurchase = async function findPurchase(){
-    const mPurchase = await Purchase.find({}) ;
+    const mPurchase = await Purchase.find({}).populate('branch').populate('supplier').populate('product') ;
     return mPurchase;
 }
 
