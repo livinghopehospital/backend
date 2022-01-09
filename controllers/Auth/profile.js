@@ -8,10 +8,8 @@ const { User } = require("../../model/user/user");
 
 const staffProfile = async(req,res,next)=>{
     try {
-        const {email} = req.userData;
-        // console.log(req.userData)
-        const staff = await User.findUserByUserName(email);
-        console.log(staff);
+        const {username} = req.userData;
+        const staff = await User.findUserByUserName(username);
         if(staff){
             httpResponse({status_code:200, response_message:'profile found', data:staff,res});
             return;

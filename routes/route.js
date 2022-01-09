@@ -16,6 +16,7 @@ const { viewPurchase } = require('../controllers/purchase/view-purchase');
 const { fetchOutOfStock } = require('../controllers/reports/out-of-stock');
 const { fetchProductPrice } = require('../controllers/reports/product-price-list');
 const { addSales } = require('../controllers/sales/add-sales');
+const { viewSales } = require('../controllers/sales/view-sales');
 const { addSupplier } = require('../controllers/suppliers/add-supplier');
 const { deleteSupplier } = require('../controllers/suppliers/delete-supplier');
 const { updateSupplier } = require('../controllers/suppliers/edit-supplier');
@@ -70,7 +71,7 @@ router.put('/update-product/:productId', updateProducts);
 /****ADD SALES ROUTES*/
 
 router.post('/add-sales', addSales);
-
+router.get('view-sales', viewSales);
 
 
 
