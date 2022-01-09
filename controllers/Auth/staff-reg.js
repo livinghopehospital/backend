@@ -26,8 +26,25 @@ const registerStaff =async(req,res,next)=>{
 }
 
 
+const viewStaff = async(req,res,next)=>{
+    try {
+        const staff =await User.findStaffs();
+        if(staff){
+            httpResponse({status_code:200, response_message:'Staff available', data:staff, res});
+            return;
+        }
+        const e = new HttpError(400, 'You have not registered any staff');
+        return next(e);
+    } catch (error) {
+        
+        const e = new HttpError(400, error.mesage);
+        return next(e);
+    }
+}
+
 
 
 module.exports={
-    registerStaff
+    registerStaff,
+    viewStaff
 }

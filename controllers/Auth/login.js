@@ -22,9 +22,10 @@ const loginStaff =async(req,res,next)=>{
          if (!!checkPassword) {
              const payload ={
                  email: staff.email,
+                 username: staff.username,
                  id: staff._id,
                  role: staff.role,
-                 branch_id:staff.branch,
+                 branch_id:staff.branch._id,
              }
              const token  =  signToken({payload});
              httpResponse({status_code:200, response_message:'success',data:{token},res});

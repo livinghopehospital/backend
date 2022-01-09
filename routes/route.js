@@ -1,7 +1,7 @@
 const express = require('express');
 const { loginStaff } = require('../controllers/Auth/login');
 const { staffProfile } = require('../controllers/Auth/profile');
-const { registerStaff } = require('../controllers/Auth/staff-reg');
+const { registerStaff, viewStaff } = require('../controllers/Auth/staff-reg');
 const { createStore } = require('../controllers/Branch/create-branch');
 const { listAllStores } = require('../controllers/Branch/view-branch');
 const { addBrand } = require('../controllers/brand/add-brand');
@@ -11,6 +11,8 @@ const { viewAllBrands } = require('../controllers/brand/view-brands');
 const { addProducts } = require('../controllers/products/add-product');
 const { updateProducts } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
+const { addPurchase } = require('../controllers/purchase/add-purchase');
+const { viewPurchase } = require('../controllers/purchase/view-purchase');
 const { fetchOutOfStock } = require('../controllers/reports/out-of-stock');
 const { fetchProductPrice } = require('../controllers/reports/product-price-list');
 const { addSales } = require('../controllers/sales/add-sales');
@@ -42,6 +44,7 @@ router.use(verifyToken);
 
 // router.post('register-staff', registerStaff);
 router.get('/profile', staffProfile);
+router.get('/view-staff', viewStaff);
 // router.post('/create-store',isManager, createStore);
 
 
@@ -67,6 +70,15 @@ router.put('/update-product/:productId', updateProducts);
 /****ADD SALES ROUTES*/
 
 router.post('/add-sales', addSales);
+
+
+
+
+/*****PURCHASE ROUTES */
+
+router.post('/add-purchase', addPurchase);
+
+router.get('/view-purchase', viewPurchase);
 
 
 /****REPORTS ROUTES */

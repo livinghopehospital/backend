@@ -1,5 +1,4 @@
 
-
 const mongoose = require('mongoose');
 
 const joi = require('joi');
@@ -32,7 +31,7 @@ productSchema.statics.createProduct = function createProduct(mproduct){
 
 productSchema.statics.findProducts = async function findProducts(){
 
-    const mproduct = await product.find({});
+    const mproduct = await product.find({}).populate("supplier");
     return mproduct;
 }
 

@@ -39,11 +39,15 @@ userSchema.pre("save", async function(done){
      done()
    });
 
-userSchema.statics.findUserByUserName = function findUserByUserName(username){
-    const user =  User.findOne({username}).populate('branch');
+userSchema.statics.findUserByUserName =async function findUserByUserName(username){
+    const user = await User.findOne({username}).populate('Branch');
     return user;
 }
 
+userSchema.statics.findStaffs =async function findStaffs(username){
+    const staff = await User.find({}).populate('Branch');
+    return staff;
+}
 
 const User = mongoose.model('User', userSchema);
 module.exports={
