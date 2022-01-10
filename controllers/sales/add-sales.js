@@ -25,15 +25,20 @@ const addSales = async(req,res,next)=>{
        /***find product, deduct the qty from the current qty */
        const mproduct = await product.findProductByBarcode(mSales.product_barcode);
 
-       if (mSales.purchased_qty > mproduct.current_shipping_quauntity) {
+       if (mSales&&mSales.purchased_qty > mproduct.current_shipping_quauntity) {
         const err= new HttpError(500, `The purchased quantity is greater than number of product in stock. You have ${mproduct.current_shipping_quauntity} left in stock`);
         return next(err);
        }
 
-       const data = {
-           current_shipping_quauntity: mproduct.current_shipping_quauntity - mSales.purchased_qty,
-           previous_shipping_quantity: mproduct.current_shipping_quauntity
-       }
+        if (mproduct) {
+            const data = {
+                current_shipping_quauntity: mproduct.current_shipping_quauntity - mSales.purchased_qty,
+                previous_shipping_quantity: mproduct.current_shipping_quauntity
+            }  
+        }else{
+            const err= new HttpError(400, `No product is associated with the provided barcode`);
+            return next(err); 
+        }
        const updateProduct = product.manageProductSales(mSales.product_barcode,data);
        if (updateProduct) {
         addNewSales.save().then((s)=>{
