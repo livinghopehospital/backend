@@ -41,13 +41,14 @@ const addSales = async(req,res,next)=>{
             }  
             const updateProduct = product.manageProductSales(mSales.product_barcode,data);
        if (updateProduct) {
+        preSave();
         addNewSales.save().then((s)=>{
             httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
            }).catch((e)=>{
             const err= new HttpError(500, e.message);
             return next(err);
            });
-          preSave();
+       
         }else{
             const err= new HttpError(400, `No product is associated with the provided barcode`);
             return next(err); 
