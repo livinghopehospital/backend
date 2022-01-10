@@ -14,10 +14,7 @@ const addSales = async(req,res,next)=>{
         const {branch_id} = req.userData;
         function preSave(){
         
-            salesSchema.pre("save",async function(done){
-                this.set("branch", branch_id);
-                done()
-               });  
+            
         }
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
@@ -41,13 +38,17 @@ const addSales = async(req,res,next)=>{
             }  
             const updateProduct = product.manageProductSales(mSales.product_barcode,data);
        if (updateProduct) {
-        preSave();
-        addNewSales.save().then((s)=>{
-            httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
-           }).catch((e)=>{
-            const err= new HttpError(500, e.message);
-            return next(err);
-           });
+        salesSchema.pre("save",async function(done){
+            this.set("branch", branch_id);
+            addNewSales.save().then((s)=>{
+                httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
+               }).catch((e)=>{
+                const err= new HttpError(500, e.message);
+                return next(err);
+               });
+               done();
+           });  
+       
        
         }else{
             const err= new HttpError(400, `No product is associated with the provided barcode`);
