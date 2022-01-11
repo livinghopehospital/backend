@@ -8,16 +8,12 @@ const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
 const { salesFieldValidation, Sales, salesSchema } = require("../../model/sales/sales")
-
+const mongoose = require('mongoose');
 const addSales = async(req,res,next)=>{
-    try {
-        const {branch_id} = req.userData;
-        function preSave(){
-        
-            
-        }
+    try {  
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
+      
        /****check if the purchased qty is not greater than the current qty */
        /***find product, deduct the qty from the current qty */
        const mproduct = await product.findProductByBarcode(mSales.product_barcode);
@@ -38,18 +34,13 @@ const addSales = async(req,res,next)=>{
             }  
             const updateProduct = product.manageProductSales(mSales.product_barcode,data);
        if (updateProduct) {
-        salesSchema.pre("save",async function(done){
-            this.set("branch", branch_id);
-            addNewSales.save().then((s)=>{
-                httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
-               }).catch((e)=>{
-                const err= new HttpError(500, e.message);
-                return next(err);
-               });
-               done();
-           });  
-       
-       
+        addNewSales.save().then((s)=>{
+            httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
+           }).catch((e)=>{
+            const err= new HttpError(500, e.message);
+            return next(err);
+           });
+        
         }else{
             const err= new HttpError(400, `No product is associated with the provided barcode`);
             return next(err); 

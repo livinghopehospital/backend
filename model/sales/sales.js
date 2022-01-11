@@ -10,6 +10,7 @@ const salesFieldValidation = joi.object({
   product_barcode: joi.string().required(),
   invoice_number: joi.string(),
   unit_price: joi.string(),
+  branch: joi.string().required(),
   purchased_qty: joi.number().required(),
   total_amount: joi.number().required(),
   payment_type: joi.string().required(),
@@ -21,7 +22,7 @@ const salesSchema = new mongoose.Schema({
   product_barcode:{ type:String,required:true},
   total_amount: {type:Number},
   unit_price: {type:Number},
-  branch: {type:mongoose.Types.ObjectId, required:true}, //add at backend
+  branch: {type:mongoose.Types.ObjectId, ref:'Branch',required:true}, //add at backend
   created_at:{type: Date}  
 });
 
@@ -30,6 +31,7 @@ const salesSchema = new mongoose.Schema({
 salesSchema.statics.createSales = function createSales(sales){
     return new Sales(sales)
 }
+
 
 salesSchema.statics.findsales = async function(){
     const sales = await Sales.find({});
@@ -42,7 +44,8 @@ const Sales = mongoose.model('sales', salesSchema);
 
 
 module.exports={
+  salesSchema,
     salesFieldValidation,
     Sales,
-    salesSchema
+  
 }
