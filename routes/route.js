@@ -73,7 +73,7 @@ router.put('/update-brand/:brandId', updateBrand);
 /****PRODUCT ROUTES */
 router.post('/add-product', addProducts);
 router.get('/view-product', viewAllProducts);
-router.get('/view-product-by-barcode/:barcode', viewSingleProduct);
+router.get('/view-product-by-barcode/:product_barcode', viewSingleProduct);
 router.put('/update-product/:productId', updateProducts);
 
 /****ADD SALES ROUTES*/
