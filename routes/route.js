@@ -8,6 +8,8 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
+const { addpaymentType } = require('../controllers/PaymentType/add-deposit');
+const { viewPaymentType } = require('../controllers/PaymentType/view-deposit');
 const { addProducts } = require('../controllers/products/add-product');
 const { updateProducts } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
@@ -25,6 +27,7 @@ const { verifyToken } = require('../middlewares/Authorization/jwt');
 const { isManager } = require('../middlewares/Authorization/role');
 
 const router = express.Router();
+
 
 
 
@@ -48,6 +51,11 @@ router.get('/profile', staffProfile);
 router.get('/view-staff', viewStaff);
 // router.post('/create-store',isManager, createStore);
 
+/***DEPOSITS...... */
+
+router.get('/view-payment-type', viewPaymentType);
+router.post('/add-payment-type',addpaymentType);
+
 
 /****SUPPLIER ROUTES */
 
@@ -65,13 +73,13 @@ router.put('/update-brand/:brandId', updateBrand);
 /****PRODUCT ROUTES */
 router.post('/add-product', addProducts);
 router.get('/view-product', viewAllProducts);
-router.get('/view-product/barcode', viewSingleProduct);
+router.get('/view-product-by-barcode/:barcode', viewSingleProduct);
 router.put('/update-product/:productId', updateProducts);
 
 /****ADD SALES ROUTES*/
 
 router.post('/add-sales', addSales);
-router.get('view-sales', viewSales);
+router.get('/view-sales', viewSales);
 
 
 

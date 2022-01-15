@@ -9,7 +9,7 @@ const deleteSupplier = async(req,res,next)=>{
         const {supplierId} = req.params
         const deletedSupplier =await Supplier.deleteSupplier(supplierId);
         if (deletedSupplier) {
-            httpResponse({status_code:200, response_message:'Supplier successfully deleted',data:deletedSupplier,res});
+         httpResponse({status_code:200, response_message:'Supplier successfully deleted',data:deletedSupplier,res});
         }
     } catch (error) {
         

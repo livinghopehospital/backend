@@ -39,7 +39,7 @@ const addPurchase = async(req,res,next)=>{
              }).catch((e)=>{
                  const err = new HttpError(500, e.message);
                  return next(err);
-             })
+             });
          }
       }
 
