@@ -19,7 +19,7 @@ const viewAllProducts = async(req,res,next)=>{
 
 const viewSingleProduct = async(req,res,next)=>{
     try {
-      const {product_barcode} = req.body;
+      const {product_barcode} = req.params;
       if (!product_barcode) {
         const err = new HttpError(400, 'Please supply product barcode');
         return next(err);
