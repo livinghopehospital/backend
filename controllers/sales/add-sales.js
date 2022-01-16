@@ -31,7 +31,7 @@ const addSales = async(req,res,next)=>{
             if (mproduct) {
                 const data = {
                     current_product_quantity: mproduct.current_product_quantity -Number(item.quantity),
-                    previous_shipping_quantity: mproduct.current_product_quantity
+                    previous_product_quantity: mproduct.current_product_quantity
                 }  
                 const updateProduct = product.manageProductSales(mSales.product_barcode,data);
            if (updateProduct) {
