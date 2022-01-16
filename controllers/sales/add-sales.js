@@ -2,13 +2,12 @@
 
 
 /***When adding sales, the product level should be decreasing */
-
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
-const { salesFieldValidation, Sales, salesSchema } = require("../../model/sales/sales")
-const mongoose = require('mongoose');
+const { salesFieldValidation, Sales, } = require("../../model/sales/sales")
+
 const addSales = async(req,res,next)=>{
     try {  
        const mSales = await salesFieldValidation.validateAsync(req.body); 
