@@ -6,6 +6,7 @@ const joi = require('joi');
 const salesFieldValidation = joi.object({
   invoice_number: joi.string().required(),
   items: joi.array().min(1),
+  branch: joi.string().required(),
   payment_type: joi.string().required(),
   created_at: joi.date().required()
 });
