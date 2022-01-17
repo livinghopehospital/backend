@@ -36,7 +36,7 @@ const addSales = async(req,res,next)=>{
                     current_product_quantity: mproduct.current_product_quantity -Number(item.quantity),
                     previous_product_quantity: mproduct.current_product_quantity
                 }  
-                const updateProduct = product.manageProductSales(mSales.product_barcode,data);
+                const updateProduct =await product.manageProductSales(mSales.product_barcode,data);
            }else{
             const err= new HttpError(500, 'Unable to add sales due to internal error, contact support');
             return next(err);
