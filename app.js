@@ -10,8 +10,8 @@ const storeRouter = require('./routes/route');
 
 app.use(express.json());
 app.use(cors());
+app.options('*', cors());
 app.use((req, res, next) => {
-    console.log(req);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
   next();
