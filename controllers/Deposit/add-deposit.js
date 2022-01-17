@@ -9,9 +9,6 @@ const { Deposit,depositFieldValidation } = require("../../model/Deposit/deposit"
 const { product } = require("../../model/products/products");
 
 
-
-
-
 const addDeposit = async(req,res,next)=>{
     try {  
        const mDeposit = await depositFieldValidation.validateAsync(req.body); 
