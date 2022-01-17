@@ -12,7 +12,11 @@ const addSales = async(req,res,next)=>{
     try {  
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
-    
+       const doesSalesExist = Sales.findSingleSales(mSales.invoice_number);
+       if (doesSalesExist) {
+         const e = new HttpError(400, "A sales already existed with this invoice number");
+         return next(e);  
+       }
        /****check if the purchased qty is not greater than the current qty */
        /***find product, deduct the qty from the current qty */
     
@@ -38,7 +42,7 @@ const addSales = async(req,res,next)=>{
             return next(err);
            }
        });
-       
+
        addNewSales.save().then((s)=>{
         httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
        }).catch((e)=>{
