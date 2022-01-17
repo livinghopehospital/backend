@@ -8,6 +8,8 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
+const { addDeposit } = require('../controllers/Deposit/add-deposit');
+const { viewDeposit } = require('../controllers/Deposit/view-deposit');
 const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
 const { addExpenses } = require('../controllers/Expenses/add-expenses');
 const { EditExpenses, deleteExpenses } = require('../controllers/Expenses/manage_expenses');
@@ -102,6 +104,10 @@ router.get('/view-payment-type', viewPaymentType);
 
 /******EXPENSES  ***/
 
+
+
+
+
 router.post('/add-expenses', addExpenses);
 router.get('/view-expenses', viewExpenses);
 router.post('/add-expenses-category', addExpensesCategory);
@@ -109,6 +115,10 @@ router.get('/view-expenses-categories', viewCategory);
 router.put('/update-expenses/:id',EditExpenses);
 router.delete('/delete-expenses/:id', deleteExpenses);
 
+
+/****DEPOSITS ROUTE */
+router.post('/add-deposits', addDeposit);
+router.get('/view-deposits', viewDeposit);
 /****REPORTS ROUTES */
 
 

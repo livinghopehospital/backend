@@ -1,48 +1,55 @@
-
-
 const mongoose = require('mongoose');
 
-const depositSchema = mongoose.Schema({
-   invoice_number: {type: String, required:true},
-   customer_name: {type:String, required:true},
-   customer_number: {type:String, required:true},
-   amount_deposited :{type:Number, required:true},
-   amount_to_balance:{type:Number, required:true},
-   total_amount_to_pay :{type:Number, required:true},
-   date: {type: Date, required:true},
-   branch: {type: mongoose.Types.ObjectId, required:true, ref:'branch'},
- 
-   product: [{
-    product_barcode: {type:String, required:true},
-    product_id: {type: mongoose.Types.ObjectId, ref:'product'},
-    product_qty: {type: Number, required:true},
-    price: {type:Number, required:true}
-   }]
+const joi = require('joi');
+
+
+const depositFieldValidation = joi.object({
+  invoice_number: joi.string().required(),
+  customer_name:  joi.string().required(),
+  items: joi.array().min(1).required(),
+  total_amount: joi.number().required(),
+  amount_deposited: joi.number().required(),
+  branch: joi.string().required(),
+  payment_type: joi.string().required(),
+  created_at: joi.date().required()
 });
 
-depositSchema.statics.addDeposit =function addDeposit(depo){
-    const d = new payementDeposit(depo);
-    return d;
+const depositSchema = new mongoose.Schema({
+  invoice_number:{type:String, required:true},
+  customer_name: {type:String, required:true},
+  amount_deposited:{type:Number, required:true},
+  items: [],
+  total_amount : {type:Number, required:true},
+  amount_to_balance: {type:Number, required:true},
+  payment_type:{type:String},
+  branch: {type:String,required:true}, //add at backend
+  created_at:{type:Date}  
+});
+
+
+
+depositSchema.statics.createDeposit = function createDeposit(Deposit){
+    return new Deposit(Deposit)
 }
 
-depositSchema.statics.findDeposit=async function findDeposit(){
-    const d = await payementDeposit.find({}).populate('product');
-    return d;
+
+depositSchema.statics.findDeposit = async function findDeposit(){
+    const Deposit = await Deposit.find({});
+    return Deposit;
 }
 
-depositSchema.statics.DepositExist=async function DepositExist(){
-    const d = await payementDeposit.find({});
-    return d
+depositSchema.statics.findSingleDeposit = async function findSingleDeposit(invoice_number){
+  const Deposit = await Deposit.findOne({invoice_number});
+  return Deposit;
 }
 
-depositSchema.statics.updateDepositPayment = async function updateDeposit(invoice_number,data){
-       const updated = await payementDeposit.findOneAndUpdate({invoice_number}, data);
-       return updated;
-}
 
-const payementDeposit = mongoose.model('payment-deposit', depositSchema);
+
+const Deposit = mongoose.model('deposit', depositSchema);
 
 
 module.exports={
-    payementDeposit
+  depositSchema,
+    depositFieldValidation,
+    Deposit,
 }
