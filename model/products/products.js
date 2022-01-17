@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
   previous_product_quantity: {type: Number, default:0},
   branch: {type: mongoose.Types.ObjectId, ref:'Branch'}, 
   product_brand: {type: mongoose.Types.ObjectId, ref:'brand'},
-  supplier: {type:mongoose.Types.ObjectId, ref:'supplier'}
+  supplier: {type: String, required:true}
 });
 
 
@@ -31,7 +31,7 @@ productSchema.statics.createProduct = function createProduct(mproduct){
 
 productSchema.statics.findProducts = async function findProducts(){
 
-    const mproduct = await product.find({}).populate("supplier");
+    const mproduct = await product.find({})
     return mproduct;
 }
 

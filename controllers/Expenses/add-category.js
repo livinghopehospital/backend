@@ -14,7 +14,7 @@ const addExpensesCategory = async(req,res,next)=>{
             const e = new HttpError(400, 'expenses_category is required');
             return next(e) 
         }
-        const newCategory = ExpenseCategory.addExpensesCategory(req.body);
+        const newCategory = ExpenseCategory.addCategory(req.body);
         newCategory.save().then((s)=>{
         httpResponse({status_code:201, response_message:'Expenses category added', data:s,res});
         }).catch((err)=>{

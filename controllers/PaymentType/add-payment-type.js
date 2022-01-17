@@ -16,7 +16,7 @@ const addpaymentType =async(req,res,next)=>{
      const   paymentBody = await paymentVal.validateAsync(req.body);
         const d =  paymentType.createPaymentType(paymentBody);
         d.save().then((s)=>{
-         httpResponse({status_code:201, response_message:'Deposit created',data:s,res});
+         httpResponse({status_code:201, response_message:'Psyment method successfully added',data:s,res});
         }).catch((err)=>{
             const e = new HttpError(500, err.message);
             return next(e);
