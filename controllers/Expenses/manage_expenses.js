@@ -14,7 +14,8 @@ const Validation = joi.object({
 const EditExpenses = async(req,res,next)=>{
     try {
         const {id} = req.params
-        const expensesUpdated =await Expenses.updateExpenses(id,Validation);
+        const body =await Validation.validateAsync(req.body);
+        const expensesUpdated =await Expenses.updateExpenses(id,body);
         if (expensesUpdated) {
             httpResponse({status_code:200, response_message:'This expenses as been updated successfully', data:expensesUpdated, res});
         }else{
