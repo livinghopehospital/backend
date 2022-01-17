@@ -1,3 +1,8 @@
+const { Deposit } = require("../../model/Deposit/deposit")
+
+
+
+
 
 
 
@@ -8,4 +13,10 @@ const updatemountPaid = async(req,res,next)=>{
     } catch (error) {
         
     }
+}
+
+
+
+module.exports={
+    updatemountPaid
 }

@@ -1,7 +1,4 @@
 
-
-
-/***When adding Deposit, the product level should be decreasing */
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
