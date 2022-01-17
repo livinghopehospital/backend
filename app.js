@@ -11,7 +11,8 @@ const storeRouter = require('./routes/route');
 app.use(express.json());
 app.use(cors());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+    console.log(req);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
   next();
 });
