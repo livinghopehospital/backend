@@ -22,7 +22,6 @@ const addSales = async(req,res,next)=>{
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
            }
-           console.log(mproduct.current_product_quantity);
            if (item.quantity > mproduct.current_product_quantity) {
             const err= new HttpError(400, `The purchased quantity is greater than number of product in stock. You have ${mproduct.current_product_quantity} left in stock`);
             return next(err);
@@ -34,25 +33,18 @@ const addSales = async(req,res,next)=>{
                     previous_product_quantity: mproduct.current_product_quantity
                 }  
                 const updateProduct = product.manageProductSales(mSales.product_barcode,data);
-           if (updateProduct) {
-            addNewSales.save().then((s)=>{
-                httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
-               }).catch((e)=>{
-                const err= new HttpError(500, e.message);
-                return next(err);
-               });
-            
-            }else{
-                const err= new HttpError(400, `No product is associated with the provided barcode`);
-                return next(err); 
-            }
-            //add branch to the sales
            }else{
             const err= new HttpError(500, 'Unable to add sales due to internal error, contact support');
             return next(err);
            }
-       })
-      
+       });
+       
+       addNewSales.save().then((s)=>{
+        httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
+       }).catch((e)=>{
+        const err= new HttpError(500, e.message);
+        return next(err);
+       });
 
       
      
