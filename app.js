@@ -1,21 +1,21 @@
 require('dotenv').config();
 const express = require('express');
 const { databaseAuthentication } = require('./config/database');
-const cors = require('cors');
-const app = express();
 
+const app = express();
+const cors = require('cors');
 const storeRouter = require('./routes/route');
 
 
 app.use(express.json());
-
+app.use(cors());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET, POST,PUT,DELETE,PATCH')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT,DELETE,PATCH')
     res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
     next();
   });
-app.use(cors());
+
 app.use('/api/v1/',storeRouter);
 
 
