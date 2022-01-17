@@ -10,11 +10,13 @@ const exepensesValidation = joi.object({
     amount: joi.number(). required(),
     expenses_type: joi.string().required(),
     additional_details: joi.string().required(),
+    branch_name: joi.string().required()
 })
 
 const expensesSchema = new mongoose.Schema({
     date: {type:Date, required:true},
     amount: {type:Number, required:true},
+    branch_name:{type:String, required:true},
     expenses_type: {type:String, required:true},
     additional_details: {type:String, required:true},
 });
@@ -26,8 +28,8 @@ expensesSchema.statics.addExpenses = function addExpenses(expenses){
 }
 
 
-expensesSchema.statics.viewExpenses = function viewExpenses(){
-    const e = Expenses.find({});
+expensesSchema.statics.viewExpenses =async function viewExpenses(){
+    const e = await Expenses.find({});
     return e;
 }
 
@@ -36,7 +38,7 @@ expensesSchema.statics.updateExpenses = function updateExpenses(expenses_id, dat
     return update;
 }
 
-expensesSchema.statics.deleteExpenses = function deleteExpenses(expenses_id, data){
+expensesSchema.statics.deleteExpenses = function deleteExpenses(expenses_id){
     const del = Expenses.findOneAndDelete({_id: expenses_id});
     return del;
 }
