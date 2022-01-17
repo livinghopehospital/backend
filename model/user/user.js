@@ -40,7 +40,7 @@ userSchema.pre("save", async function(done){
    });
 
 userSchema.statics.findUserByUserName =async function findUserByUserName(username){
-    const user = await User.findOne({username}).populate('branch');
+    const user = await User.findOne({username});
     return user;
 }
 

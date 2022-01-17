@@ -17,7 +17,7 @@ const loginStaff =async(req,res,next)=>{
      const staffDetails =await loginDetails.validateAsync(req.body);
     
      const staff = await User.findUserByUserName(staffDetails.staff_username);
-     if (staff&&staff.branch._id==staffDetails.branch_id&&staff.staff_username!='admin') {
+     if (staff&&staff.branch==staffDetails.branch_id&&staff.staff_username!='admin') {
          const checkPassword = await comparePassword({password:staffDetails.password,username:staff.username});
          if (!!checkPassword) {
              const payload ={
@@ -25,7 +25,7 @@ const loginStaff =async(req,res,next)=>{
                  username: staff.username,
                  id: staff._id,
                  role: staff.role,
-                 branch_id:staff.branch._id,
+                 branch_id:staff.branch,
              }
              const token  =  signToken({payload});
              httpResponse({status_code:200, response_message:'success',data:{token},res});
