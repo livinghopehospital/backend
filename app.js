@@ -8,9 +8,8 @@ const storeRouter = require('./routes/route');
 
 
 app.use(express.json());
-app.use(cors());
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://dayon.netlify.app,localhost:3000");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-with,Content-Type,Accept,Authorization");
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT,DELETE,PATCH')
     next();
@@ -34,9 +33,8 @@ app.use((req,res,next)=>{
 })
 
 databaseAuthentication().then(()=>{
-    console.log('database connected');
     app.listen(process.env.PORT || 6000, ()=>{
         console.log('Inventory system server started.');
     });
-})
+});
 
