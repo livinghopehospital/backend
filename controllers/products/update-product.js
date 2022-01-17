@@ -25,7 +25,7 @@ const updateProducts =async(req,res,next)=>{
       if (mproduct) {
         const data ={
           product_price:price,
-          current_product_quantity: quantity,
+          current_product_quantity:mproduct.current_product_quantity + quantity,
           previous_product_quantity: mproduct.current_product_quantity 
         }  
 
