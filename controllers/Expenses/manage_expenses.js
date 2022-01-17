@@ -31,9 +31,9 @@ const EditExpenses = async(req,res,next)=>{
 const deleteExpenses = async(req,res,next)=>{
     try {
         const {id} = req.params;
-        const expensesDeleted =await Expenses.updateExpenses(id);
+        const expensesDeleted =await Expenses.deleteExpenses(id);
         if (expensesDeleted) {
-            httpResponse({status_code:200, response_message:'Expenses successfully deleted'})
+            httpResponse({status_code:200, response_message:'Expenses successfully deleted',res});
         }else{
             const e = new HttpError(400, "Unable to delete this expenses. Contact support if persists");
             return next(e);
