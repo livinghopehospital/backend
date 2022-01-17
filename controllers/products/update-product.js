@@ -17,13 +17,16 @@ const updateProducts =async(req,res,next)=>{
     try {
       const {price,quantity} = req.body;
      
+        if (typeof quantity!="number") {
+          
+        }
       const pValidation = await fieldValidation.validateAsync(req.params);
       const mproduct = await product.findProduct(pValidation.productId);
       if (mproduct) {
         const data ={
           product_price:price,
           current_product_quantity: quantity,
-          previous_product_quantity: mproduct.current_product_quantity - Number(quantity)
+          previous_product_quantity: mproduct.current_product_quantity 
         }  
 
         const updatedProduct = await product.updateProduct(pValidation.productId, data);

@@ -8,8 +8,11 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
-const { addpaymentType } = require('../controllers/PaymentType/add-deposit');
-const { viewPaymentType } = require('../controllers/PaymentType/view-deposit');
+const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
+const { addExpenses } = require('../controllers/Expenses/add-expenses');
+const { viewExpenses } = require('../controllers/Expenses/view-expenses');
+const { addpaymentType } = require('../controllers/PaymentType/add-payment-type');
+const { viewPaymentType } = require('../controllers/PaymentType/view-payment-type');
 const { addProducts } = require('../controllers/products/add-product');
 const { updateProducts } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
@@ -80,7 +83,7 @@ router.put('/update-product/:productId', updateProducts);
 
 router.post('/add-sales', addSales);
 router.get('/view-sales', viewSales);
-
+/***** */
 
 
 /*****PURCHASE ROUTES */
@@ -89,6 +92,19 @@ router.post('/add-purchase', addPurchase);
 
 router.get('/view-purchase', viewPurchase);
 
+
+/****PAYMENT TYPE */
+
+router.post('/add-payment-type', addpaymentType);
+router.get('/view-payment-type', viewPaymentType);
+
+
+/******EXPENSES  ***/
+
+router.post('/add-expenses', addExpenses);
+router.get('/view-expenses', viewExpenses);
+router.post('/add-expenses-category', addExpensesCategory);
+router.get('/view-expenses-categories', viewCategory);
 
 /****REPORTS ROUTES */
 
