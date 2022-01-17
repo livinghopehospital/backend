@@ -17,7 +17,7 @@ const salesSchema = new mongoose.Schema({
   items: [],
   total_amount : {type:Number, required:true},
   payment_type:{type:String},
-  branch: {type:mongoose.Types.ObjectId, ref:'Branch',required:true}, //add at backend
+  branch: {type:String,required:true}, //add at backend
   created_at:{type:Date}  
 });
 
