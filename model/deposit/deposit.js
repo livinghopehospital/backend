@@ -20,27 +20,39 @@ const depositSchema = new mongoose.Schema({
   amount_deposited:{type:Number, required:true},
   items: [],
   total_amount : {type:Number, required:true},
-  amount_to_balance: {type:Number, required:true},
+  amount_to_balance: {type:Number,},
   payment_type:{type:String},
-  branch: {type:String,required:true}, //add at backend
+  branch: {type:String,required:true}, 
   created_at:{type:Date}  
 });
 
 
 
-depositSchema.statics.createDeposit = function createDeposit(Deposit){
-    return new Deposit(Deposit)
+depositSchema.statics.createDeposit = function createDeposit(Deposits){
+    const d = new Deposit(Deposits);
+    return d;
 }
 
+depositSchema.pre('save', function(done){
+   const balance = this.get("total_amount") - this.get("amount_deposited");
+   this.set("amount_to_balance",balance);
+   console.log(balance);
+   done()
+});
 
 depositSchema.statics.findDeposit = async function findDeposit(){
-    const Deposit = await Deposit.find({});
-    return Deposit;
+    const Deposits = await Deposit.find({});
+    return Deposits;
 }
 
 depositSchema.statics.findSingleDeposit = async function findSingleDeposit(invoice_number){
-  const Deposit = await Deposit.findOne({invoice_number});
-  return Deposit;
+  const Deposits = await Deposit.findOne({invoice_number});
+  return Deposits;
+}
+
+depositSchema.statics.updateDeposit = async function updateDeposit(id,data){
+  const Deposits = await Deposit.findOneAndUpdate({_id:id},data,{upsert:true, new:true});
+  return Deposits;
 }
 
 

@@ -28,7 +28,7 @@ salesSchema.statics.createSales = function createSales(sales){
 }
 
 
-salesSchema.statics.findsales = async function findsales(){
+salesSchema.statics.findSales = async function findsales(){
     const sales = await Sales.find({});
     return sales;
 }

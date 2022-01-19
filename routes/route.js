@@ -8,6 +8,9 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
+const { addDeposit } = require('../controllers/Deposit/add-deposit');
+const { updatemountPaid } = require('../controllers/Deposit/manage-deposit');
+const { viewDeposit } = require('../controllers/Deposit/view-deposit');
 const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
 const { addExpenses } = require('../controllers/Expenses/add-expenses');
 const { EditExpenses, deleteExpenses } = require('../controllers/Expenses/manage_expenses');
@@ -56,6 +59,12 @@ router.get('/view-staff', viewStaff);
 // router.post('/create-store',isManager, createStore);
 
 /***DEPOSITS...... */
+
+router.get('/view-deposit', viewDeposit);
+
+router.post('/add-deposit', addDeposit);
+
+router.put('/update-deposit/:id', updatemountPaid);
 
 router.get('/view-payment-type', viewPaymentType);
 router.post('/add-payment-type',addpaymentType);

@@ -12,6 +12,7 @@ const addSales = async(req,res,next)=>{
     try {  
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
+       let errorDetected;
        const doesSalesExist =await Sales.findSingleSales(mSales.invoice_number);
        if (doesSalesExist) {
          const e = new HttpError(400, "A sales already existed with this invoice number");
@@ -23,35 +24,40 @@ const addSales = async(req,res,next)=>{
        mSales.items.forEach(async(item)=>{
         const mproduct = await product.findProductByBarcode(item.barcode);
         if (!mproduct) {
+            errorDetected = "error";
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
            }
            if (item.quantity > mproduct.current_product_quantity) {
+               errorDetected = "error";
             const err= new HttpError(400, `The purchased quantity is greater than number of product in stock. You have ${mproduct.current_product_quantity} left in stock`);
             return next(err);
            }
     
             if (mproduct) {
-                console.log(item);
                 const data = {
                     current_product_quantity: mproduct.current_product_quantity -Number(item.quantity),
                     previous_product_quantity: mproduct.current_product_quantity
                 }  
                 
-                const updateProduct =await product.manageProductSales(item.barcode,data);
-                console.log(updateProduct);
+                 if (!errorDetected) {
+                    const updateProduct =await product.manageProductSales(item.barcode,data); 
+                 }
            }else{
+            errorDetected = "error";
             const err= new HttpError(500, 'Unable to add sales due to internal error, contact support');
             return next(err);
            }
        });
 
-       addNewSales.save().then((s)=>{
-        httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
-       }).catch((e)=>{
-        const err= new HttpError(500, e.message);
-        return next(err);
-       });
+         if (!errorDetected) {
+            addNewSales.save().then((s)=>{
+                httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
+               }).catch((e)=>{
+                const err= new HttpError(500, e.message);
+                return next(err);
+               });  
+         }
 
       
      
