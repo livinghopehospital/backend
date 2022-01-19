@@ -17,7 +17,6 @@ const addDeposit = async(req,res,next)=>{
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
            }
-        //    console.log(errorDetected);
            if (item.quantity > mproduct.current_product_quantity) {
             const err= new HttpError(400, `The purchased quantity is greater than number of product in stock. You have ${mproduct.current_product_quantity} left in stock`);
             return next(err);
