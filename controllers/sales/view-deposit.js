@@ -4,7 +4,6 @@ const { Deposit } = require("../../model/Deposit/deposit");
 
 
 
-
 const viewDeposit =async(req,res,next)=>{
     try {
       const mDeposit = await Deposit.findDeposit(); 
@@ -18,8 +17,6 @@ const viewDeposit =async(req,res,next)=>{
         return next(e);
     }
 }
-
-
 
 
 module.exports={

@@ -8,9 +8,6 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
-const { addDeposit } = require('../controllers/customer-deposit/add-deposit');
-const { updatemountPaid } = require('../controllers/customer-deposit/manage-deposit');
-const { viewDeposit } = require('../controllers/customer-deposit/view-deposit');
 const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
 const { addExpenses } = require('../controllers/Expenses/add-expenses');
 const { EditExpenses, deleteExpenses } = require('../controllers/Expenses/manage_expenses');
@@ -24,7 +21,10 @@ const { addPurchase } = require('../controllers/purchase/add-purchase');
 const { viewPurchase } = require('../controllers/purchase/view-purchase');
 const { fetchOutOfStock } = require('../controllers/reports/out-of-stock');
 const { fetchProductPrice } = require('../controllers/reports/product-price-list');
+const { addDeposit } = require('../controllers/sales/add-deposit');
 const { addSales } = require('../controllers/sales/add-sales');
+const { updatemountPaid } = require('../controllers/sales/update-deposit');
+const { viewDeposit } = require('../controllers/sales/view-deposit');
 const { viewSales } = require('../controllers/sales/view-sales');
 const { addSupplier } = require('../controllers/suppliers/add-supplier');
 const { deleteSupplier } = require('../controllers/suppliers/delete-supplier');
@@ -59,6 +59,7 @@ router.get('/view-staff', viewStaff);
 // router.post('/create-store',isManager, createStore);
 
 /***DEPOSITS...... */
+
 
 router.get('/view-deposit', viewDeposit);
 
