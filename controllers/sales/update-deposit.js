@@ -1,7 +1,7 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
-const { Deposit } = require("../../model/Deposit/deposit");
+const { Deposit } = require("../../model/Deposit/mydeposit");
 
 
 

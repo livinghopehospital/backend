@@ -1,7 +1,7 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
-const { Deposit, depositFieldValidation } = require("../../model/Deposit/deposit");
+const { Deposit, depositFieldValidation } = require("../../model//Deposit/mydeposit");
 const { product } = require("../../model/products/products");
 
 
@@ -50,4 +50,9 @@ const addDeposit = async(req,res,next)=>{
     } catch (error) {
       joiError(error,next);  
     }
+}
+
+
+module.exports={
+    addDeposit
 }
