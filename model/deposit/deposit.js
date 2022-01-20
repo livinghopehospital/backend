@@ -61,7 +61,7 @@ const Deposit = mongoose.model('deposit', depositSchema);
 
 
 module.exports={
-  depositSchema,
     depositFieldValidation,
-    Deposit,
+    depositSchema,
+    Deposit
 }
