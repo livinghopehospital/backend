@@ -19,8 +19,10 @@ const { updateProducts } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
 const { addPurchase } = require('../controllers/purchase/add-purchase');
 const { viewPurchase } = require('../controllers/purchase/view-purchase');
+const { depositReport } = require('../controllers/reports/deposit-report');
 const { fetchOutOfStock } = require('../controllers/reports/out-of-stock');
-const { fetchProductPrice } = require('../controllers/reports/product-price-list');
+const { fetchProductPrice, stockLevel } = require('../controllers/reports/product-price-list');
+const { viewSalesReport } = require('../controllers/reports/sales-report');
 const { addDeposit } = require('../controllers/sales/add-deposit');
 const { addSales } = require('../controllers/sales/add-sales');
 const { updatemountPaid } = require('../controllers/sales/update-deposit');
@@ -111,11 +113,6 @@ router.get('/view-payment-type', viewPaymentType);
 
 
 /******EXPENSES  ***/
-
-
-
-
-
 router.post('/add-expenses', addExpenses);
 router.get('/view-expenses', viewExpenses);
 router.post('/add-expenses-category', addExpensesCategory);
@@ -133,4 +130,7 @@ router.delete('/delete-expenses/:id', deleteExpenses);
 
 router.get('/view-out-of-stock', fetchOutOfStock);
 router.get('/view-product-price', fetchProductPrice);
+router.get('/view-deposit-reports?', depositReport);
+router.get('/view-sales-report?', viewSalesReport);
+router.get('/view-stock-level', stockLevel);
 module.exports=router;

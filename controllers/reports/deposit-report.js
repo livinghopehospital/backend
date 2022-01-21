@@ -1,21 +1,21 @@
 
-const { query } = require("express");
 const joi = require("joi");
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
+const { Deposit } = require("../../model/Deposit/mydeposit");
 
-const {Sales} = require("../../model/sales/sales");
+
 
 const VALIADATIONOBJECT = joi.object({
     from: joi.date().required(),
      to: joi.date().required()
 })
 
-const viewSalesReport =async(req,res,next)=>{
+const depositReport =async(req,res,next)=>{
     try {
       const VALIDATEDOBJECT = await VALIADATIONOBJECT.validateAsync(req.query)
-      const FILTEREDRESULTS =await  Sales.aggregate([
+      const FILTEREDRESULTS =await  Deposit.aggregate([
             { "$match": {
               "$and": [
                 { "created_at": { "$lte": VALIDATEDOBJECT.to, "$gte": VALIDATEDOBJECT.from }},
@@ -36,5 +36,5 @@ const viewSalesReport =async(req,res,next)=>{
 
 
 module.exports={
-    viewSalesReport
+    depositReport
 }

@@ -7,8 +7,6 @@ const { Deposit } = require("../../model/Deposit/mydeposit");
 
 
 
-
-
 const updatemountPaid = async (req, res, next) => {
     try {
         const { price } = req.body;

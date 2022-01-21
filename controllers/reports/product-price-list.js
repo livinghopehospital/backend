@@ -16,6 +16,19 @@ const fetchProductPrice = async(req,res,next)=>{
     }
 }
 
+const stockLevel = async(req,res,next)=>{
+    try {
+        const mProduct = await product.findProducts();
+        if (mProduct) {
+         httpResponse({status_code:200, response_message:'Product available', data:{mProduct},res});   
+        }
+    } catch (error) {
+        const e = new HttpError(500, error.message);
+        return next(e);       
+    }
+}
+
 module.exports={
-    fetchProductPrice
+    fetchProductPrice,
+    stockLevel
 }
