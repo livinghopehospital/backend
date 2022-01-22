@@ -1,7 +1,7 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { Sales } = require("../../model/sales/sales");
-
+const joi = require('joi');
 
 const VALIADATIONOBJECT = joi.object({
     from: joi.date().required(),
@@ -10,6 +10,10 @@ const VALIADATIONOBJECT = joi.object({
 
 
 
+
+/*****NOTE: Profit and loss are determined by the substraction of selling_price per unit of items from the
+ * stock_price. 
+ */
 const viewProfitLossReport = async (req, res, next) => {
     try {
         const VALIDATEDOBJECT = await VALIADATIONOBJECT.validateAsync(req.query)

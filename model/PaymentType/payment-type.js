@@ -8,7 +8,6 @@ const paymentSchema= mongoose.Schema({
 
 
 paymentSchema.statics.createPaymentType = function createPaymentType(type){
-     console.log(type);
     const payments = new paymentType(type);
     return payments;
 }

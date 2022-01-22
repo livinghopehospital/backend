@@ -1,5 +1,5 @@
 
-const { query } = require("express");
+
 const joi = require("joi");
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
@@ -26,7 +26,7 @@ const viewSalesReport =async(req,res,next)=>{
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
             httpResponse({status_code:200, response_message:'Sales record available', data:FILTEREDRESULTS, res});
           }else{
-              const e = new HttpError(404, "No record found within this range of days");
+              const e = new HttpError(404, "No record found within this range of date");
               return next(e);
           }
     } catch (error) {
