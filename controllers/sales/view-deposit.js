@@ -4,7 +4,7 @@ const { Deposit } = require("../../model/Deposit/mydeposit");
 
 
 
-const viewDeposit =async(req,res,next)=>{
+const viewDeposit =async function fetchingofDepositMade(req,res,next){
     try {
       const mDeposit = await Deposit.findDeposit(); 
       if (mDeposit&&mDeposit.length>0) {
@@ -14,7 +14,7 @@ const viewDeposit =async(req,res,next)=>{
       return next(e);
     } catch (error) {
         const e = new HttpError(500,error.message);
-        return next(e);
+        return next(e)
     }
 }
 
