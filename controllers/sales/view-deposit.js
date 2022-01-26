@@ -14,7 +14,7 @@ const viewDeposit =async function fetchingofDepositMade(req,res,next){
       return next(e);
     } catch (error) {
         const e = new HttpError(500,error.message);
-        return next(e)
+        return next(e);
     }
 }
 
