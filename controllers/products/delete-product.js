@@ -7,7 +7,7 @@ const { HttpError } = require("../../middlewares/errors/http-error");
 const deleteProduct = async function deleteOfProduct(req,res,next){
     try {
         const {id} = req.params;
-        const mproduct = await product.deleteOfProduct(id);
+        const mproduct = await product.deleteProduct(id);
         if (mproduct) {
             httpResponse({status_code:200, response_message:'Product deleted', data:mproduct,res});
         }else{

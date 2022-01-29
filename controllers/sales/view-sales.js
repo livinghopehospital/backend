@@ -9,7 +9,7 @@ const viewSales =async(req,res,next)=>{
       if (mSales&&mSales.length>0) {
         const sale  = []
         mSales.map((sales)=>{
-          sale.push(...sale.items);
+          sale.push(...sales.items);
         });
         httpResponse({status_code:200,response_message:'Sales successfully fetched', data:sale,res})  
         return;

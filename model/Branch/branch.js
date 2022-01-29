@@ -31,13 +31,13 @@ branchSchema.statics.findBranches =async function findBranches(){
     const branch = await  Branch.find({});
     return branch;
 }
-branchSchema.statics.updateBranch = function findBranch(branchId,data){
-    const branch =  new Branch.findOneAndUpdate({_d:branchId}, data);
+branchSchema.statics.updateBranch =async function updateBranch(branchId,data){
+    const branch =  await Branch.findOneAndUpdate({_id:branchId}, data);
     return branch;
 }
 
-branchSchema.statics.deleteBranch = function deleteBranch(branchId,data){
-    const branch =  new Branch.findOneAndUpdate({_d:branchId}, data);
+branchSchema.statics.deleteBranch =async function deleteBranch(branchId){
+    const branch =  await Branch.findOneAndDelete({_id:branchId});
     return branch;
 }
 
