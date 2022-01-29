@@ -9,7 +9,6 @@ const viewDeposit =async function fetchingofDepositMade(req,res,next){
       const mDeposit = await Deposit.findDeposit(); 
       if (mDeposit&&mDeposit.length>0) {
         const mD = [];
-
         mDeposit.map((m)=>{
           mD.push(...m.items);
         });
