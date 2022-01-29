@@ -24,7 +24,11 @@ const viewSalesReport =async(req,res,next)=>{
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            httpResponse({status_code:200, response_message:'Sales record available', data:FILTEREDRESULTS, res});
+            const items = []
+            FILTEREDRESULTS.map((result)=>{
+                items.push(...result.items)
+            });
+            httpResponse({status_code:200, response_message:'Sales record available', data:items, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
               return next(e);

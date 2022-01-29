@@ -36,6 +36,11 @@ branchSchema.statics.updateBranch = function findBranch(branchId,data){
     return branch;
 }
 
+branchSchema.statics.deleteBranch = function deleteBranch(branchId,data){
+    const branch =  new Branch.findOneAndUpdate({_d:branchId}, data);
+    return branch;
+}
+
 
 const Branch = mongoose.model('Branch', branchSchema);
 module.exports={

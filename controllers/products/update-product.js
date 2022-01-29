@@ -45,7 +45,43 @@ const updateProducts =async(req,res,next)=>{
     }
 }
 
+const BalanceStockLevel =async(req,res,next)=>{
+  /***
+   * Update price, quantity
+   * 
+   * 
+   */
+  try {
+    const {quantity} = req.body;
+      if (typeof quantity!="number") {
+        const e = new HttpError(400, "quauntity must be  a typeof number");
+        return next(e);
+      }
+    const pValidation = await fieldValidation.validateAsync(req.params);
+    const mproduct = await product.findProduct(pValidation.productId);
+    if (mproduct) {
+      const data ={
+        current_product_quantity: quantity,
+        previous_product_quantity: mproduct.current_product_quantity 
+      }  
+
+      const updatedProduct = await product.updateProduct(pValidation.productId, data);
+      if (updatedProduct) {
+          httpResponse({status_code:200, response_message:'Stock level successfully balanced',data:updatedProduct,res});
+      }else{
+          const err = new HttpError(500, 'Unable to update products. Please contact support if persists');
+          return next(err);
+      }
+    }else{
+      const err = new HttpError(400, 'No products is associated to this productId');
+      return next(err);
+    }    
+  } catch (error) {
+      joiError(error,next);
+  }
+}
 
 module.exports={
-    updateProducts
+    updateProducts,
+    BalanceStockLevel
 }

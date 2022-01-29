@@ -3,6 +3,8 @@ const { loginStaff } = require('../controllers/Auth/login');
 const { staffProfile } = require('../controllers/Auth/profile');
 const { registerStaff, viewStaff } = require('../controllers/Auth/staff-reg');
 const { createStore } = require('../controllers/Branch/create-branch');
+const { deleteBranch } = require('../controllers/Branch/delete-branch');
+const { editBranch } = require('../controllers/Branch/update-branch');
 const { listAllStores } = require('../controllers/Branch/view-branch');
 const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
@@ -15,7 +17,8 @@ const { viewExpenses } = require('../controllers/Expenses/view-expenses');
 const { addpaymentType } = require('../controllers/PaymentType/add-payment-type');
 const { viewPaymentType } = require('../controllers/PaymentType/view-payment-type');
 const { addProducts } = require('../controllers/products/add-product');
-const { updateProducts } = require('../controllers/products/update-product');
+const { deleteProduct } = require('../controllers/products/delete-product');
+const { updateProducts, BalanceStockLevel } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
 const { addPurchase } = require('../controllers/purchase/add-purchase');
 const { viewPurchase } = require('../controllers/purchase/view-purchase');
@@ -26,6 +29,7 @@ const { viewProfitLossReport } = require('../controllers/reports/profit-loss-rep
 const { viewSalesReport } = require('../controllers/reports/sales-report');
 const { addDeposit } = require('../controllers/sales/add-deposit');
 const { addSales } = require('../controllers/sales/add-sales');
+const { deleteSale } = require('../controllers/sales/delete-sales');
 const { updatemountPaid } = require('../controllers/sales/update-deposit');
 const { viewDeposit } = require('../controllers/sales/view-deposit');
 const { viewSales } = require('../controllers/sales/view-sales');
@@ -55,6 +59,11 @@ router.post('/create-branch', createStore);
 /***Protected routes below */
 
 router.use(verifyToken);
+
+router.delete('/delete-branch/:id', deleteBranch);
+
+router.put('/update-branch/:id', editBranch);
+
 
 // router.post('register-staff', registerStaff);
 router.get('/profile', staffProfile);
@@ -97,6 +106,7 @@ router.put('/update-product/:productId', updateProducts);
 
 router.post('/add-sales', addSales);
 router.get('/view-sales', viewSales);
+router.delete('/delete-sales/:id', deleteSale);
 /***** */
 
 
@@ -134,6 +144,8 @@ router.get('/view-product-price', fetchProductPrice);
 router.get('/view-deposit-reports?', depositReport);
 router.get('/view-sales-report?', viewSalesReport);
 router.get('/view-stock-level', stockLevel);
+router.put('/balance-stock-level/:id', BalanceStockLevel);
+router.delete('/delete-product/:id', deleteProduct);
 router.get('/view-profit-loss', viewProfitLossReport);
 
 module.exports=router;

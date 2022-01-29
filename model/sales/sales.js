@@ -38,6 +38,10 @@ salesSchema.statics.findSingleSales = async function findSingleSales(invoice_num
   return sales;
 }
 
+salesSchema.statics.deleteleSales = async function deleteleSales(id){
+  const sales = await Sales.findOneAndDelete({_id:id});
+  return sales;
+}
 
 
 const Sales = mongoose.model('sales', salesSchema);
