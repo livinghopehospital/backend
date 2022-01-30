@@ -10,7 +10,6 @@ const { Purchase } = require('../../model/Purchases/purchase');
 const fieldValidation = joi.object({
     purchase_date: joi.date().required(),
     branch:joi.string().required(),
-    supplier: joi.string().required(),
     product: joi.string().required(),
     purchase_quantity: joi.number().required(),
     invoice_number: joi.string().required(),
@@ -24,13 +23,13 @@ const addPurchase = async(req,res,next)=>{
 /****Update the product quantity and save the purchase*/
      
       mPurchase.items.forEach(async(item)=>{
-        const mProduct = await product.findProduct(item.product_id);
+        const mProduct = await product.findProduct(item.product);
         if (mProduct) {   
             const data ={
               current_product_quantity: mProduct.current_product_quantity + item.purchase_quantity,
               previous_product_quantity: mProduct.current_product_quantity -item.purchase_quantity
             }
-          const updatedProduct = await product.updateProduct(item.product_id,data);
+          const updatedProduct = await product.updateProduct(item.product,data);
         }
       });
       const newPurchase =await  Purchase.addPurchase(mPurchase);
