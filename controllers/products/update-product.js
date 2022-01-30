@@ -57,6 +57,9 @@ const BalanceStockLevel =async(req,res,next)=>{
         const e = new HttpError(400, "quauntity must be  a typeof number");
         return next(e);
       }
+      const fieldValidation = joi.object({
+        id: joi.string().required()
+      });
     const pValidation = await fieldValidation.validateAsync(req.params);
     const mproduct = await product.findProduct(pValidation.id);
     if (mproduct) {
