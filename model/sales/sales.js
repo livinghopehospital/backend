@@ -16,6 +16,7 @@ const salesSchema = new mongoose.Schema({
   invoice_number:{type:String, required:true},
   items: [],
   total_amount : {type:Number, required:true},
+  customer_name: {type:String},
   payment_type:{type:String},
   branch: {type:String,required:true}, //add at backend
   created_at:{type:Date}  

@@ -31,7 +31,8 @@ const EditExpenses = async(req,res,next)=>{
 const deleteExpenses = async(req,res,next)=>{
     try {
         const {id} = req.params;
-        const expensesDeleted =await Expenses.deleteExpenses(id);
+        const {branch_id} = req.userData;
+        const expensesDeleted =await Expenses.deleteExpenses(id,branch_id);
         if (expensesDeleted) {
             httpResponse({status_code:200, response_message:'Expenses successfully deleted',res});
         }else{

@@ -38,8 +38,8 @@ expensesSchema.statics.updateExpenses = function updateExpenses(expenses_id, dat
     return update;
 }
 
-expensesSchema.statics.deleteExpenses = function deleteExpenses(expenses_id){
-    const del = Expenses.findOneAndDelete({_id: expenses_id});
+expensesSchema.statics.deleteExpenses = function deleteExpenses(expenses_id, branch){
+    const del = Expenses.findOneAndDelete({_id: expenses_id, branch});
     return del;
 }
 

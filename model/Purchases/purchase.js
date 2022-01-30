@@ -19,8 +19,8 @@ purchaseSchema.statics.addPurchase = function addPurchase(purchaseDetails){
     return purchase;
 }
 
-purchaseSchema.statics.findPurchase = async function findPurchase(){
-    const mPurchase = await Purchase.find({}).populate('branch').populate('supplier').populate('product') ;
+purchaseSchema.statics.findPurchase = async function findPurchase(branch){
+    const mPurchase = await Purchase.find({branch});
     return mPurchase;
 }
 

@@ -6,7 +6,17 @@ const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
-const { salesFieldValidation, Sales, } = require("../../model/sales/sales")
+const { salesFieldValidation, Sales, } = require("../../model/sales/sales");
+
+async function findProduct(barcode,id){
+    const mproduct = await product.findProductByBarcode(barcode,branch_id);
+    if (mproduct) {
+     return mproduct;
+    }else{
+     const prodcutById = await product.findOne({_id: id, branch:branch_id})
+     return prodcutById;
+    }
+   }
 
 const addSales = async(req,res,next)=>{
     try {  
@@ -21,15 +31,14 @@ const addSales = async(req,res,next)=>{
        }
        /****check if the purchased qty is not greater than the current qty */
        /***find product, deduct the qty from the current qty */
-    
+      
        mSales.items.forEach(async(item)=>{
-        const mproduct = await product.findProductByBarcode(item.barcode,branch_id);
+        const mproduct =await findProduct(item.barcode, item.id);
         if (!mproduct) {
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
            }
            if (item.quantity > mproduct.current_product_quantity) {
-               errorDetected = "error";
             const err= new HttpError(400, `The purchased quantity is greater than number of product in stock. You have ${mproduct.current_product_quantity} left in stock`);
             return next(err);
            }

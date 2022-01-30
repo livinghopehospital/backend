@@ -34,11 +34,12 @@ const updatemountPaid = async (req, res, next) => {
         }
         const updatedDeposit =await Deposit.updateDeposit(id, data);
         if (updatedDeposit) {
-            const { total_amount, amount_deposited, items, branch,invoice_number, payment_type,created_at } = updatedDeposit;
+            const { total_amount, amount_deposited, items, branch,invoice_number, payment_type,created_at, customer_name } = updatedDeposit;
             if (total_amount == amount_deposited) {
                 /**@description move product to sales... */
                 const addNewSales = new Sales({
                     invoice_number,
+                    customer_name,
                     items,
                     total_amount,
                     branch,

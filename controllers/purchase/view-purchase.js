@@ -7,7 +7,8 @@ const { Purchase } = require("../../model/Purchases/purchase")
 
 const viewPurchase = async(req,res,next)=>{
     try {
-       const mPurchase = await Purchase.findPurchase();
+        const {branch_id} = req.userData;
+       const mPurchase = await Purchase.findPurchase(branch_id);
        if (mPurchase) {
         httpResponse({status_code:200, response_message:'Available', data:mPurchase, res});
        }else{

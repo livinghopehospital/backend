@@ -21,28 +21,25 @@ const fieldValidation = joi.object({
 const addPurchase = async(req,res,next)=>{
     try {
         const mPurchase = await fieldValidation.validateAsync(req.body);
-
 /****Update the product quantity and save the purchase*/
-      const mProduct = await product.findProduct(mPurchase.product);
-      if (mProduct) {   
-          const data ={
-            current_product_quantity: mPurchase.purchase_quantity+mProduct.current_product_quantity,
-            previous_product_quantity: mProduct.current_product_quantity -mPurchase.purchase_quantity
-          }
-        const updatedProduct = await product.updateProduct(mPurchase.product,data);
-         if (updatedProduct) {
-             /***save the purchase */
-             const newPurchase =await  Purchase.addPurchase(mPurchase);
-
-             newPurchase.save().then((s)=>{
-                 httpResponse({status_code:201, response_message:"Purchase successfully added", data:s, res});
-             }).catch((e)=>{
-                 const err = new HttpError(500, e.message);
-                 return next(err);
-             });
-         }
-      }
-
+     
+      mPurchase.items.forEach(async(item)=>{
+        const mProduct = await product.findProduct(item.product_id);
+        if (mProduct) {   
+            const data ={
+              current_product_quantity: mProduct.current_product_quantity + item.purchase_quantity,
+              previous_product_quantity: mProduct.current_product_quantity -item.purchase_quantity
+            }
+          const updatedProduct = await product.updateProduct(item.product_id,data);
+        }
+      });
+      const newPurchase =await  Purchase.addPurchase(mPurchase);
+      newPurchase.save().then((purchased)=>{
+     httpResponse({status_code:201, response_message:"Purchase successfully added", data:purchased, res});
+      }).catch((e)=>{
+          const err = new HttpError(500, e.message);
+          return next(err);
+      });
     } catch (error) {
         joiError(error, next);
     

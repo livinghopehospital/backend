@@ -8,8 +8,10 @@ const { Expenses } = require("../../model/Expenses/expenses")
 const viewExpenses = async(req,res,next)=>{
     try {
         const expenses =await Expenses.viewExpenses();
+        const {branch_id} = req.userData
         if (expenses&&expenses.length>0) {
-          httpResponse({status_code:200, response_message:'List Of Expenses', data:expenses, res});
+          const branchExpenses = expenses.filter(e=>e.branch_name==branch_id);
+          httpResponse({status_code:200, response_message:'List Of Expenses', data:branchExpenses, res});
           return;   
         }else{
             const e = new HttpError(404, 'You have not incurred any expenses');
