@@ -8,11 +8,12 @@ const { Sales } = require("../../model/sales/sales")
 const deleteSale = async function deleteSale(req,res,next){
     try {
         const {id}= req.params;
+        const {branch_id} = req.userData;
         if (!id) {
             const e = new HttpError(400, "please supply id");
             return next(e);
         }
-        const mSales = await Sales.deleteSales(id);
+        const mSales = await Sales.deleteSales(id, branch_id);
         if (mSales) {
             httpResponse({status_code:200, response_message:"sales successfully deleted", data:mSales, res});
         }else{

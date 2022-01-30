@@ -10,6 +10,7 @@ const { salesFieldValidation, Sales, } = require("../../model/sales/sales")
 
 const addSales = async(req,res,next)=>{
     try {  
+        const {branch_id} = req.userdata;
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
        let errorDetected;
@@ -22,9 +23,8 @@ const addSales = async(req,res,next)=>{
        /***find product, deduct the qty from the current qty */
     
        mSales.items.forEach(async(item)=>{
-        const mproduct = await product.findProductByBarcode(item.barcode);
+        const mproduct = await product.findProductByBarcode(item.barcode,branch_id);
         if (!mproduct) {
-            errorDetected = "error";
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
            }
@@ -41,7 +41,7 @@ const addSales = async(req,res,next)=>{
                 }  
                 
                  if (!errorDetected) {
-                    const updateProduct =await product.manageProductSales(item.barcode,data); 
+                    const updateProduct =await product.manageProductSales(item.barcode,data, branch_id); 
                  }
            }else{
             errorDetected = "error";

@@ -52,8 +52,8 @@ productSchema.statics.findProduct = async function findProduct(productId){
     return mproduct;
 }
 
-productSchema.statics.findProductByBarcode = async function findProductByBarcode(product_barcode){
-    const mproduct = await product.findOne({product_barcode});
+productSchema.statics.findProductByBarcode = async function findProductByBarcode(product_barcode, branch){
+    const mproduct = await product.findOne({product_barcode, branch});
     return mproduct;
 }
 
@@ -66,8 +66,8 @@ productSchema.statics.updateProduct = async function updateProduct(productId, da
     return mproduct;
 }
 
-productSchema.statics.manageProductSales = async function manageProductSales(product_barcode, data){
-    const mproduct = await product.findOneAndUpdate({product_barcode},data);
+productSchema.statics.manageProductSales = async function manageProductSales(product_barcode, data, branch){
+    const mproduct = await product.findOneAndUpdate({product_barcode, branch},data);
     return mproduct;
 }
 

@@ -6,12 +6,15 @@ const { Sales } = require("../../model/sales/sales");
 const viewSales =async(req,res,next)=>{
     try {
       const mSales = await Sales.findSales();
+      const {branch_id} = req.userData;
       if (mSales&&mSales.length>0) {
         const sale  = []
         mSales.map((sales)=>{
           sale.push(...sales.items);
         });
-        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:sale,res})  
+
+       const branchSale= sale.filter(branch_sale=>branch_sale.branch==branch_id)
+        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:branchSale,res})  
         return;
       }  
       const e = new HttpError(404, "You have not made any sales");

@@ -11,7 +11,7 @@ const addProducts = async(req,res,next)=>{
         
         const mProduct =await productFieldValidation.validateAsync(req.body);
         const productExists = await product.findProductByBarcode(mProduct.product_barcode);
-        if (productExists) {
+        if (productExists&&productExists.branch==branch_id) {
         const err = new HttpError(400, 'A product already exists with the barcode');
         return next(err);  
         }

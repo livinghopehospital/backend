@@ -38,8 +38,8 @@ salesSchema.statics.findSingleSales = async function findSingleSales(invoice_num
   return sales;
 }
 
-salesSchema.statics.deleteleSales = async function deleteleSales(id){
-  const sales = await Sales.findOneAndDelete({_id:id});
+salesSchema.statics.deleteleSales = async function deleteleSales(id, branch){
+  const sales = await Sales.findOneAndDelete({_id:id, branch});
   return sales;
 }
 
