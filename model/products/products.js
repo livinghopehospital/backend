@@ -31,9 +31,11 @@ productSchema.statics.createProduct = function createProduct(mproduct){
 
 
 function productPreSaveHook(data){
-    productSchema.pre('save', function(){
+    // console.log(data);
+    productSchema.pre('save', async function(done){
         const {branch_id} = data;
         this.set('branch',branch_id);
+        done()
     });
 }
 

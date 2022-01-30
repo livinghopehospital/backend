@@ -8,6 +8,7 @@ const { product, productFieldValidation, productPreSaveHook } = require("../../m
 const addProducts = async(req,res,next)=>{
     try {
         const {branch_id} = req.userData;
+        
         const mProduct =await productFieldValidation.validateAsync(req.body);
         const productExists = await product.findProductByBarcode(mProduct.product_barcode);
         if (productExists) {
@@ -18,13 +19,17 @@ const addProducts = async(req,res,next)=>{
         const data = {
             branch_id,
         }
-        productPreSaveHook(data);
-        addNewProducts.save().then((addedProduct)=>{
-         httpResponse({status_code:200, response_message:'Product added', data:addedProduct,res});
+        
+        addNewProducts.save().then(async(addedProduct)=>{
+            const p = await product.findOneAndUpdate({_id: addedProduct._id}, {branch:branch_id});
+            if (p) {
+                httpResponse({status_code:200, response_message:'Product added', data:p,res});  
+            }
         }).catch((err)=>{
             const error = new HttpError(400, err.message);
             return next(error);  
         });
+    
     } catch (error) {
       joiError(error,next);  
     }

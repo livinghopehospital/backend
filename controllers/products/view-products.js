@@ -8,8 +8,8 @@ const { product } = require("../../model/products/products")
 const viewAllProducts = async(req,res,next)=>{
     try {
         const mProducts = await product.findProducts();
-        const {current_branch} = req.userData;
-        const branchProduct = mProducts.filter(p=>p.branch==current_branch);
+        const {branch_id} = req.userData;
+        const branchProduct = mProducts.filter(p=>p.branch==branch_id);
         if (mProducts) {
           httpResponse({status_code:200,response_message:'Product fetched',data:branchProduct,res}); 
         }
