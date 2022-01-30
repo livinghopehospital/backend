@@ -2,7 +2,7 @@
 
 Things to be done
 
-👉Add purchase should be exactly like add sales
+👉Add purchase should be exactly like add sales (done)
 
 👉Stores they login into should be automatically selected anytime they want to either add purchase sales or anywhere store is needed aside the reporting.
 

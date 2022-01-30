@@ -1,12 +1,13 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
-const { product, productFieldValidation } = require("../../model/products/products")
+const { product, productFieldValidation, productPreSaveHook } = require("../../model/products/products")
 
 
 
 const addProducts = async(req,res,next)=>{
     try {
+        const {branch_id} = req.userData;
         const mProduct =await productFieldValidation.validateAsync(req.body);
         const productExists = await product.findProductByBarcode(mProduct.product_barcode);
         if (productExists) {
@@ -14,6 +15,10 @@ const addProducts = async(req,res,next)=>{
         return next(err);  
         }
         const addNewProducts = product.createProduct(mProduct);
+        const data = {
+            branch_id,
+        }
+        productPreSaveHook(data);
         addNewProducts.save().then((addedProduct)=>{
          httpResponse({status_code:200, response_message:'Product added', data:addedProduct,res});
         }).catch((err)=>{

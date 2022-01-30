@@ -4,6 +4,7 @@ const { product} = require("../../model/products/products");
 
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { HttpError } = require("../../middlewares/errors/http-error");
+const mongoose= require("mongoose");
 const deleteProduct = async function deleteOfProduct(req,res,next){
     try {
         const {id} = req.params;

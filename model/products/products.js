@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
   product_barcode:{type:String, required:true},
   current_product_quantity:{type:Number, default:0},
   previous_product_quantity: {type: Number, default:0},
-  branch: {type: String}, 
+  branch: {type: mongoose.Types.ObjectId, ref:'Branch'}, 
   product_brand: {type: String},
   supplier: {type: String, required:true}
 });
@@ -28,6 +28,16 @@ const productSchema = new mongoose.Schema({
 productSchema.statics.createProduct = function createProduct(mproduct){
     return new product(mproduct)
 }
+
+
+function productPreSaveHook(data){
+    productSchema.pre('save', function(){
+        const {branch_id} = data;
+        this.set('branch',branch_id);
+    });
+}
+
+
 
 productSchema.statics.findProducts = async function findProducts(){
 
@@ -64,5 +74,6 @@ const product = mongoose.model('product', productSchema);
 
 module.exports={
     productFieldValidation,
+    productPreSaveHook,
     product
 }
