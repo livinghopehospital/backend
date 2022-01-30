@@ -20,7 +20,7 @@ async function findProduct(barcode,id){
 
 const addSales = async(req,res,next)=>{
     try {  
-        const {branch_id} = req.userdata;
+        const {branch_id} = req.userData;
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const addNewSales = Sales.createSales(mSales);
        let errorDetected;
