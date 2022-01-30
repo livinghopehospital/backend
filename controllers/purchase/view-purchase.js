@@ -10,7 +10,11 @@ const viewPurchase = async(req,res,next)=>{
         const {branch_id} = req.userData;
        const mPurchase = await Purchase.findPurchase(branch_id);
        if (mPurchase) {
-        httpResponse({status_code:200, response_message:'Available', data:mPurchase, res});
+        const goodsPurchased  = []
+        mPurchase.map((p)=>{
+          goodsPurchased.push(...p.items);
+        });
+        httpResponse({status_code:200, response_message:'Available', data:goodsPurchased, res});
        }else{
            const e = new HttpError(400,"You have not made any purchase");
            return next(e);
