@@ -5,12 +5,9 @@ const mongoose = require("mongoose");
 const purchaseSchema = new mongoose.Schema({
     purchase_date: {type: Date, required: true},
     branch:{ type:String},
-    supplier:{type:String},
     product: {type:String},
     items: [],
-    purchase_quantity: {type:Number, required:true},
     invoice_number: {type:String},
-    total_purchase_value:{type:Number, required:true},
     discount:{type:String} 
 });
 
