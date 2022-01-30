@@ -24,8 +24,8 @@ const addPurchase = async(req,res,next)=>{
         const mProduct = await product.findProduct(item.product);
         if (mProduct) {   
             const data ={
-              current_product_quantity: mProduct.current_product_quantity + item.purchase_quantity,
-              previous_product_quantity: mProduct.current_product_quantity -item.purchase_quantity
+              current_product_quantity: mProduct.current_product_quantity + Number(item.purchase_quantity),
+              previous_product_quantity: mProduct.current_product_quantity - Number(item.purchase_quantity)
             }
           const updatedProduct = await product.updateProduct(item.product,data);
         }

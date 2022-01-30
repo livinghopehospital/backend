@@ -33,7 +33,7 @@ const addSales = async(req,res,next)=>{
        /***find product, deduct the qty from the current qty */
       
        mSales.items.forEach(async(item)=>{
-        const mproduct =await findProduct(item.barcode, item.id);
+        const mproduct =await findProduct(item.barcode, item.product_id);
         if (!mproduct) {
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
