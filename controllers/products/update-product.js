@@ -58,14 +58,14 @@ const BalanceStockLevel =async(req,res,next)=>{
         return next(e);
       }
     const pValidation = await fieldValidation.validateAsync(req.params);
-    const mproduct = await product.findProduct(pValidation.productId);
+    const mproduct = await product.findProduct(pValidation.id);
     if (mproduct) {
       const data ={
         current_product_quantity: quantity,
         previous_product_quantity: mproduct.current_product_quantity 
       }  
 
-      const updatedProduct = await product.updateProduct(pValidation.productId, data);
+      const updatedProduct = await product.updateProduct(pValidation.id, data);
       if (updatedProduct) {
           httpResponse({status_code:200, response_message:'Stock level successfully balanced',data:updatedProduct,res});
       }else{
