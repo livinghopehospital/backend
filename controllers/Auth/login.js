@@ -4,7 +4,6 @@ const { comparePassword } = require('../../middlewares/Authorization/password');
 const { HttpError } = require('../../middlewares/errors/http-error');
 const joiError = require('../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../middlewares/http/http-response');
-const { Branch } = require('../../model/Branch/branch');
 const { User } = require('../../model/user/user');
 
 
@@ -19,7 +18,6 @@ const loginStaff =async(req,res,next)=>{
     
      const staff = await User.findUserByUserName(staffDetails.staff_username);
      if (staff&&staff.branch==staffDetails.branch_id&&staff.staff_username!='admin') {
-         const currentBranch = Branch.findOne({_id: staff.branch});
          const checkPassword = await comparePassword({password:staffDetails.password,username:staff.username});
          if (!!checkPassword) {
              const payload ={
@@ -27,7 +25,7 @@ const loginStaff =async(req,res,next)=>{
                  username: staff.username,
                  id: staff._id,
                  role: staff.role,
-                 current_branch:currentBranch.branch_name,
+                 branch_id:staff.branch,
              }
              const token  =  signToken({payload});
              httpResponse({status_code:200, response_message:'success',data:{token},res});
