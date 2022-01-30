@@ -21,8 +21,8 @@ const addProducts = async(req,res,next)=>{
         }
         
         addNewProducts.save().then(async(addedProduct)=>{
-            const p = await product.findOneAndUpdate({_id: addedProduct._id}, {branch:branch_id});
-            if (p) {
+            const p = await product.findOneAndUpdate({_id: addedProduct._id}, {branch:branch_id}, {upsert:true});
+            if (p&&p.branch==branch_id) {
                 httpResponse({status_code:200, response_message:'Product added', data:p,res});  
             }
         }).catch((err)=>{
