@@ -10,8 +10,6 @@ const { Purchase } = require('../../model/Purchases/purchase');
 const fieldValidation = joi.object({
     purchase_date: joi.date().required(),
     branch:joi.string().required(),
-    product: joi.string().required(),
-    purchase_quantity: joi.number().required(),
     invoice_number: joi.string().required(),
     total_purchase_value:joi.string().required(),
     discount:joi.string() 
