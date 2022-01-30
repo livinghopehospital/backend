@@ -11,7 +11,6 @@ const fieldValidation = joi.object({
     purchase_date: joi.date().required(),
     branch:joi.string().required(),
     invoice_number: joi.string().required(),
-    total_purchase_value:joi.string().required(),
     discount:joi.string() 
 });
 
