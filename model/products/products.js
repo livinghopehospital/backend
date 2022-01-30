@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
   product_barcode:{type:String, required:true},
   current_product_quantity:{type:Number, default:0},
   previous_product_quantity: {type: Number, default:0},
-  branch: {type: mongoose.Types.ObjectId, ref:'Branch'}, 
+  branch: {type: String}, 
   product_brand: {type: String},
   supplier: {type: String, required:true}
 });
