@@ -42,13 +42,12 @@ function productPreSaveHook(data){
 
 
 productSchema.statics.findProducts = async function findProducts(){
-
     const mproduct = await product.find({})
     return mproduct;
 }
 
-productSchema.statics.findProduct = async function findProduct(productId){
-    const mproduct = await product.findOne({_id:productId});
+productSchema.statics.findProduct = async function findProduct(productId,branch){
+    const mproduct = await product.findOne({_id:productId,branch});
     return mproduct;
 }
 

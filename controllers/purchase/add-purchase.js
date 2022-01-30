@@ -19,9 +19,9 @@ const addPurchase = async(req,res,next)=>{
     try {
         const mPurchase = await fieldValidation.validateAsync(req.body);
 /****Update the product quantity and save the purchase*/
-     
+        const {branch_id} = req.userData
       mPurchase.items.forEach(async(item)=>{
-        const mProduct = await product.findProduct(item.product);
+        const mProduct = await product.findProduct(item.product, branch_id);
         if (mProduct) {   
             const data ={
               current_product_quantity: mProduct.current_product_quantity + Number(item.purchase_quantity),
