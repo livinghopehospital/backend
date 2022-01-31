@@ -8,13 +8,12 @@ const viewSales =async(req,res,next)=>{
       const mSales = await Sales.findSales();
       const {branch_id} = req.userData;
       if (mSales&&mSales.length>0) {
+        const filterSale = mSales.filter(branch_sale=>branch_sale.branch==branch_id)
         const sale  = []
-        mSales.map((sales)=>{
+        filterSale.map((sales)=>{
           sale.push(...sales.items);
         });
-
-       const branchSale= sale.filter(branch_sale=>branch_sale.branch==branch_id)
-        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:branchSale,res})  
+        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:sale,res})  
         return;
       }  
       const e = new HttpError(404, "You have not made any sales");
