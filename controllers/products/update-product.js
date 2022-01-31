@@ -16,12 +16,12 @@ const updateProducts =async(req,res,next)=>{
      */
     try {
       const {price,quantity} = req.body;
-     
+      const {branch_id} = req.userData;
         if (typeof quantity!="number") {
           
         }
       const pValidation = await fieldValidation.validateAsync(req.params);
-      const mproduct = await product.findProduct(pValidation.productId);
+      const mproduct = await product.findProduct(pValidation.productId,branch_id);
       if (mproduct) {
         const data ={
           product_price:price,
@@ -45,29 +45,24 @@ const updateProducts =async(req,res,next)=>{
     }
 }
 
-const BalanceStockLevel =async(req,res,next)=>{
-  /***
-   * Update price, quantity
-   * 
-   * 
-   */
+const BalanceStockLevel =async(req,res,next)=>{S
   try {
     const {quantity} = req.body;
+    const {branch_id} = req.userData;
       if (typeof quantity!="number") {
-        const e = new HttpError(400, "quauntity must be  a typeof number");
+        const e = new HttpError(400, "quantity must be  a typeof number");
         return next(e);
       }
       const fieldValidation = joi.object({
         id: joi.string().required()
       });
     const pValidation = await fieldValidation.validateAsync(req.params);
-    const mproduct = await product.findProduct(pValidation.id);
+    const mproduct = await product.findProduct(pValidation.id, branch_id);
     if (mproduct) {
       const data ={
         current_product_quantity: quantity,
         previous_product_quantity: mproduct.current_product_quantity 
       }  
-
       const updatedProduct = await product.updateProduct(pValidation.id, data);
       if (updatedProduct) {
           httpResponse({status_code:200, response_message:'Stock level successfully balanced',data:updatedProduct,res});
