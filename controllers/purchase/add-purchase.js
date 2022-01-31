@@ -28,6 +28,7 @@ const addPurchase = async(req,res,next)=>{
               current_product_quantity: mProduct.current_product_quantity + Number(item.purchase_quantity),
               previous_product_quantity: mProduct.current_product_quantity 
             }
+            console.log(item.product);
           await product.updateProduct(item.product,data);
 
         }
