@@ -5,7 +5,8 @@ const joi = require('joi');
 
 const VALIADATIONOBJECT = joi.object({
     from: joi.date().required(),
-    to: joi.date().required()
+    to: joi.date().required(),
+    branch: joi.string().required()
 })
 
 
@@ -32,7 +33,8 @@ const viewProfitLossReport = async (req, res, next) => {
           FILTEREDRESULTS.map((result)=>{
               items.push(...result.items);
           });
-            httpResponse({ status_code: 200, response_message: 'Sales record available', data: items, res });
+          const branchReport = items.filter(item=>item.branch==VALIADATIONOBJECT.branch);
+            httpResponse({ status_code: 200, response_message: 'Sales record available', data: branchReport, res });
         } else {
             const e = new HttpError(404, "No record found within this range of days");
             return next(e);

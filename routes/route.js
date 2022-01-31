@@ -19,7 +19,7 @@ const { viewPaymentType } = require('../controllers/PaymentType/view-payment-typ
 const { addProducts } = require('../controllers/products/add-product');
 const { deleteProduct } = require('../controllers/products/delete-product');
 const { updateProducts, BalanceStockLevel } = require('../controllers/products/update-product');
-const { viewAllProducts, viewSingleProduct } = require('../controllers/products/view-products');
+const { viewAllProducts, viewSingleProduct, viewSingleProductById } = require('../controllers/products/view-products');
 const { addPurchase } = require('../controllers/purchase/add-purchase');
 const { viewPurchase } = require('../controllers/purchase/view-purchase');
 const { depositReport } = require('../controllers/reports/deposit-report');
@@ -101,7 +101,7 @@ router.post('/add-product', addProducts);
 router.get('/view-product', viewAllProducts);
 router.get('/view-product-by-barcode/:product_barcode', viewSingleProduct);
 router.put('/update-product/:productId', updateProducts);
-
+router.get('/view-single-product-by-id/:id', viewSingleProductById);
 /****ADD SALES ROUTES*/
 
 router.post('/add-sales', addSales);

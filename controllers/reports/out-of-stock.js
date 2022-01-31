@@ -6,7 +6,8 @@ const { product } = require("../../model/products/products")
 
 const fetchOutOfStock = async(req,res,next)=>{
     try {
-        const mProduct = await product.findProducts();
+        const {branch_id} = req.userData
+        const mProduct = await product.findProducts(branch_id);
         if (mProduct) {
          const outOfStock = mProduct.filter(products=>products.current_product_quantity==0);
          if (outOfStock.length>0) {

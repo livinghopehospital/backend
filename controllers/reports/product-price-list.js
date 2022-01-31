@@ -6,7 +6,8 @@ const { product } = require("../../model/products/products")
 
 const fetchProductPrice = async(req,res,next)=>{
     try {
-        const mProduct = await product.findProducts();
+        const {branch_id} = req.userData;
+        const mProduct = await product.findProducts(branch_id);
         if (mProduct) {
          httpResponse({status_code:200, response_message:'Product available', data:{mProduct},res});   
         }

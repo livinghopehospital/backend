@@ -28,8 +28,10 @@ const registerStaff =async(req,res,next)=>{
 
 const viewStaff = async(req,res,next)=>{
     try {
-        const staff =await User.findStaffs();
-        if(staff){
+        const {branch_id} = req.userData;
+        const staffs =await User.findStaffs();
+        if(staffs){
+            const staff= staffs.filter(staff=>staff.branch==branch_id);
             httpResponse({status_code:200, response_message:'Staff available', data:staff, res});
             return;
         }

@@ -42,7 +42,29 @@ const viewSingleProduct = async(req,res,next)=>{
 }
 
 
+const viewSingleProductById = async(req,res,next)=>{
+  try {
+    const {id} = req.params;
+    const {branch_id} = req.userData;
+    if (!id) {
+      const err = new HttpError(400, 'Please supply product id');
+      return next(err);
+    }  
+    const mProduct = await product.findProduct(id, branch_id);
+    if (mProduct) {
+      httpResponse({status_code:200, response_message:'Product available',data:mProduct,res});  
+    }else{
+      const err = new HttpError(400, 'No product found for product id');
+      return next(err);   
+    }
+  } catch (error) {
+      const err = new HttpError(500, error.message);
+      return next(err);
+  }
+}
+
 module.exports={
     viewAllProducts,
-    viewSingleProduct
+    viewSingleProduct,
+    viewSingleProductById
 }

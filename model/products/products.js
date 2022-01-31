@@ -41,8 +41,8 @@ function productPreSaveHook(data){
 
 
 
-productSchema.statics.findProducts = async function findProducts(){
-    const mproduct = await product.find({})
+productSchema.statics.findProducts = async function findProducts(branch){
+    const mproduct = await product.find({branch})
     return mproduct;
 }
 
