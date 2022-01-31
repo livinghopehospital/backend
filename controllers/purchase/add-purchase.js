@@ -23,11 +23,13 @@ const addPurchase = async(req,res,next)=>{
       mPurchase.items.forEach(async(item)=>{
         const mProduct = await product.findProduct(item.product, branch_id);
         if (mProduct) {   
+            // console.log(mProduct);
             const data ={
               current_product_quantity: mProduct.current_product_quantity + Number(item.purchase_quantity),
-              previous_product_quantity: mProduct.current_product_quantity - Number(item.purchase_quantity)
+              previous_product_quantity: mProduct.current_product_quantity 
             }
-          const updatedProduct = await product.updateProduct(item.product,data);
+          await product.updateProduct(item.product,data);
+
         }
       });
       const newPurchase =await  Purchase.addPurchase(mPurchase);
