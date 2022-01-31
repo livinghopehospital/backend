@@ -29,7 +29,12 @@ const addPurchase = async(req,res,next)=>{
               previous_product_quantity: mProduct.current_product_quantity 
             }
             console.log(item.product);
-          await product.updateProduct(item.product,data);
+        product.updateProduct(item.product,data).then((updated)=>{
+
+        }).catch((err)=>{
+        const e = new HttpError(400, err.message);
+        return next(e)
+        });
 
         }
       });
