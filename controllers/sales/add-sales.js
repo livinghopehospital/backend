@@ -8,8 +8,8 @@ const { httpResponse } = require("../../middlewares/http/http-response");
 const { product } = require("../../model/products/products");
 const { salesFieldValidation, Sales, } = require("../../model/sales/sales");
 
-async function findProduct(barcode,id){
-    const mproduct = await product.findProductByBarcode(barcode,id);
+async function findProduct(barcode,id, branch_id){
+    const mproduct = await product.findProductByBarcode(barcode,branch_id);
     if (mproduct) {
      return mproduct;
     }else{
@@ -33,7 +33,7 @@ const addSales = async(req,res,next)=>{
        /***find product, deduct the qty from the current qty */
       
        mSales.items.forEach(async(item)=>{
-        const mproduct =await findProduct(item.barcode, item.product_id);
+        const mproduct =await findProduct(item.barcode, item.product_id,branch_id);
         if (!mproduct) {
             const err= new HttpError(400, `No product is assigned to the provided barcode`);
             return next(err); 
