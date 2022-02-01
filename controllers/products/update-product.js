@@ -15,7 +15,7 @@ const updateProducts =async(req,res,next)=>{
      * 
      */
     try {
-      const {price,quantity} = req.body;
+      const {price,quantity, product_name} = req.body;
       const {branch_id} = req.userData;
         if (typeof quantity!="number") {
           
@@ -25,6 +25,7 @@ const updateProducts =async(req,res,next)=>{
       if (mproduct) {
         const data ={
           product_price:price,
+          product_name,
           current_product_quantity:mproduct.current_product_quantity + quantity,
           previous_product_quantity: mproduct.current_product_quantity 
         }  

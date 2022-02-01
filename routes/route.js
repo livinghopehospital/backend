@@ -139,7 +139,7 @@ router.delete('/delete-expenses/:id', deleteExpenses);
 
 
 
-router.get('/view-out-of-stock', fetchOutOfStock);
+router.get('/view-out-of-stock?', fetchOutOfStock);
 router.get('/view-product-price', fetchProductPrice);
 router.get('/view-deposit-reports?', depositReport);
 router.get('/view-sales-report?', viewSalesReport);
