@@ -45,7 +45,7 @@ const updateProducts =async(req,res,next)=>{
     }
 }
 
-const BalanceStockLevel =async(req,res,next)=>{S
+const BalanceStockLevel =async(req,res,next)=>{
   try {
     const {quantity} = req.body;
     const {branch_id} = req.userData;

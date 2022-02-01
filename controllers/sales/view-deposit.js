@@ -9,12 +9,14 @@ const viewDeposit =async function fetchingofDepositMade(req,res,next){
       const mDeposit = await Deposit.findDeposit(); 
       const {branch_id} = req.userData;
       if (mDeposit&&mDeposit.length>0) {
+        const branchDeposit = mDeposit.filter(d=>d.branch==branch_id);
+    
         const mD = [];
         mDeposit.map((m)=>{
-          mD.push(...m.items);
+          branchDeposit.push(...m.items);
         });
-        const branchDeposit = mD.filter(d=>d.branch==branch_id);
-        httpResponse({status_code:200,response_message:'Deposit successfully fetched', data:branchDeposit,res});
+   
+        httpResponse({status_code:200,response_message:'Deposit successfully fetched', data:mD,res});
         return;  
       }  
       const e = new HttpError(404, "You have not made any Deposit");
