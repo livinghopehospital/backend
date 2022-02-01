@@ -9,7 +9,7 @@ const { product } = require("../../model/products/products");
 const { salesFieldValidation, Sales, } = require("../../model/sales/sales");
 
 async function findProduct(barcode,id){
-    const mproduct = await product.findProductByBarcode(barcode,branch_id);
+    const mproduct = await product.findProductByBarcode(barcode,id);
     if (mproduct) {
      return mproduct;
     }else{
