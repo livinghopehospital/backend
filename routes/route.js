@@ -21,6 +21,8 @@ const { deleteProduct } = require('../controllers/products/delete-product');
 const { updateProducts, BalanceStockLevel } = require('../controllers/products/update-product');
 const { viewAllProducts, viewSingleProduct, viewSingleProductById } = require('../controllers/products/view-products');
 const { addPurchase } = require('../controllers/purchase/add-purchase');
+const { deletePurchase } = require('../controllers/purchase/delete-purchase');
+const { editPurchase } = require('../controllers/purchase/edit-purchase');
 const { viewPurchase } = require('../controllers/purchase/view-purchase');
 const { depositReport } = require('../controllers/reports/deposit-report');
 const { fetchOutOfStock } = require('../controllers/reports/out-of-stock');
@@ -118,7 +120,9 @@ router.post('/add-purchase', addPurchase);
 
 router.get('/view-purchase', viewPurchase);
 
+router.put('/update-purchase/:id', editPurchase);
 
+router.delete('/delete-purchase/:id', deletePurchase);
 /****PAYMENT TYPE */
 
 router.post('/add-payment-type', addpaymentType);
