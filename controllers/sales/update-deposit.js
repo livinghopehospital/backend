@@ -2,17 +2,18 @@ const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { Deposit } = require("../../model/Deposit/mydeposit");
-
+const { product } = require("../../model/products/products");
+const { Sales } = require("../../model/sales/sales");
 
 
 
 
 const updatemountPaid = async (req, res, next) => {
     try {
-        const { price } = req.body;
+        const { price,customer_name, created_at } = req.body;
         const { id } = req.params;
         if (!price) {
-            const e = new HttpError(400, "Please provide a price");
+            const e = new HttpError(400, "Please provide a amount deposited");
             return next(e);
         }
         if (!id) {
@@ -29,19 +30,31 @@ const updatemountPaid = async (req, res, next) => {
             return next(e);  
          }
         const data ={
+            customer_name,
+            created_at,
             amount_deposited: previousDeposit.amount_deposited + price,
-            amount_to_balance: previousDeposit.amount_to_balance - price
+            amount_to_balance: previousDeposit.amount_to_balance - price,
+            
         }
         const updatedDeposit =await Deposit.updateDeposit(id, data);
+      
         if (updatedDeposit) {
-            const { total_amount, amount_deposited, items, branch,invoice_number, payment_type,created_at, customer_name } = updatedDeposit;
-            if (total_amount == amount_deposited) {
+            const { total_amount,  product_id,amount_deposited,quantity,barcode, selling_price,serial_number,branch,invoice_number, payment_type,created_at, customer_name } = updatedDeposit;
+            if (Number(updatedDeposit.amount_to_balance)==0) {
                 /**@description move product to sales... */
+
+                const mproduct =await product.findOne({_id:product_id})
                 const addNewSales = new Sales({
                     invoice_number,
                     customer_name,
-                    items,
-                    total_amount,
+                    amount: total_amount,
+                    serial_number,
+                    selling_price,
+                    barcode,
+                    selectedProduct: mproduct._id,
+                    product: mproduct.product_name,
+                    product_id,
+                    quantity,
                     branch,
                     payment_type,
                     created_at
