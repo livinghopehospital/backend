@@ -18,33 +18,39 @@ const fieldValidation = joi.object({
 const addPurchase = async(req,res,next)=>{
     try {
         const mPurchase = await fieldValidation.validateAsync(req.body);
-/****Update the product quantity and save the purchase*/
         const {branch_id} = req.userData
-      mPurchase.items.forEach(async(item)=>{
-        const mProduct = await product.findProduct(item.product, branch_id);
-        if (mProduct) {   
-            // console.log(mProduct);
-            const data ={
-              current_product_quantity: mProduct.current_product_quantity + Number(item.purchase_quantity),
-              previous_product_quantity: mProduct.current_product_quantity 
-            }
-            console.log(item.product);
-        product.updateProduct(item.product,data).then((updated)=>{
-
-        }).catch((err)=>{
-        const e = new HttpError(400, err.message);
-        return next(e)
-        });
-
+        for (let index = 0; index < mPurchase.items.length; index++) {
+            const products = await product.findOne({_id:mPurchase.items[index].product});
+           const datas = {
+            purchase_date: mPurchase[index].purchase_date,
+            branch:mPurchase[index].branch,
+            invoice_number: mPurchase.items[index].invoice_number,
+            supplier: mPurchase.items[index].supplier,
+            product: products.product_name,
+            purchase_quantity: mPurchase.items[index].purchase_quantity,
+            discount: mPurchase.items[index].discount,
+            total_purchase_value: mPurchase.items[index].total_purchase_value,
+           }
+           const mProduct = await product.findProduct(mPurchase.items[index].product, branch_id);
+           if (mProduct) {   
+               const data ={
+                 current_product_quantity: mProduct.current_product_quantity + Number(mPurchase.items[index].purchase_quantity),
+                 previous_product_quantity: mProduct.current_product_quantity 
+               }
+            product.updateProduct(mPurchase.items[index].product,data).then((updated)=>{
+            const newPurchase =await  Purchase.addPurchase(datas);
+            newPurchase.save().then((purchased)=>{
+           httpResponse({status_code:201, response_message:"Purchase successfully added", data:purchased, res});
+            }).catch((e)=>{
+                const err = new HttpError(500, e.message);
+                return next(err);
+            });
+            }).catch((err)=>{
+            const e = new HttpError(400, err.message);
+            return next(e)
+            });
         }
-      });
-      const newPurchase =await  Purchase.addPurchase(mPurchase);
-      newPurchase.save().then((purchased)=>{
-     httpResponse({status_code:201, response_message:"Purchase successfully added", data:purchased, res});
-      }).catch((e)=>{
-          const err = new HttpError(500, e.message);
-          return next(err);
-      });
+    }
     } catch (error) {
         joiError(error, next);
     

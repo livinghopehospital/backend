@@ -6,7 +6,8 @@ const purchaseSchema = new mongoose.Schema({
     purchase_date: {type: Date, required: true},
     branch:{ type:String},
     product: {type:String},
-    items: [],
+    supplier: {type:String},
+    purchased_quantity: {type:String},
     invoice_number: {type:String},
     discount:{type:String} 
 });
@@ -21,6 +22,15 @@ purchaseSchema.statics.findPurchase = async function findPurchase(branch){
     return mPurchase;
 }
 
+purchaseSchema.statics.deletePurchase = async function deletePurchase(id){
+    const mPurchase = await Purchase.findOneAndDelete({_id:id});
+    return mPurchase;
+}
+
+purchaseSchema.statics.editPurchase = async function editPurchase(id,data){
+    const mPurchase = await Purchase.findOneAndUpdate({_id:id},data);
+    return mPurchase;
+}
 const Purchase = mongoose.model("Purchases", purchaseSchema);
 
 
