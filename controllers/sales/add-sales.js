@@ -39,7 +39,6 @@ const addSales = async(req,res,next)=>{
        }   
        for (let index = 0; index < mSales.items.length; index++) {
          const mproduct =await findProduct(mSales.items[index].barcode, mSales.items[index].product_id,branch_id);
-         console.log(mproduct);
                 if (mproduct) {
                     const datas = {
                         current_product_quantity: mproduct.current_product_quantity -Number(mSales.items[index].quantity),
@@ -49,10 +48,10 @@ const addSales = async(req,res,next)=>{
                         const updatedProduct =await updateProduct(mSales.items[index].barcode,mSales.items[index].product_id,branch_id,datas)
                         const data = {
                             invoice_number:mSales.items[index].invoice_number,
-                            total_amount : mSales.total_amount,
                             payment_type:mSales.payment_type,
                             branch: mSales.branch, //add at backend
                             product_id: mSales.items[index].product_id,
+                            quantity: mSales.items[index].quantity,
                             barcode: mSales.items[index].barcode,
                             selling_price: mSales.items[index].selling_price,
                             selectedProduct:mSales.items[index].selectedProduct,
@@ -61,8 +60,8 @@ const addSales = async(req,res,next)=>{
                             serial_number: mSales.items[index].serial_number
                         }
                         const addNewSales = Sales.createSales(data);
-                        addNewSales.save().then((s)=>{
-                            res.send(s);
+                        addNewSales.save().then((savedProduct)=>{
+                         httpResponse({status_code:200, response_message:'Sales successfully added',data:savedProduct,res});
                         })
                        }else{
                         const e = new HttpError(400, "Out of stock");
@@ -96,7 +95,7 @@ module.exports={
 
 // if (!errorDetected) {
 //     addNewSales.save().then((s)=>{
-//         httpResponse({status_code:200, response_message:'Sales successfully added',data:s,res});
+       
 //        }).catch((e)=>{
 //         const err= new HttpError(500, e.message);
 //         return next(err);

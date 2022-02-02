@@ -12,16 +12,7 @@ const salesFieldValidation = joi.object({
   created_at: joi.date().required()
 });
 
-// const salesSchema = new mongoose.Schema({
-//   invoice_number:{type:String, required:true},
-//   items: [],
-//   barcode: {type:String},
-//   total_amount : {type:Number, required:true},
-//   customer_name: {type:String},
-//   payment_type:{type:String},
-//   branch: {type:String,required:true}, //add at backend
-//   created_at:{type:Date}  
-// });
+
 
 const salesSchema = new mongoose.Schema({
    invoice_number:{type: String},
@@ -33,6 +24,7 @@ const salesSchema = new mongoose.Schema({
    selectedProduct:{type:String},
    product: {type:String},
    amount: {type: String},
+   quantity: {type: String},
    serial_number: {type:String}
 })
 

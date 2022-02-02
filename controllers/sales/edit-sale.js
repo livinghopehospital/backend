@@ -11,6 +11,7 @@ const editSale = async function editSale(req,res,next){
             payment_type,
             selling_price,
             selectedProduct,
+            quantity,
             product,
             amount,
             serial_number,
@@ -21,6 +22,7 @@ const editSale = async function editSale(req,res,next){
             selling_price,
             selectedProduct,
             product,
+            quantity,
             amount,
             serial_number,
         }
