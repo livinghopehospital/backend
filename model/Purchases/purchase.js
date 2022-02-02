@@ -7,7 +7,8 @@ const purchaseSchema = new mongoose.Schema({
     branch:{ type:String},
     product: {type:String},
     supplier: {type:String},
-    purchased_quantity: {type:String},
+    purchase_quantity: {type:String},
+    total_purchase_value:{ type:String},
     invoice_number: {type:String},
     discount:{type:String} 
 });
