@@ -37,7 +37,7 @@ const addPurchase = async(req,res,next)=>{
                  current_product_quantity: mProduct.current_product_quantity + Number(mPurchase.items[index].purchase_quantity),
                  previous_product_quantity: mProduct.current_product_quantity 
                }
-            product.updateProduct(mPurchase.items[index].product,data).then((updated)=>{
+            product.updateProduct(mPurchase.items[index].product,data).then(async(updated)=>{
             const newPurchase =await  Purchase.addPurchase(datas);
             newPurchase.save().then((purchased)=>{
            httpResponse({status_code:201, response_message:"Purchase successfully added", data:purchased, res});
