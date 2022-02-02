@@ -22,8 +22,8 @@ const addPurchase = async(req,res,next)=>{
         for (let index = 0; index < mPurchase.items.length; index++) {
             const products = await product.findOne({_id:mPurchase.items[index].product});
            const datas = {
-            purchase_date: mPurchase[index].purchase_date,
-            branch:mPurchase[index].branch,
+            purchase_date: mPurchase.purchase_date,
+            branch:mPurchase.branch,
             invoice_number: mPurchase.items[index].invoice_number,
             supplier: mPurchase.items[index].supplier,
             product: products.product_name,
