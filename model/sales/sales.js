@@ -12,17 +12,29 @@ const salesFieldValidation = joi.object({
   created_at: joi.date().required()
 });
 
+// const salesSchema = new mongoose.Schema({
+//   invoice_number:{type:String, required:true},
+//   items: [],
+//   barcode: {type:String},
+//   total_amount : {type:Number, required:true},
+//   customer_name: {type:String},
+//   payment_type:{type:String},
+//   branch: {type:String,required:true}, //add at backend
+//   created_at:{type:Date}  
+// });
+
 const salesSchema = new mongoose.Schema({
-  invoice_number:{type:String, required:true},
-  items: [],
-  total_amount : {type:Number, required:true},
-  customer_name: {type:String},
-  payment_type:{type:String},
-  branch: {type:String,required:true}, //add at backend
-  created_at:{type:Date}  
-});
-
-
+   invoice_number:{type: String},
+   payment_type: {type:String},
+   branch: {type:String}, //add at backend
+   barcode: {type:String},
+   selling_price: {type:String},
+   product_id: {type:String},
+   selectedProduct:{type:String},
+   product: {type:String},
+   amount: {type: String},
+   serial_number: {type:String}
+})
 
 salesSchema.statics.createSales = function createSales(sales){
     return new Sales(sales)
@@ -38,6 +50,13 @@ salesSchema.statics.findSingleSales = async function findSingleSales(invoice_num
   const sales = await Sales.findOne({invoice_number});
   return sales;
 }
+
+
+salesSchema.statics.editSales = async function editSales(id,data){
+  const sales = await Sales.findOneAndUpdate({_id: id},data);
+  return sales;
+}
+
 
 salesSchema.statics.deleteSales = async function deleteSales(id, branch){
   const sales = await Sales.findOneAndDelete({_id:id, branch});

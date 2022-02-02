@@ -10,28 +10,7 @@ const viewSales =async(req,res,next)=>{
       console.log(branch_id);
       if (mSales&&mSales.length>0) {
         const filterSale = mSales.filter(branch_sale=>branch_sale.branch==branch_id)
-        const sale  = []
-        for (let i = 0; i < filterSale.length; i++) {
-          for (let index = 0; index <filterSale[i].items.length; index++) {
-            console.log(filterSale[i].items[index].product);
-            const data ={
-              product_id: filterSale[i]._id,
-              barcode: filterSale[i].items[index].barcode,
-              product: filterSale[i].items[index].product,
-              selectedProduct: filterSale[i].items[index].selectedProduct,
-              serial_number: filterSale[i].items[index].serial_number,
-              invoice_number: filterSale[i].items[index].invoice_number,
-              cost_price: filterSale[i].items[index].cost_price,
-              selling_price: filterSale[i].items[index].selling_price,
-              amount: filterSale[i].items[index].amount,
-              quantity: filterSale[i].items[index].quantity
-              
-            }
-            sale.push(data);
-          }
-      
-        }
-        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:sale,res})  
+        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:filterSale,res})  
         return;
       }  
       const e = new HttpError(404, "You have not made any sales");
@@ -48,3 +27,29 @@ const viewSales =async(req,res,next)=>{
 module.exports={
     viewSales
 }
+
+
+
+
+
+
+// for (let i = 0; i < filterSale.length; i++) {
+//   for (let index = 0; index <filterSale[i].items.length; index++) {
+//     console.log(filterSale[i].items[index].product);
+//     const data ={
+//       product_id: filterSale[i]._id,
+//       barcode: filterSale[i].items[index].barcode,
+//       product: filterSale[i].items[index].product,
+//       selectedProduct: filterSale[i].items[index].selectedProduct,
+//       serial_number: filterSale[i].items[index].serial_number,
+//       invoice_number: filterSale[i].items[index].invoice_number,
+//       cost_price: filterSale[i].items[index].cost_price,
+//       selling_price: filterSale[i].items[index].selling_price,
+//       amount: filterSale[i].items[index].amount,
+//       quantity: filterSale[i].items[index].quantity
+      
+//     }
+//     sale.push(data);
+//   }
+
+// }

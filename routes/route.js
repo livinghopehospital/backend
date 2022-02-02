@@ -30,6 +30,7 @@ const { viewSalesReport } = require('../controllers/reports/sales-report');
 const { addDeposit } = require('../controllers/sales/add-deposit');
 const { addSales } = require('../controllers/sales/add-sales');
 const { deleteSale } = require('../controllers/sales/delete-sales');
+const { editSale } = require('../controllers/sales/edit-sale');
 const { updatemountPaid } = require('../controllers/sales/update-deposit');
 const { viewDeposit } = require('../controllers/sales/view-deposit');
 const { viewSales } = require('../controllers/sales/view-sales');
@@ -107,6 +108,7 @@ router.get('/view-single-product-by-id/:id', viewSingleProductById);
 router.post('/add-sales', addSales);
 router.get('/view-sales', viewSales);
 router.delete('/delete-sales/:id', deleteSale);
+router.put('/update-sales/:id', editSale);
 /***** */
 
 
