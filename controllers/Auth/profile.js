@@ -53,7 +53,54 @@ const updateProfile = async function updateProfile(req, res, next) {
     }
 }
 
+
+const suspendProfile = async function suspendProfile(req,res,next){
+
+    try {
+        const {id} = req.params;
+
+        const data = {
+            account_status: "suspended"
+        }
+
+        const profile = await User.updateUser(id, data);
+
+        if (profile) {
+            httpResponse({status_code:200, response_message:"Staff has been suspended", data:{}, res});
+        }else{
+            const e = new HttpError(400, "We are unable to suspend staff at the moment. Please contact suport if perists");
+            return next(e);
+        }
+    } catch (error) {
+        const e = new HttpError(500, error.message);
+        return next(e);
+    }
+}
+
+
+const deleteProfile = async function deleteProfile(req,res,next){
+
+    try {
+        const {id}  = req.params;
+
+        const profile = await User.deleteUser(id);
+
+        if (profile) {
+            httpResponse({status_code:200, response_message:"Staff account has been successfully delete", res});
+        }else{
+            const e = new HttpError(400, "Unable to delete staff at the moment contact support if persists");
+            return next(e);
+        }
+    } catch (error) {
+        const e  = new HttpError(500, error.messgae);
+        return next(e);
+    }
+}
+
+
 module.exports = {
     staffProfile,
-    updateProfile
+    updateProfile,
+    deleteProfile,
+    suspendProfile
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const { loginStaff } = require('../controllers/Auth/login');
-const { staffProfile, updateProfile } = require('../controllers/Auth/profile');
+const { staffProfile, updateProfile, suspendProfile, deleteProfile } = require('../controllers/Auth/profile');
 const { registerStaff, viewStaff } = require('../controllers/Auth/staff-reg');
 const { createStore } = require('../controllers/Branch/create-branch');
 const { deleteBranch } = require('../controllers/Branch/delete-branch');
@@ -72,6 +72,8 @@ router.put('/update-branch/:id', editBranch);
 router.get('/profile', staffProfile);
 router.get('/view-staff', viewStaff);
 router.put('/update-staff/:id', updateProfile);
+router.put('/suspend-staff/:id', suspendProfile);
+router.delete('/delete-staff/:id',deleteProfile);
 // router.post('/create-store',isManager, createStore);
 
 /***DEPOSITS...... */

@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
       last_name: {type: String, required:true},
       username: {type: String, required:true},
       email: {type: String, required:true},
+      account_status: {type: String, default:"active"},
       branch: {type:String, required:true},
       role: {type: String, required:true},
       password: {type: String, required:true},
@@ -35,6 +36,12 @@ userSchema.statics.createUser = function createUser(userDetails){
 userSchema.statics.updateUser =async function updateUser(id, data){
     const user =  await User.findByIdAndUpdate({_id:id},data)
     return user;
+}
+
+userSchema.statics.deleteUser = async function deleteUser(id){
+
+    const de = await User.findOneAndDelete({_id:id});
+    return de;
 }
 
 userSchema.pre("save", async function(done){
