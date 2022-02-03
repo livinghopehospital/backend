@@ -124,7 +124,6 @@ router.put('/update-purchase/:id', editPurchase);
 
 router.delete('/delete-purchase/:id', deletePurchase);
 /****PAYMENT TYPE */
-
 router.post('/add-payment-type', addpaymentType);
 router.get('/view-payment-type', viewPaymentType);
 
@@ -149,7 +148,7 @@ router.get('/view-out-of-stock?', fetchOutOfStock);
 router.get('/view-product-price', fetchProductPrice);
 router.get('/view-deposit-reports?', depositReport);
 router.get('/view-sales-report?', viewSalesReport);
-router.get('/view-stock-level', stockLevel);
+router.get('/view-stock-level?', stockLevel);
 router.put('/balance-stock-level/:id', BalanceStockLevel);
 router.delete('/delete-product/:id', deleteProduct);
 router.get('/view-profit-loss', viewProfitLossReport);

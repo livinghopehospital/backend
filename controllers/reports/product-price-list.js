@@ -19,9 +19,13 @@ const fetchProductPrice = async(req,res,next)=>{
 
 const stockLevel = async(req,res,next)=>{
     try {
-        const mProduct = await product.findProducts();
+        const {branch} = req.query;
+        const mProduct = await product.findProducts(branch);
         if (mProduct) {
          httpResponse({status_code:200, response_message:'Product available', data:{mProduct},res});   
+        }else{
+            const e = new HttpError(404, "You don't have product in this branch");
+            return next(e);
         }
     } catch (error) {
         const e = new HttpError(500, error.message);
