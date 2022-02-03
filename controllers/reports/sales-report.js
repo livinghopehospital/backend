@@ -26,11 +26,7 @@ const viewSalesReport =async(req,res,next)=>{
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const items = []
-            FILTEREDRESULTS.map((result)=>{
-                items.push(...result.items)
-            });
-            const branchReport = items.filter(item=>item.branch==VALIADATIONOBJECT.branch);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==VALIADATIONOBJECT.branch);
           httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
