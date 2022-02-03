@@ -71,7 +71,7 @@ router.put('/update-branch/:id', editBranch);
 // router.post('register-staff', registerStaff);
 router.get('/profile', staffProfile);
 router.get('/view-staff', viewStaff);
-router.put('/edit-staff/:id', updateProfile);
+router.put('/update-staff/:id', updateProfile);
 // router.post('/create-store',isManager, createStore);
 
 /***DEPOSITS...... */
