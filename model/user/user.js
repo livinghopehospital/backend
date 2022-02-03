@@ -32,6 +32,11 @@ userSchema.statics.createUser = function createUser(userDetails){
     return user;
 }
 
+userSchema.statics.updateUser =async function updateUser(id, data){
+    const user =  await User.findByIdAndUpdate({_id:id},data)
+    return user;
+}
+
 userSchema.pre("save", async function(done){
     const p  =  this.get('password')
      const hashed =await hashedPassword({password:p});

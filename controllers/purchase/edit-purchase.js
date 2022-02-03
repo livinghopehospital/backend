@@ -7,7 +7,6 @@ const { httpResponse } = require('../../middlewares/http/http-response');
 
 
 const editPurchase = async function editPurchase(req,res,next){
-
     try {
         let {
             purchase_date,
@@ -27,6 +26,8 @@ const editPurchase = async function editPurchase(req,res,next){
         let myPurchase;
             if (purchase_quantity< 1) {
                 myPurchase = -(purchase_quantity)
+            }else{
+                myPurchase = purchase_quantity
             }
            const data = {
             purchase_date,

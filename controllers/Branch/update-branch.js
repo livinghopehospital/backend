@@ -12,12 +12,14 @@ const editBranch = async function editBranches(req,res,next){
         branch_name,
         address,
         manager_name,
+        manager_phone,
         manager_address
     } = req.body;
       const data = {
           branch_name,
           address,
           manager_name,
+          manager_phone,
           manager_address
       }
       const mBranch =await Branch.updateBranch(id, data);  
