@@ -21,7 +21,7 @@ const viewSalesReport =async(req,res,next)=>{
             { "$match": {
               "$and": [
                 { "created_at": { "$lte": VALIDATEDOBJECT.to, "$gte": VALIDATEDOBJECT.from }},
-                { "created_at": { "$not": { "$lt":VALIDATEDOBJECT.from, "$gt":VALIDATEDOBJECT.to }}}
+                { "created_at": { "$not": { "$gt":VALIDATEDOBJECT.from, "$lt":VALIDATEDOBJECT.to }}}
               ]
             }}
           ]);
