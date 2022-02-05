@@ -1,3 +1,4 @@
+const { hashedPassword } = require("../../middlewares/Authorization/password");
 const { HttpError } = require("../../middlewares/errors/http-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { User } = require("../../model/user/user");
@@ -29,14 +30,17 @@ const updateProfile = async function updateProfile(req, res, next) {
             last_name,
             username,
             email,
+            password,
             role,
             branch, } = req.body;
+            const hashed  =await hashedPassword(password)
         const data = {
             first_name,
             last_name,
             username,
             email,
             role,
+            password: hashed,
             branch,
         }
         const {id} = req.params;

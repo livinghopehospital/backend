@@ -52,6 +52,7 @@ const addDeposit = async(req,res,next)=>{
                 selectedProduct: mDeposit.items[index].selectedProduct,
                 serial_number: mDeposit.items[index].serial_number,
                 product_id:mDeposit.items[index].product_id,
+                cost_price: mproduct.product_price,
                 quantity: mDeposit.items[index].quantity,
                 selling_price: mDeposit.items[index].selling_price
               }

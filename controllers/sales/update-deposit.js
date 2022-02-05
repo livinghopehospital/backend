@@ -39,7 +39,7 @@ const updatemountPaid = async (req, res, next) => {
         const updatedDeposit =await Deposit.updateDeposit(id, data);
       
         if (updatedDeposit) {
-            const { total_amount,  product_id,amount_deposited,quantity,barcode, selling_price,serial_number,branch,invoice_number, payment_type,created_at, customer_name } = updatedDeposit;
+            const { total_amount,  product_id,amount_deposited,quantity,barcode, selling_price,serial_number,branch,invoice_number, payment_type,created_at, customer_name,cost_price } = updatedDeposit;
             if (Number(updatedDeposit.amount_to_balance)==0) {
                 /**@description move product to sales... */
 
@@ -55,6 +55,7 @@ const updatemountPaid = async (req, res, next) => {
                     product: mproduct.product_name,
                     product_id,
                     quantity,
+                    cost_price,
                     branch,
                     payment_type,
                     created_at
