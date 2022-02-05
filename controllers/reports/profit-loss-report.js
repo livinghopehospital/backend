@@ -22,7 +22,7 @@ const viewProfitLossReport = async (req, res, next) => {
             {
                 "$match": {
                     "$and": [
-                        { "created_at": { "$gte": VALIDATEDOBJECT.from, "$gte": VALIDATEDOBJECT.to } },
+                        { "created_at": { "$gte": VALIDATEDOBJECT.from, "$lte": VALIDATEDOBJECT.to } },
                       
                     ]
                 }
