@@ -20,14 +20,12 @@ const depositReport =async(req,res,next)=>{
       const FILTEREDRESULTS =await  Deposit.aggregate([
             { "$match": {
               "$and": [
-                { "created_at": { "$lte": VALIDATEDOBJECT.to, "$gte": VALIDATEDOBJECT.from }},
-                { "created_at": { "$not": { "$lt":VALIDATEDOBJECT.from, "$gt":VALIDATEDOBJECT.to }}}
+                { "created_at": { "$gte": VALIDATEDOBJECT.from, "$lte": VALIDATEDOBJECT.to }},
               ]
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            
-          const branchReport = FILTEREDRESULTS.filter(item=>item.branch==VALIADATIONOBJECT.branch);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==VALIADATIONOBJECT.branch);
             httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of days");
