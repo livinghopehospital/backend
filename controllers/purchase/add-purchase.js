@@ -24,6 +24,7 @@ const addPurchase = async(req,res,next)=>{
            const datas = {
             purchase_date: mPurchase.purchase_date,
             branch:mPurchase.branch,
+            created_at:mPurchase.items[index].created_at,
             product_id: mPurchase.items[index].product,
             invoice_number: mPurchase.items[index].invoice_number,
             supplier: mPurchase.items[index].supplier,

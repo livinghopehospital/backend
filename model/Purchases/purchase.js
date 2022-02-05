@@ -6,6 +6,7 @@ const purchaseSchema = new mongoose.Schema({
     purchase_date: {type: Date, required: true},
     branch:{ type:String},
     product: {type:String},
+    created_at:{type:Date},
     supplier: {type:String},
     product_id: {type:String},
     purchase_quantity: {type:String},

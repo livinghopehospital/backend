@@ -25,6 +25,7 @@ const salesSchema = new mongoose.Schema({
    product: {type:String},
    amount: {type: String},
    quantity: {type: String},
+   created_at:{type:Date},
    serial_number: {type:String}
 })
 

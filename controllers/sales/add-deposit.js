@@ -39,7 +39,7 @@ const addDeposit = async(req,res,next)=>{
             }  
             const updatedProduct =await updateProduct(mDeposit.items[index].barcode,mDeposit.items[index].product_id,branch_id,datas)
             const depositData ={
-                created_at: mDeposit.created_at,
+                created_at:mDeposit.items[index].created_at,
                 invoice_number:mDeposit.items[index].invoice_number ,
                 amount_deposited: mDeposit.items[index].amount_deposited,
                 customer_name: mDeposit.customer_name,
@@ -59,6 +59,7 @@ const addDeposit = async(req,res,next)=>{
             addDeposit.save().then((d)=>{
             httpResponse({status_code:201, response_message:"Deposit successfully added",data:{},res});
             }).catch((err)=>{
+                console.log(err);
                 const e = new HttpError(500, err.message);
                 return next(e);
             })

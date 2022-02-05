@@ -48,6 +48,7 @@ const addSales = async(req,res,next)=>{
                         const updatedProduct =await updateProduct(mSales.items[index].barcode,mSales.items[index].product_id,branch_id,datas)
                         const data = {
                             invoice_number:mSales.items[index].invoice_number,
+                            created_at:mSales.items[index].created_at,
                             payment_type:mSales.payment_type,
                             branch: mSales.branch, //add at backend
                             product_id: mSales.items[index].product_id,
