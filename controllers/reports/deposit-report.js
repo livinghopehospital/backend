@@ -25,8 +25,8 @@ const depositReport =async(req,res,next)=>{
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==VALIADATIONOBJECT.branch);
-            httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
+            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==req.query.branch);
+            httpResponse({status_code:200, response_message:'Deposit record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of days");
               return next(e);

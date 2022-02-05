@@ -44,9 +44,7 @@ const deleteExpenses = async(req,res,next)=>{
         }
         }
     } catch (error) {
-      httpResponse({status_code:200, response_message:'Expenses successfully deleted',res});
-      console.log(error);
-    //  joiError(error, next);   
+     joiError(error, next);   
     }
 }
 

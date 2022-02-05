@@ -52,6 +52,8 @@ const addSales = async(req,res,next)=>{
                             payment_type:mSales.payment_type,
                             branch: mSales.branch, //add at backend
                             product_id: mSales.items[index].product_id,
+                            cost_price: mproduct.product_price,
+                            product_name: mproduct.product_name,
                             quantity: mSales.items[index].quantity,
                             barcode: mSales.items[index].barcode,
                             selling_price: mSales.items[index].selling_price,
