@@ -27,6 +27,7 @@ const depositSchema = new mongoose.Schema({
   quantity:{type:String},
   selling_price:{type:String},
   payment_type:{type:String},
+  cost_price: {type:Number},
   branch: {type:String,required:true}, 
   created_at:{type:Date}  
 });

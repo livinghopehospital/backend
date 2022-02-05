@@ -23,6 +23,7 @@ const salesSchema = new mongoose.Schema({
    product_id: {type:String},
    selectedProduct:{type:String},
    product: {type:String},
+   cost_price: {type:Number},
    amount: {type: String},
    quantity: {type: String},
    created_at:{type:Date},
