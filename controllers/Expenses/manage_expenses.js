@@ -32,12 +32,16 @@ const deleteExpenses = async(req,res,next)=>{
     try {
         const {id} = req.params;
         const {branch_id} = req.userData;
+        const doesExist = Expenses.findOne({_id:id});
+        if (doesExist) {
         const expensesDeleted =await Expenses.deleteExpenses(id,branch_id);
         if (expensesDeleted) {
             httpResponse({status_code:200, response_message:'Expenses successfully deleted',res});
+            return;
         }else{
             const e = new HttpError(400, "Unable to delete this expenses. Contact support if persists");
             return next(e);
+        }
         }
     } catch (error) {
       httpResponse({status_code:200, response_message:'Expenses successfully deleted',res});
