@@ -17,16 +17,18 @@ const viewSalesReport =async(req,res,next)=>{
     try {
   
       const VALIDATEDOBJECT = await VALIADATIONOBJECT.validateAsync(req.query)
+      console.log( req.query);
       const FILTEREDRESULTS =await  Sales.aggregate([
             { "$match": {
               "$and": [
-                { "created_at": { "$lte": VALIDATEDOBJECT.to, "$gte": VALIDATEDOBJECT.from }},
-                { "created_at": { "$not": { "$gt":VALIDATEDOBJECT.from, "$lt":VALIDATEDOBJECT.to }}}
+                { "created_at": { "$gte": VALIDATEDOBJECT.from, "$lte": VALIDATEDOBJECT.to }},
+
               ]
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==VALIADATIONOBJECT.branch);
+            console.log(VALIADATIONOBJECT.branch);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.branch==req.query.branch);
           httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
