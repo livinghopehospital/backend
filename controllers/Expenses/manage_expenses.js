@@ -40,6 +40,7 @@ const deleteExpenses = async(req,res,next)=>{
             return next(e);
         }
     } catch (error) {
+      console.log(error);
      joiError(error, next);   
     }
 }
