@@ -33,14 +33,15 @@ const updateProfile = async function updateProfile(req, res, next) {
             password,
             role,
             branch, } = req.body;
-            const hashed  =await hashedPassword(password)
+            // const hashed  =await hashedPassword(password);
+            
         const data = {
             first_name,
             last_name,
             username,
             email,
             role,
-            password: hashed,
+            // password: hashed,
             branch,
         }
         const {id} = req.params;
