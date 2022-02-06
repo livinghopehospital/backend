@@ -20,11 +20,14 @@ const addProducts = async (req, res, next) => {
             supplier,
             product_brand
         }
-        const productExists = await product.findProductByBarcode(mProduct.product_barcode, branch_id);
-        if (productExists) {
-            const err = new HttpError(400, 'A product already exists with the barcode');
-            return next(err);
+        if (mProduct.product_barcode!=null&&mProduct.product_barcode!='') {
+            const productExists = await product.findProductByBarcode(mProduct.product_barcode, branch_id);
+            if (productExists) {
+                const err = new HttpError(400, 'A product already exists with the barcode');
+                return next(err);
+            } 
         }
+      
         const addNewProducts = product.createProduct(mProduct);
         const data = {
             branch_id,
