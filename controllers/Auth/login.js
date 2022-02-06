@@ -8,7 +8,7 @@ const { User } = require('../../model/user/user');
 
 const authValidation = async(req,res,next)=>{
     try {
-        const {staff_username,branch} = req.body;
+        const {staff_username,branch_id} = req.body;
         if (!staff_username) {
             const e = new HttpError(401, "Please provide a valid username");
             return next(e); 
@@ -18,7 +18,7 @@ const authValidation = async(req,res,next)=>{
         if (staff.role=="admin") {
             next();
         }else{
-         if (staff.branch_id==branch) {
+         if (staff.branch_id==branch_id) {
             next();
          }else{
             const e = new HttpError(401, "You don't work have access to login branch. Please choose appropriate brnach");
@@ -48,7 +48,7 @@ const loginStaff =async(req,res,next)=>{
                 username: staff.username,
                 id: staff._id,
                 role: staff.role,
-                branch_id:staffDetails.branch,
+                branch_id:staffDetails.branch_id,
             }
             const token  =  signToken({payload});
             httpResponse({status_code:200, response_message:'success',data:{token},res});
