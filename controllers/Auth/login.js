@@ -6,6 +6,30 @@ const joiError = require('../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../middlewares/http/http-response');
 const { User } = require('../../model/user/user');
 
+const authValidation = async(req,res,next)=>{
+    try {
+        const {staff_username,branch} = req.body;
+        if (!staff_username) {
+            const e = new HttpError(401, "Please provide a valid username");
+            return next(e); 
+        }
+     const staff = await User.findUserByUserName(staff_username);
+     if (staff) {
+        if (staff.role=="CEO") {
+            next();
+        }else{
+         if (staff.branch_id==branch) {
+            next();
+         }else{
+            const e = new HttpError(401, "You don't work have access to login branch. Please choose appropriate brnach");
+            return next(e);
+         }
+        }
+     }
+    } catch (error) {
+     joiError(error,next);  
+    }
+}
 
 const loginStaff =async(req,res,next)=>{
     try {
@@ -15,27 +39,23 @@ const loginStaff =async(req,res,next)=>{
          branch_id: joi.string().required()
      });
      const staffDetails =await loginDetails.validateAsync(req.body);
-    
      const staff = await User.findUserByUserName(staffDetails.staff_username);
-     if (staff&&staff.branch==staffDetails.branch_id&&staff.staff_username!='admin') {
-         const checkPassword = await comparePassword({password:staffDetails.password,username:staff.username});
-         if (!!checkPassword) {
-             const payload ={
-                 email: staff.email,
-                 username: staff.username,
-                 id: staff._id,
-                 role: staff.role,
-                 branch_id:staff.branch,
-             }
-             const token  =  signToken({payload});
-             httpResponse({status_code:200, response_message:'success',data:{token},res});
-             return;
-         }
-         const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
-         return next(err);
-     }else{
-         const err = new HttpError(400, 'No staff exists with provided username in the choosen branch. Please contact the company administrator');
-         return next(err);
+     if (staff) {
+        const checkPassword = await comparePassword({password:staffDetails.password,username:staff.username});
+        if (!!checkPassword) {
+            const payload ={
+                email: staff.email,
+                username: staff.username,
+                id: staff._id,
+                role: staff.role,
+                branch_id:staff.branch,
+            }
+            const token  =  signToken({payload});
+            httpResponse({status_code:200, response_message:'success',data:{token},res});
+            return;
+        }
+        const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
+        return next(err);
      }
     } catch (error) {
       joiError(error,next);  
@@ -44,5 +64,6 @@ const loginStaff =async(req,res,next)=>{
 
 
 module.exports={
-    loginStaff
+    loginStaff,
+    authValidation
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginStaff } = require('../controllers/Auth/login');
+const { loginStaff, authValidation } = require('../controllers/Auth/login');
 const { staffProfile, updateProfile, suspendProfile, deleteProfile } = require('../controllers/Auth/profile');
 const { registerStaff, viewStaff } = require('../controllers/Auth/staff-reg');
 const { createStore } = require('../controllers/Branch/create-branch');
@@ -52,7 +52,7 @@ const router = express.Router();
 /***Aunthenticated starts here */
 router.get('/view-branch', listAllStores);
 
-router.post('/login', loginStaff);
+router.post('/login',authValidation, loginStaff);
 
 router.post('/register-staff', registerStaff);
 router.post('/create-branch', createStore);

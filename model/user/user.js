@@ -9,7 +9,7 @@ const staffFieldValidation = joi.object({
    last_name: joi.string().required(),
    username: joi.string().required().lowercase(),
    email: joi.string().required().email(),
-   role: joi.string().required(),
+   role: joi.string().required().lowercase(),
    branch: joi.string().required(),
    password: joi.string().required(),
 });
