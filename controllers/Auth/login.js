@@ -19,7 +19,7 @@ const authValidation = async(req,res,next)=>{
         if (staff.role== staffRoles.admin) {
             next();
         }else{
-         if (staff.branch_id==branch_id) {
+         if (staff.branch==branch_id) {
             next();
          }else{
             const e = new HttpError(401, "You don't work have access to login branch. Please choose appropriate brnach");
