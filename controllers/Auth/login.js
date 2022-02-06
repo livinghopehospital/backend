@@ -15,7 +15,7 @@ const authValidation = async(req,res,next)=>{
         }
      const staff = await User.findUserByUserName(staff_username);
      if (staff) {
-        if (staff.role=="CEO") {
+        if (staff.role=="admin") {
             next();
         }else{
          if (staff.branch_id==branch) {
@@ -48,7 +48,7 @@ const loginStaff =async(req,res,next)=>{
                 username: staff.username,
                 id: staff._id,
                 role: staff.role,
-                branch_id:staff.branch,
+                branch_id:staffDetails.branch,
             }
             const token  =  signToken({payload});
             httpResponse({status_code:200, response_message:'success',data:{token},res});
