@@ -18,7 +18,7 @@ const updateBrand= async(req,res,next)=>{
          }
         const updatedBrand =await Brand.updateBrand(brandId,data);
         if (updatedBrand) {
-            httpResponse({status_code:200, response_message:'Brand successfully updated'});
+            httpResponse({status_code:200, response_message:'Brand successfully updated', data:{}, res});
         }
     } catch (error) {
         const e = new HttpError(500, error.message);
