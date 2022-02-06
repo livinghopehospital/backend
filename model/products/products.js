@@ -7,7 +7,7 @@ const joi = require('joi');
 const productFieldValidation = joi.object({
   product_name: joi.string().required(),
   product_price: joi.number().required(),
-  product_barcode: joi.string(),
+  product_barcode: '',
   product_brand: joi.string().required(),
   supplier: joi.string().required(),
 });
