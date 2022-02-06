@@ -22,11 +22,17 @@ const updateProducts =async(req,res,next)=>{
         }
       const pValidation = await fieldValidation.validateAsync(req.params);
       const mproduct = await product.findProduct(pValidation.productId,branch_id);
+      let qty;
+      if (mproduct.current_product_quantity==quantity) {
+        qty = mproduct.current_product_quantity;
+      }else{
+        qty = mproduct.current_product_quantity + quantity
+      }
       if (mproduct) {
         const data ={
           product_price:price,
           product_name,
-          current_product_quantity:mproduct.current_product_quantity + quantity,
+          current_product_quantity:qty,
           previous_product_quantity: mproduct.current_product_quantity 
         }  
 
