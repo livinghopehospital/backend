@@ -8,7 +8,6 @@ const { product, productFieldValidation, productPreSaveHook } = require("../../m
 const addProducts = async(req,res,next)=>{
     try {
         const {branch_id} = req.userData;
-        
         const mProduct =await productFieldValidation.validateAsync(req.body);
         const productExists = await product.findProductByBarcode(mProduct.product_barcode,branch_id);
         if (productExists) {
@@ -31,6 +30,7 @@ const addProducts = async(req,res,next)=>{
         });
     
     } catch (error) {
+        console.log(error);
       joiError(error,next);  
     }
 }
