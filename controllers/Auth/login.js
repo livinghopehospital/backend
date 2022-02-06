@@ -51,14 +51,17 @@ const loginStaff =async(req,res,next)=>{
                 role: staff.role,
                 branch_id:staffDetails.branch_id,
             }
-            const token  =  signToken({payload});
-            httpResponse({status_code:200, response_message:'success',data:{token},res});
-            return;
+            if (staff.account_status=='suspended') {
+                const err = new HttpError(401, 'You have been suspended from work. Your access has been denied');
+                return next(err); 
+            }else{
+                const token  =  signToken({payload});
+                httpResponse({status_code:200, response_message:'success',data:{token},res});
+                return;
+            }
+           
         }
-        if (staff.account_status=='suspended') {
-            const err = new HttpError(401, 'You have been suspended from work. Your access has been denied');
-            return next(err); 
-        }
+      
         const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
         return next(err);
      }
