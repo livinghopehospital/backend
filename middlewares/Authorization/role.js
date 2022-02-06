@@ -6,14 +6,32 @@ const staffRoles = {
     operator:'operator',
     manager: 'manager',
     auditor: 'auditor',
-    admin:  'admin'
+    admin:  'super admin'
 
 }
+
+
+
+
 
 const isAdmin = async(req,res,next)=>{
     try {
       const {role} = req.userData;
       if (role==staffRoles.admin) {
+          next();
+      }else{
+          const access_denied = new HttpError(403, 'Only Admin can perform this operation.Your access has been denied');
+          return next(access_denied);
+      }
+    } catch (error) {
+        const e = new HttpError(500, error.message);
+    }
+}
+
+const isAdminOrEditor = async(req,res,next)=>{
+    try {
+      const {role} = req.userData;
+      if (role==staffRoles.admin || role==staffRoles.auditor) {
           next();
       }else{
           const access_denied = new HttpError(403, 'Only Admin can perform this operation.Your access has been denied');
@@ -71,6 +89,9 @@ module.exports={
     staffRoles,
     isManager,
     isOperator,
-    isAuditor
+    isAuditor,
+    isAdmin,
+ isAdminOrEditor
+
 
 }

@@ -41,7 +41,7 @@ const { deleteSupplier } = require('../controllers/suppliers/delete-supplier');
 const { updateSupplier } = require('../controllers/suppliers/edit-supplier');
 const { viewAllSuppliers } = require('../controllers/suppliers/view-suppliers');
 const { verifyToken } = require('../middlewares/Authorization/jwt');
-const { isManager } = require('../middlewares/Authorization/role');
+const { isManager, isAdmin, isAdminOrEditor } = require('../middlewares/Authorization/role');
 
 const router = express.Router();
 
@@ -53,8 +53,7 @@ const router = express.Router();
 router.get('/view-branch', listAllStores);
 
 router.post('/login',authValidation, loginStaff);
-
-router.post('/register-staff', registerStaff);
+router.post('/register-staff', isAdmin,registerStaff);
 router.post('/create-branch', createStore);
 /***Aunthenticated routes stops here */
 
@@ -71,9 +70,9 @@ router.put('/update-branch/:id', editBranch);
 // router.post('register-staff', registerStaff);
 router.get('/profile', staffProfile);
 router.get('/view-staff', viewStaff);
-router.put('/update-staff/:id', updateProfile);
-router.put('/suspend-staff/:id', suspendProfile);
-router.delete('/delete-staff/:id',deleteProfile);
+router.put('/update-staff/:id', isAdmin,updateProfile);
+router.put('/suspend-staff/:id', isAdmin,suspendProfile);
+router.delete('/delete-staff/:id',isAdmin,deleteProfile);
 // router.post('/create-store',isManager, createStore);
 
 /***DEPOSITS...... */
@@ -112,8 +111,8 @@ router.get('/view-single-product-by-id/:id', viewSingleProductById);
 
 router.post('/add-sales', addSales);
 router.get('/view-sales', viewSales);
-router.delete('/delete-sales/:id', deleteSale);
-router.put('/update-sales/:id', editSale);
+router.delete('/delete-sales/:id', isAdmin,deleteSale);
+router.put('/update-sales/:id', isAdmin,editSale);
 /***** */
 
 
@@ -125,7 +124,7 @@ router.get('/view-purchase', viewPurchase);
 
 router.put('/update-purchase/:id', editPurchase);
 
-router.delete('/delete-purchase/:id', deletePurchase);
+router.delete('/delete-purchase/:id', isAdmin,deletePurchase);
 /****PAYMENT TYPE */
 router.post('/add-payment-type', addpaymentType);
 router.get('/view-payment-type', viewPaymentType);
@@ -136,8 +135,8 @@ router.post('/add-expenses', addExpenses);
 router.get('/view-expenses', viewExpenses);
 router.post('/add-expenses-category', addExpensesCategory);
 router.get('/view-expenses-categories', viewCategory);
-router.put('/update-expenses/:id',EditExpenses);
-router.delete('/delete-expenses/:id', deleteExpenses);
+router.put('/update-expenses/:id',isAdmin,EditExpenses);
+router.delete('/delete-expenses/:id', isAdmin,deleteExpenses);
 
 
 /****DEPOSITS ROUTE */
@@ -150,10 +149,10 @@ router.delete('/delete-expenses/:id', deleteExpenses);
 router.get('/view-out-of-stock?', fetchOutOfStock);
 router.get('/view-product-price', fetchProductPrice);
 router.get('/view-deposit-reports?', depositReport);
-router.get('/view-sales-report?', viewSalesReport);
-router.get('/view-stock-level?', stockLevel);
-router.put('/balance-stock-level/:id', BalanceStockLevel);
+router.get('/view-sales-report?', isAdmin ,viewSalesReport);
+router.get('/view-stock-level?', isAdmin,stockLevel);
+router.put('/balance-stock-level/:id', isAdminOrEditor,BalanceStockLevel);
 router.delete('/delete-product/:id', deleteProduct);
-router.get('/view-profit-loss', viewProfitLossReport);
+router.get('/view-profit-loss', isAdmin,viewProfitLossReport);
 
 module.exports=router;

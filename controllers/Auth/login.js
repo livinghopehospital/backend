@@ -1,6 +1,7 @@
 const joi = require('joi');
 const { signToken } = require('../../middlewares/Authorization/jwt');
 const { comparePassword } = require('../../middlewares/Authorization/password');
+const { staffRoles } = require('../../middlewares/Authorization/role');
 const { HttpError } = require('../../middlewares/errors/http-error');
 const joiError = require('../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../middlewares/http/http-response');
@@ -15,7 +16,7 @@ const authValidation = async(req,res,next)=>{
         }
      const staff = await User.findUserByUserName(staff_username);
      if (staff) {
-        if (staff.role=="admin") {
+        if (staff.role== staffRoles.admin) {
             next();
         }else{
          if (staff.branch_id==branch_id) {
@@ -53,6 +54,10 @@ const loginStaff =async(req,res,next)=>{
             const token  =  signToken({payload});
             httpResponse({status_code:200, response_message:'success',data:{token},res});
             return;
+        }
+        if (staff.account_status=='suspended') {
+            const err = new HttpError(401, 'You have been suspended from work. Your access has been denied');
+            return next(err); 
         }
         const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
         return next(err);
