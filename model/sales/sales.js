@@ -40,8 +40,8 @@ salesSchema.statics.findSales = async function findsales(){
     return sales;
 }
 
-salesSchema.statics.findSingleSales = async function findSingleSales(invoice_number){
-  const sales = await Sales.findOne({invoice_number});
+salesSchema.statics.findSingleSales = async function findSingleSales(invoice_number,branch){
+  const sales = await Sales.findOne({invoice_number,branch});
   return sales;
 }
 

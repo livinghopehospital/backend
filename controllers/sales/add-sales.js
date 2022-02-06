@@ -32,7 +32,7 @@ const addSales = async(req,res,next)=>{
     try {  
         const {branch_id} = req.userData;
        const mSales = await salesFieldValidation.validateAsync(req.body); 
-       const doesSalesExist =await Sales.findSingleSales(mSales.invoice_number);
+       const doesSalesExist =await Sales.findSingleSales(mSales.invoice_number,branch_id);
        if (doesSalesExist) {
          const e = new HttpError(400, "A sales already existed with this invoice number");
          return next(e);  
