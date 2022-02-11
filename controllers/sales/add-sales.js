@@ -44,7 +44,7 @@ const addSales = async(req,res,next)=>{
                         current_product_quantity: mproduct.current_product_quantity -Number(mSales.items[index].quantity),
                         previous_product_quantity: mproduct.current_product_quantity
                     }  
-                    if (mSales.items[index].quantity < mproduct.current_product_quantity) {
+                    if (mSales.items[index].quantity <= mproduct.current_product_quantity) {
                         const updatedProduct =await updateProduct(mSales.items[index].barcode,mSales.items[index].product_id,branch_id,datas)
                         const data = {
                             invoice_number:mSales.items[index].invoice_number,

@@ -27,7 +27,6 @@ const addProducts = async (req, res, next) => {
                 return next(err);
             } 
         }
-      
         const addNewProducts = product.createProduct(mProduct);
         const data = {
             branch_id,
