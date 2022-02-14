@@ -18,13 +18,10 @@ async function findProduct(barcode,id, branch_id){
     }
    }
 
-   async function updateProduct(barcode,id, branch_id,data){
+   async function updateProduct(id, branch_id,data){
     const mproduct = await product.findOneAndUpdate({_id:id,branch:branch_id},data);
     if (mproduct) {
      return mproduct;
-    }else{
-     const prodcutById = await product.findOneAndUpdate({product_barcode: barcode, branch:branch_id},data);
-     return prodcutById;
     }
    }
 
@@ -40,12 +37,13 @@ const addSales = async(req,res,next)=>{
        for (let index = 0; index < mSales.items.length; index++) {
          const mproduct =await findProduct(mSales.items[index].barcode, mSales.items[index].product_id,branch_id);
                 if (mproduct) {
+                    console.log(mproduct);
                     const datas = {
-                        current_product_quantity: mproduct.current_product_quantity -Number(mSales.items[index].quantity),
-                        previous_product_quantity: mproduct.current_product_quantity
+                        current_product_quantity: Number(mproduct.current_product_quantity) -Number(mSales.items[index].quantity),
+                        previous_product_quantity: Number(mproduct.current_product_quantity)
                     }  
                     if (mSales.items[index].quantity <= mproduct.current_product_quantity) {
-                        const updatedProduct =await updateProduct(mSales.items[index].barcode,mSales.items[index].product_id,branch_id,datas)
+                        const updatedProduct =await updateProduct(mproduct._id,branch_id,datas)
                         const data = {
                             invoice_number:mSales.items[index].invoice_number,
                             created_at: `${mSales.items[index].created_at}Z`,
