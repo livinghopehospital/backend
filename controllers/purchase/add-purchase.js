@@ -32,6 +32,7 @@ const addPurchase = async(req,res,next)=>{
             purchase_quantity: mPurchase.items[index].purchase_quantity,
             discount: mPurchase.items[index].discount,
             total_purchase_value: mPurchase.items[index].total_purchase_value,
+            
            }
            const mProduct = await product.findProduct(mPurchase.items[index].product, branch_id);
            if (mProduct) {   
