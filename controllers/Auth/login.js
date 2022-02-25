@@ -26,6 +26,9 @@ const authValidation = async(req,res,next)=>{
             return next(e);
          }
         }
+     }else{
+        const e = new HttpError(401, "No staff is associated with the provided username. Please check");
+        return next(e);  
      }
     } catch (error) {
      joiError(error,next);  
