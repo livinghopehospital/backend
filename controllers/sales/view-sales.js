@@ -10,7 +10,7 @@ const viewSales =async(req,res,next)=>{
       console.log(branch_id);
       if (mSales&&mSales.length>0) {
         const filterSale = mSales.filter(branch_sale=>branch_sale.branch==branch_id)
-        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:filterSale,res})  
+        httpResponse({status_code:200,response_message:'Sales successfully fetched', data:filterSale.reverse(),res})  
         return;
       }  
       const e = new HttpError(404, "You have not made any sales");
