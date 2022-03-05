@@ -9,23 +9,18 @@ const fieldValidation = joi.object({
 });
 
 const updateProducts =async(req,res,next)=>{
-    /***
-     * Update price, quantity
-     * 
-     * 
-     */
     try {
-      const {price,  product_barcode,product_name,supplier} = req.body;
+      const {price,  product_barcode,product_name,supplier,selling_price} = req.body;
       const {branch_id} = req.userData;
       const pValidation = await fieldValidation.validateAsync(req.params);
       const mproduct = await product.findProduct(pValidation.productId,branch_id);
       if (mproduct) {
         const data ={
           product_price:price,
+          selling_price,
           product_name,
           product_barcode,
-          supplier
-          
+          supplier 
         }  
 
         const updatedProduct = await product.updateProduct(pValidation.productId, data);
@@ -40,7 +35,7 @@ const updateProducts =async(req,res,next)=>{
         return next(err);
       }    
     } catch (error) {
-        joiError(error,next);
+      joiError(error,next);
     }
 }
 

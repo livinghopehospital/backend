@@ -2,16 +2,6 @@
 
 Things to be done
 
-👉Add purchase should be exactly like add sales (done)
+Expenses reporting
 
-👉Stores they login into should be automatically selected anytime they want to either add purchase sales or anywhere store is needed aside the reporting.(done)
-
-👉 Button to Edit, delete product should be added (done) //but not working yet
-
-👉 Add button to Edit store name also (done). //
-
-👉 Remove column for ID in product and others.
-
-👉In the Add sales: Add new form field called serial number, this field is optional and it should be submitted with each item(done);
-
-👉In Sales list,  sales Id should be removed Add button to delete sales
+Transfer to outlets

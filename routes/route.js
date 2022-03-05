@@ -55,12 +55,12 @@ router.get('/view-branch', listAllStores);
 router.post('/login',authValidation, loginStaff);
 router.post('/create-branch', createStore);
 /***Aunthenticated routes stops here */
-
+router.post('/register-staff',registerStaff);
 
 /***Protected routes below */
 
 router.use(verifyToken);
-router.post('/register-staff', isAdmin,registerStaff);
+// router.post('/register-staff', isAdmin,registerStaff);
 router.delete('/delete-branch/:id', deleteBranch);
 
 router.put('/update-branch/:id', editBranch);

@@ -8,6 +8,7 @@ const productFieldValidation = joi.object({
   product_name: joi.string().required(),
   product_price: joi.number().required(),
   product_barcode: '',
+  selling_price: '',
   product_brand: joi.string().required(),
   supplier: joi.string().required(),
 });
@@ -16,6 +17,7 @@ const productSchema = new mongoose.Schema({
   product_name: {type: String, required:true},
   product_price: {type:Number, required:true},
   product_barcode:{type:String},
+  selling_price:{type:String},
   current_product_quantity:{type:Number, default:0},
   previous_product_quantity: {type: Number, default:0},
   branch: {type: String}, 

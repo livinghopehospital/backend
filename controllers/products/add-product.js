@@ -10,6 +10,7 @@ const addProducts = async (req, res, next) => {
         const { branch_id } = req.userData;
         const { product_name,
             product_price,
+            selling_price,
             product_barcode,
             product_brand,
             supplier } = req.body
@@ -17,6 +18,7 @@ const addProducts = async (req, res, next) => {
             product_name,
             product_barcode,
             product_price,
+            selling_price,
             supplier,
             product_brand
         }
