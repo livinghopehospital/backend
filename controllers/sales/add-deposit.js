@@ -72,7 +72,7 @@ const addDeposit = async(req,res,next)=>{
             const addDeposit = Deposit.createDeposit(depositData);
             addDeposit.save().then((d)=>{
               returnArray[index] = {product_name: '', product_price: 0}
-              if (Object.keys(returnArray).length==mSales.length) {
+              if (Object.keys(returnArray).length==mDeposit.items.length) {
                 httpResponse({status_code:201, response_message:"Deposit successfully added",data:{},res});
               }
            

@@ -76,8 +76,7 @@ const addSales = async(req,res,next)=>{
                         const addNewSales = Sales.createSales(data);
                         addNewSales.save().then((savedProduct)=>{
                             returnArray[index] = {product_name: '', product_price: 0}
-                            console.log(Object.keys(returnArray).length);
-                            if (Object.keys(returnArray).length==mSales.length) {
+                            if (Object.keys(returnArray).length==mSales.items.length) {
                                 httpResponse({status_code:200, response_message:'Sales successfully added',data:savedProduct,res});
                             }
 
