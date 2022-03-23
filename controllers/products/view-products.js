@@ -11,7 +11,7 @@ const viewAllProducts = async(req,res,next)=>{
         const mProducts = await product.findProducts(branch_id);
         const branchProduct = mProducts.filter(p=>p.branch==branch_id);
         if (mProducts) {
-          const sortedProduct = branchProduct.sort((a,b)=>{
+          httpResponse({status_code:200,response_message:'Product fetched',data:branchProduct.sort((a,b)=>{
             const fa = a.product_name.toLowerCase()
            const  fb = b.product_name.toLowerCase();
            if (fa<fb) {
@@ -21,8 +21,7 @@ const viewAllProducts = async(req,res,next)=>{
            }else{
              return 0
            }
-         })
-          httpResponse({status_code:200,response_message:'Product fetched',data:sortedProduct,res}); 
+         }),res}); 
         }
     } catch (error) {
         const err = new HttpError(500, error.message);
