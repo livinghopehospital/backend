@@ -22,7 +22,7 @@ const viewAllProducts = async(req,res,next)=>{
              return 0
            }
          })
-          httpResponse({status_code:200,response_message:'Product fetched',data:{branchProduct:sortedProduct},res}); 
+          httpResponse({status_code:200,response_message:'Product fetched',data:sortedProduct,res}); 
         }
     } catch (error) {
         const err = new HttpError(500, error.message);
