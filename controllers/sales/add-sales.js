@@ -29,6 +29,7 @@ async function findProduct(barcode,id, branch_id){
 const addSales = async(req,res,next)=>{
     try {  
         const {branch_id} = req.userData;
+        let returnArray = [];
        const mSales = await salesFieldValidation.validateAsync(req.body); 
        const doesSalesExist =await Sales.findSingleSales(mSales.invoice_number,branch_id);
        if (doesSalesExist) {
