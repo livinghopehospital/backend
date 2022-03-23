@@ -6,6 +6,7 @@ const joi = require('joi');
 const depositFieldValidation = joi.object({
   invoice_number: joi.string().required(),
   customer_name:  joi.string().required(),
+  customer: joi.string(),
   items: joi.array().min(1).required(),
   total_amount: joi.number().required(),
   branch: joi.string().required(),
@@ -28,6 +29,7 @@ const depositSchema = new mongoose.Schema({
   selling_price:{type:String},
   payment_type:{type:String},
   cost_price: {type:Number},
+  customer: {type: mongoose.Types.ObjectId},
   branch: {type:String,required:true}, 
   created_at:{type:Date}  
 });
@@ -45,7 +47,10 @@ depositSchema.pre('save', function(done){
    console.log(balance);
    done()
 });
-
+depositSchema.statics.findIndividualCustomerDeposit = async function findIndividualCustomerDeposit(customer,branch){
+   const deposit = await Deposit.find({customer,branch});
+   return deposit;
+}
 depositSchema.statics.findDeposit = async function findDeposit(){
     const Deposits = await Deposit.find({});
     return Deposits;

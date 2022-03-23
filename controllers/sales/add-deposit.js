@@ -2,6 +2,7 @@ const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
 const { Deposit, depositFieldValidation } = require("../../model//Deposit/mydeposit");
+const { customerRecord } = require("../../model/customer/customer-txn-list");
 const { product } = require("../../model/products/products");
 
 
@@ -30,6 +31,7 @@ const addDeposit = async(req,res,next)=>{
     try {  
        const mDeposit = await depositFieldValidation.validateAsync(req.body); 
        const {branch_id} = req.userData;
+       let returnArray = [];
        for (let index = 0; index < mDeposit.items.length; index++) {
         const mproduct =await findProduct(mDeposit.items[index].barcode, mDeposit.items[index].product_id,branch_id);
         if (mDeposit.items[index].quantity <= mproduct.current_product_quantity) {
@@ -43,6 +45,7 @@ const addDeposit = async(req,res,next)=>{
                 invoice_number:mDeposit.items[index].invoice_number ,
                 amount_deposited: mDeposit.items[index].amount_deposited,
                 customer_name: mDeposit.customer_name,
+                customer_id: mDeposit.customer_id,
                 branch: mDeposit.branch,
                 total_amount:  mDeposit.items[index].amount,
                 payment_type: mDeposit.payment_type,
@@ -56,9 +59,23 @@ const addDeposit = async(req,res,next)=>{
                 quantity: mDeposit.items[index].quantity,
                 selling_price: mDeposit.items[index].selling_price
               }
+              if (mSales.customer_id) {
+                const existingRecord = await customerRecord.findRecord(mDeposit.customer_id);
+                const {total_purchased,total_amount_paid}= existingRecord;
+                const data ={
+                 total_amount_paid: total_amount_paid +  Number(mDeposit.items[index].amount_deposited) ,
+                 total_purchased: total_purchased + Number(mDeposit.items[index].amount),
+                 net_balance: total_purchased - total_amount_paid
+                }
+              await customerRecord.updateRecord(mSales.customer_id,data)
+            }
             const addDeposit = Deposit.createDeposit(depositData);
             addDeposit.save().then((d)=>{
-            httpResponse({status_code:201, response_message:"Deposit successfully added",data:{},res});
+              returnArray[index] = {product_name: '', product_price: 0}
+              if (Object.keys(returnArray).length==mSales.length) {
+                httpResponse({status_code:201, response_message:"Deposit successfully added",data:{},res});
+              }
+           
             }).catch((err)=>{
                 console.log(err);
                 const e = new HttpError(500, err.message);

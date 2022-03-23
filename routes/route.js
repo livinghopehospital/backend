@@ -10,6 +10,11 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
+const { addNewCustomer } = require('../controllers/customers/add-customers');
+const { viewTransactionHistory, viewCustomerPurchased, viewCustomerDeposit } = require('../controllers/customers/customer-txn');
+const { deleteCustomers } = require('../controllers/customers/delete-customer');
+const { updateCustomers } = require('../controllers/customers/update-customer');
+const { viewAllCustomers } = require('../controllers/customers/view-customers');
 const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
 const { addExpenses } = require('../controllers/Expenses/add-expenses');
 const { EditExpenses, deleteExpenses } = require('../controllers/Expenses/manage_expenses');
@@ -58,6 +63,7 @@ router.post('/create-branch', createStore);
 router.post('/register-staff',registerStaff);
 
 /***Protected routes below */
+
 
 router.use(verifyToken);
 // router.post('/register-staff', isAdmin,registerStaff);
@@ -137,7 +143,16 @@ router.get('/view-expenses-categories', viewCategory);
 router.put('/update-expenses/:id',isAdmin,EditExpenses);
 router.delete('/delete-expenses/:id', isAdmin,deleteExpenses);
 
+/***customer and individual transaction management */
 
+router.post('/add-customer', addNewCustomer);
+router.get('/view-customer-history/:customerId', viewTransactionHistory)
+router.get('/view-customer-purchased/:customerId', viewCustomerPurchased);
+router.get('/view-customer-deposit/:customerId', viewCustomerDeposit);
+router.get('/view-all-customers', viewAllCustomers);
+router.put('/update-customer/:customerId', updateCustomers);
+router.delete('/delete-customer/:customerId', deleteCustomers)
+/*****END ***/
 /****DEPOSITS ROUTE */
 // router.post('/add-deposits', addDeposit);
 // router.get('/view-deposits', viewDeposit);

@@ -5,6 +5,7 @@
 const { HttpError } = require("../../middlewares/errors/http-error");
 const joiError = require("../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../middlewares/http/http-response");
+const { customerRecord } = require("../../model/customer/customer-txn-list");
 const { product } = require("../../model/products/products");
 const { salesFieldValidation, Sales, } = require("../../model/sales/sales");
 
@@ -48,6 +49,7 @@ const addSales = async(req,res,next)=>{
                             invoice_number:mSales.items[index].invoice_number,
                             created_at: `${mSales.items[index].created_at}Z`,
                             payment_type:mSales.payment_type,
+                            customer_id: mSales.customer_id,
                             branch: mSales.branch, //add at backend
                             product_id: mSales.items[index].product_id,
                             cost_price: mproduct.product_price,
@@ -60,9 +62,23 @@ const addSales = async(req,res,next)=>{
                             amount: mSales.items[index].amount,
                             serial_number: mSales.items[index].serial_number
                         }
+                        if (mSales.customer_id) {
+                            const existingRecord = await customerRecord.findRecord(mSales.customer_id);
+                            const {total_purchased,total_amount_paid}= existingRecord;
+                            const data ={
+                             total_amount_paid: total_amount_paid + Number(mSales.items[index].amount),
+                             total_purchased: total_purchased + Number(mSales.items[index].amount),
+                             net_balance: total_purchased - total_amount_paid
+                            }
+                          await customerRecord.updateRecord(mSales.customer_id,data)
+                        }
                         const addNewSales = Sales.createSales(data);
                         addNewSales.save().then((savedProduct)=>{
-                         httpResponse({status_code:200, response_message:'Sales successfully added',data:savedProduct,res});
+                            returnArray[index] = {product_name: '', product_price: 0}
+                            if (Object.keys(returnArray).length==mSales.length) {
+                                httpResponse({status_code:200, response_message:'Sales successfully added',data:savedProduct,res});
+                            }
+
                         })
                        }else{
                         const e = new HttpError(400, "Out of stock");

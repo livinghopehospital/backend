@@ -8,6 +8,7 @@ const salesFieldValidation = joi.object({
   items: joi.array().min(1).required(),
   total_amount: joi.number().required(),
   branch: joi.string().required(),
+  customer: joi.string(),
   payment_type: joi.string().required(),
   created_at: joi.date().required()
 });
@@ -27,6 +28,7 @@ const salesSchema = new mongoose.Schema({
    amount: {type: String},
    quantity: {type: String},
    created_at:{type:Date},
+   customer_id: {type: mongoose.Types.ObjectId},
    serial_number: {type:String}
 })
 
@@ -38,6 +40,11 @@ salesSchema.statics.createSales = function createSales(sales){
 salesSchema.statics.findSales = async function findsales(){
     const sales = await Sales.find({});
     return sales;
+}
+
+salesSchema.statics.findIndividualCustomerSales = async function findsales(customer_id,branch){
+  const sales = await Sales.find({customer_id,branch});
+  return sales;
 }
 
 salesSchema.statics.findSingleSales = async function findSingleSales(invoice_number,branch){
