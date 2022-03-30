@@ -29,7 +29,7 @@ const depositSchema = new mongoose.Schema({
   selling_price:{type:String},
   payment_type:{type:String},
   cost_price: {type:Number},
-  customer: {type: mongoose.Types.ObjectId},
+  customer_id: {type: mongoose.Types.ObjectId},
   branch: {type:String,required:true}, 
   created_at:{type:Date}  
 });
@@ -47,8 +47,8 @@ depositSchema.pre('save', function(done){
    console.log(balance);
    done()
 });
-depositSchema.statics.findIndividualCustomerDeposit = async function findIndividualCustomerDeposit(customer,branch){
-   const deposit = await Deposit.find({customer,branch});
+depositSchema.statics.findIndividualCustomerDeposit = async function findIndividualCustomerDeposit(customer_id,branch){
+   const deposit = await Deposit.find({customer_id,branch});
    return deposit;
 }
 depositSchema.statics.findDeposit = async function findDeposit(){

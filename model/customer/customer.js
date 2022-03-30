@@ -44,6 +44,11 @@ newCustomerSchema.statics.updateCustomer = async function updateCustomer(data, i
     return updatedCustomer;
 }
 
+newCustomerSchema.statics.deleteCustomer = async function deleteCustomer(id) {
+    const deletedCustomer = await Customer.findOneAndDelete({_id:id});
+    return deletedCustomer;
+}
+
 
 const Customer = mongoose.model('customer', newCustomerSchema);
 

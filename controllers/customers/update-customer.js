@@ -18,7 +18,7 @@ const updateCustomers = async function updateCustomer(req, res, next) {
             last_name,
             phone_number,
             email,
-            address,
+            address
         }
         const updatedCustomer = await Customer.updateCustomer(data, customerId);
         if (updatedCustomer) {

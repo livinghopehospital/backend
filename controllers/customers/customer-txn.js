@@ -14,11 +14,12 @@ const viewTransactionHistory = async function viewCustomerTransactionHistory(req
 
     try {
         const {customerId} = req.params
+        const {branch_id} = req.userData;
         if (!customerId) {
             const e = new HttpError(400, 'Please provide customerId');
             return next(e);
         }
-        const history =await customerRecord.viewCustomerHistory(customerId);
+        const history =await customerRecord.viewCustomerHistory(customerId,branch_id);
         httpResponse({status_code:200, response_message:'Transaction history available',data:{history}, res});
     } catch (error) {
         console.log(error);

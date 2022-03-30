@@ -59,7 +59,7 @@ const addDeposit = async(req,res,next)=>{
                 quantity: mDeposit.items[index].quantity,
                 selling_price: mDeposit.items[index].selling_price
               }
-              if (mSales.customer_id) {
+              if (mDeposit.customer_id) {
                 const existingRecord = await customerRecord.findRecord(mDeposit.customer_id);
                 const {total_purchased,total_amount_paid}= existingRecord;
                 const data ={
@@ -67,7 +67,7 @@ const addDeposit = async(req,res,next)=>{
                  total_purchased: total_purchased + Number(mDeposit.items[index].amount),
                  net_balance: total_purchased - total_amount_paid
                 }
-              await customerRecord.updateRecord(mSales.customer_id,data)
+              await customerRecord.updateRecord(mDeposit.customer_id,data)
             }
             const addDeposit = Deposit.createDeposit(depositData);
             addDeposit.save().then((d)=>{
