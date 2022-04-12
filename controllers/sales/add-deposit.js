@@ -34,6 +34,10 @@ const addDeposit = async(req,res,next)=>{
        let returnArray = [];
        for (let index = 0; index < mDeposit.items.length; index++) {
         const mproduct =await findProduct(mDeposit.items[index].barcode, mDeposit.items[index].product_id,branch_id);
+        if (!mproduct) {
+          const e = new HttpError(500, 'No product is found for the barcode or Id provided');
+          return next(e);
+        }
         if (mDeposit.items[index].quantity <= mproduct.current_product_quantity) {
             const datas = {
                 current_product_quantity: mproduct.current_product_quantity -Number(mDeposit.items[index].quantity),
