@@ -6,7 +6,7 @@ const joi = require('joi');
 const depositFieldValidation = joi.object({
   invoice_number: joi.string().required(),
   customer_name:  joi.string().required(),
-  customer_id: joi.string(),
+  // customer_id: joi.string(),
   items: joi.array().min(1).required(),
   total_amount: joi.number().required(),
   branch: joi.string().required(),
