@@ -32,8 +32,8 @@ const updatemountPaid = async (req, res, next) => {
         const data ={
             customer_name,
             created_at,
-            amount_deposited: previousDeposit.amount_deposited + price,
-            amount_to_balance: previousDeposit.amount_to_balance - price,
+            amount_deposited:Number( previousDeposit.amount_deposited) + Number(price),
+            amount_to_balance: Number(previousDeposit.amount_to_balance) - Number(price),
             
         }
         const updatedDeposit =await Deposit.updateDeposit(id, data);
