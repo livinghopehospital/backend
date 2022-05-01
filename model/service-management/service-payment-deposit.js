@@ -50,7 +50,7 @@ servicePaymentDepositSchema.statics.addPayment = function addPayment(paymentDeta
 }
 
 
-servicePaymentDepositSchema.statics.fetchDeposit = function fetchDeposit(branch){
+servicePaymentDepositSchema.statics.fetchDeposit = async function fetchDeposit(branch){
     const deposit = await servicePaymentDeposit.find({branch});
     return deposit;
 }
