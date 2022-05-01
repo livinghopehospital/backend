@@ -27,7 +27,7 @@ const verifyToken=(req,res,next)=>{
   req.userData = decoded;
     next();
    } catch (error) {
-       httpResponse({status_code:401,response_message:"Unathorized, invalid token provided", body:{}, res});
+       httpResponse({status_code:401,response_message:"Please log in or provide a valid token", body:{}, res});
    }
 }
 

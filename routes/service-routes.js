@@ -32,10 +32,12 @@ const {
 const {
   updateService,
 } = require("../controllers/Services-management/service/update-service");
+const { verifyToken } = require("../middlewares/Authorization/jwt");
 
 const router = express.Router();
 
 // All about service categories
+router.use(verifyToken);
 router.post("/add-service-categories", addServiceCategories);
 router.get("/fetch-all-categories", fetchAllCategories);
 router.delete("/delete-a-category/:categoryId", deleteCategories);
