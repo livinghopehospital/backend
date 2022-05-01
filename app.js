@@ -6,6 +6,7 @@ const { databaseAuthentication } = require('./config/database');
 
 const cors = require('cors');
 const storeRouter = require('./routes/route');
+const serviceRouter = require('./routes/service-routes');
 
 app.use(express.json());
 app.use(cors());
@@ -17,6 +18,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/v1/',storeRouter);
+app.use('/api/service/v1/', serviceRouter);
+
 
 
 
@@ -36,7 +39,7 @@ app.use((req,res,next)=>{
 
 databaseAuthentication().then(()=>{
     app.listen(process.env.PORT || 6000, ()=>{
-        console.log('Inventory system server started.');
+        console.log('Inventory system server started 6000.');
     });
 });
 
