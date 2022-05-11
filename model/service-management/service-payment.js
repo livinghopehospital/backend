@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const servicePaymentSchema = new mongoose.Schema({
     amount_paid: {type:Number, required:true},
     service_name: {type:String, required:true},
+    invoice_number:{type:String, required:true},
     branch: {type:String, required:true},
     service_categories: {type:String, required:true},
     customer_name: {type:String, required:true},

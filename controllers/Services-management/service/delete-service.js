@@ -5,7 +5,7 @@ const servicesRendered = require("../../../model/service/service");
 const deleteService = async function deleteService(req, res, next) {
   try {
     const { serviceId } = req.params;
-    if (serviceId) {
+    if (!serviceId) {
       new HttpError(400, "Please supply serviceId in your params");
     }
     const service = await servicesRendered.deleteService(serviceId);

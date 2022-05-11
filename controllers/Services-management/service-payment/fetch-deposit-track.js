@@ -10,7 +10,7 @@ const val = joi.object({
 
 const fetchDepositTrack = async  function fetchDepositTrack(req,res,next){
     try {
-        const body = await val.validateAsync(req.body);
+        const body = await val.validateAsync(req.query);
         const {branch_id} = req.userData;
       const track = await   serviceDepositTrack.fetchDepositTrack(body.customer_name, branch_id);
       if (track) {

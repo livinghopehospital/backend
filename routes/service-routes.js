@@ -46,8 +46,8 @@ router.put("/update-category/:categoryId", editServiceCategories);
 // All about service rendered.
 router.post("/add-service", addServices);
 router.get("/fetch-services", findServices);
-router.delete("/delete-service", deleteService);
-router.put("/update-service", updateService);
+router.delete("/delete-service/:serviceId", deleteService);
+router.put("/update-service/:serviceId", updateService);
 
 
 /****payment and deposits */
@@ -55,9 +55,9 @@ router.put("/update-service", updateService);
 router.post('/add-payment', addServicePayment);
 
 router.get('/add-deposit', addDeposit)
-router.put('/update-deposit-payment', updateDepositPayemt);
+router.put('/update-deposit-payment?', updateDepositPayemt);
 router.get('/fetch-deposit', fetchDeposit);
-router.get('/fetch-deposit-track', fetchDepositTrack);
+router.get('/fetch-deposit-track?', fetchDepositTrack);
 
 
 
