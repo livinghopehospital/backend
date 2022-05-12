@@ -7,7 +7,9 @@ const { servicePayment } = require("../../../model/service-management/service-pa
 const val  = joi.object({
     service: joi.array().min(1),
     invoice_number: joi.string().required(),
-    created_at: joi.date().required()
+    created_at: joi.date().required(),
+    payment_type: joi.string(),
+    total_amount: joi.string(),
 })
 
 
@@ -17,7 +19,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
         const body = await val.validateAsync(req.body);
         let returnArray = [];
         const {branch_id} = req.userData;
-        const {service, created_at, invoice_number} = body;
+        const {service, created_at, invoice_number, payment_type, total_amount} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
                 amount_paid: service[index].amount_paid,
@@ -25,6 +27,8 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 service_categories: service[index].service_categories,
                 created_at,
                 invoice_number,
+                payment_type,
+                total_amount,
                 branch: branch_id
             }
          const newPayment = servicePayment.addPayment(bodyParams);
