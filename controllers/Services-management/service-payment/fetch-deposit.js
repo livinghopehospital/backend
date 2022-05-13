@@ -11,8 +11,14 @@ const fetchDeposit = async function fetchDeposit(req,res,next){
         const {branch_id} = req.userData;
         const serviceDeposit  = await servicePaymentDeposit.fetchDeposit(branch_id);
         if (serviceDeposit) {
-     const serviceName = await servicesRendered.findOne({service_name:serviceDeposit.service_name})
-      httpResponse({status_code:200, response_message:'Deposit records', data:{...serviceDeposit, serviceName}, res});
+     const serviceName = await servicesRendered.findOne({_id:serviceDeposit.service_name})
+     const data = [
+         {
+             ...serviceDeposit,
+            service_name: serviceName.service_name
+         }
+     ]
+      httpResponse({status_code:200, response_message:'Deposit records', data:data, res});
         }
     } catch (error) {
         joiError(error,next)
