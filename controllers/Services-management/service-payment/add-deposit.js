@@ -7,7 +7,7 @@ const joi = require('joi');
 const val  = joi.object({
     service: joi.array().min(1),
     customer_name: joi.string().uppercase(),
-    payment_type: joi.string(),
+    payment_type: joi.string().required(),
     invoice_number: joi.string().required(),
     created_at: joi.date().required()
 })

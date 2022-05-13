@@ -16,6 +16,7 @@ const servicePaymentDepositSchema = new mongoose.Schema({
 
 const servicePaymentDepositTrackSchema = new mongoose.Schema({
     amount_paid: {type:Number, required:true},
+    payment_type: {type:String},
     amount_to_pay: {type:Number, required:true},
     amount_to_balance: {type:Number,required:true},
     service_name: {type:String, required:true},
