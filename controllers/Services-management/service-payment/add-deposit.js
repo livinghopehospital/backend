@@ -17,6 +17,7 @@ const addDeposit = async function addDeposit(req,res,next){
     try {
         const body = await val.validateAsync(req.body);
         let returnArray = [];
+        const {branch_id} = req.userData;
         const {service, created_at, invoice_number, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
