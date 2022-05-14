@@ -16,6 +16,7 @@ const fetchDeposit = async function fetchDeposit(req,res,next){
             for (let index = 0; index < serviceDeposit.length; index++) {
                 const serviceName = await servicesRendered.findOne({_id:serviceDeposit[index].service_name})
                 const bodyParams = {
+                    _id:  serviceDeposit[index]._id,
                     amount_paid: serviceDeposit[index].amount_paid,
                     amount_to_pay: serviceDeposit[index].amount_to_pay,
                     amount_to_balance: serviceDeposit[index].amount_to_balance,
