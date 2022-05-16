@@ -33,7 +33,7 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
     }
 }
 
-const fetchAllPayment = async function fetchAllPayment(){
+const fetchAllPayment = async function fetchAllPayment(req,res,next){
     try {
         const {from, to} = req.query;
         const {branch_id} = req.userData;

@@ -62,22 +62,26 @@ const updateDepositPayemt = async function updateDepositPayemt(req,res,next){
         return next(new HttpError(400, 'Please provide amount this customer want to pay'));  
         }
         const data = {
-            $inc: { amount_to_balance: -amount},
-            $inc: { amount_paid: +amount}
+            $inc: { amount_to_balance: -amount, amount_paid: +amount},
+          
         }
         const updatePayment = await servicePaymentDeposit.updateServiceDeposit(depositId, data);
 
         if (updatePayment) {
+            const {_id, ...other} = updatePayment._doc;
+           
             const depositParams = {
-                ...updatePayment
+                ...other,
+                amount_paid_today: amount
             }
-            const depositTrack = serviceDepositTrack.createDepositTrack(depositParams);
+            const depositTrack =await serviceDepositTrack.createDepositTrack(depositParams);
             /****Move this payment to sales once this customer has successfully paid all the money */
             httpResponse({status_code:200, response_message:'Deposit payment successfully added', data:{updatePayment}, res});
         }else{
             return next(new HttpError(500, 'Deposit payment not updated. Please contact support if persists'));   
         }
     } catch (error) {
+        console.log(error);
       return next(new HttpError(500, 'Internal server error. Please contact support if persists'));   
     }
 }

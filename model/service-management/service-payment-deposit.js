@@ -17,14 +17,17 @@ const servicePaymentDepositSchema = new mongoose.Schema({
 const servicePaymentDepositTrackSchema = new mongoose.Schema({
     amount_paid: {type:Number, required:true},
     payment_type: {type:String},
+    amount_paid_today: {type:Number},
     amount_to_pay: {type:Number, required:true},
     amount_to_balance: {type:Number,required:true},
     service_name: {type:String, required:true},
     branch: {type:String, required:true},
     service_categories: {type:String, required:true},
     customer_name: {type:String, required:true},
-    created_at:{type:Date},
+  
     
+},{
+    timestamps:true
 });
 
 
@@ -56,7 +59,8 @@ servicePaymentDepositSchema.statics.fetchDeposit = async function fetchDeposit(b
     return deposit;
 }
 
-servicePaymentDepositSchema.statics.updateServiceDeposit = async function updateDepositPayemt(){
+servicePaymentDepositSchema.statics.updateServiceDeposit = async function updateDepositPayemt(depositId,data){
+    console.log(data);
     const updateDeposit = await servicePaymentDeposit.findOneAndUpdate({_id:depositId}, data, {new:true});
     return updateDeposit
 }
