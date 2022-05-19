@@ -36,6 +36,7 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
 const fetchAllPayment = async function fetchAllPayment(req,res,next){
     try {
         const {from, to} = req.query;
+        console.log(from, to);
         const {branch_id} = req.userData;
         if (!from||!to) {
          const e  = new HttpError(400, "from and to are required paramaters");
