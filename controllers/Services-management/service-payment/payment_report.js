@@ -41,7 +41,7 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
          const e  = new HttpError(400, "from and to are required paramaters");
            return next(e);
         }
-        const FILTEREDRESULTS =await  Sales.aggregate([
+        const FILTEREDRESULTS =await  servicePayment.aggregate([
           { "$match": {
             "$and": [
               { "created_at": { "$gte": from, "$lte": to }},
