@@ -9,7 +9,6 @@ const val  = joi.object({
     service: joi.array().min(1),
     invoice_number: joi.string().required(),
     created_at: joi.date().required(),
-    customer_name: joi.string(),
     payment_type: joi.string(),
     total_amount: joi.string(),
 })

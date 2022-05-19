@@ -9,7 +9,7 @@ const servicePaymentSchema = new mongoose.Schema({
     payment_type:{type:String},
     branch: {type:String, required:true},
     service_categories: {type:String, required:true},
-    customer_name: {type:String, required:true},
+    customer_name: {type:String},
     created_at:{type:Date, required:true},
  
 });
