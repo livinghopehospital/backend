@@ -28,7 +28,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
             const bodyParams = {
                 amount_paid: service[index].amount_paid,
                 service_name: service[index].service_name,
-                service_categories: service[index].service_categories,
+                service_categories: service[index].service_category,
                 created_at: `${created_at}Z`,
                 invoice_number,
                 customer_name,
