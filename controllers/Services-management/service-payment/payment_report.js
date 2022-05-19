@@ -42,13 +42,13 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
            return next(e);
         }
         const FILTEREDRESULTS =await  servicePayment.aggregate([
-            { "$match": {
-              "$and": [
-                { "created_at": { "$gte": from, "$lte": to }},
+          { "$match": {
+            "$and": [
+              { "created_at": { "$gte": from, "$lte": to }},
 
-              ]
-            }}
-          ]);
+            ]
+          }}
+        ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
             const branchReport = FILTEREDRESULTS.filter(item=>item.branch==branch_id);
           httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
