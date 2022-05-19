@@ -53,7 +53,6 @@ router.put("/update-service/:serviceId", updateService);
 /****payment and deposits */
 
 router.post('/add-payment', addServicePayment);
-
 router.post('/add-deposit', addDeposit)
 router.put('/update-deposit-payment?', updateDepositPayemt);
 router.get('/fetch-deposit', fetchDeposit);
