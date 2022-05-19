@@ -44,7 +44,7 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
         const FILTEREDRESULTS =await  servicePayment.aggregate([
           { "$match": {
             "$and": [
-              { "created_at": { "$gte": from, "$lte": to }},
+              { "created_at": { "$gte": from }},
 
             ]
           }}
