@@ -35,7 +35,7 @@ const {
 const { verifyToken } = require("../middlewares/Authorization/jwt");
 
 const router = express.Router();
-
+router.get('/payment-report?', fetchAllPayment);
 // All about service categories
 router.use(verifyToken);
 router.post("/add-service-categories", addServiceCategories);
@@ -62,7 +62,7 @@ router.get('/fetch-deposit-track?', fetchDepositTrack);
 
 /****Report fetch all payment  */
 
-router.get('/payment-report?', fetchAllPayment);
+
 router.get('/fetch-payment-by-categories?', fetchPaymentByServiceCategories);
 router.get('/deposit-report?', fetchAllDeposit)
 router.get('/deposit-report-by-categories?', fetchDepositByCategories);
