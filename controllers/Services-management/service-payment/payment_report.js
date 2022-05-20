@@ -13,10 +13,7 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
         const {categories} = req.query;
         const body =   await ValidationObject.validateAsync(req.query);
         const {branch_id} = req.userData;
-        if (!from||!to) {
-         const e  = new HttpError(400, "from and to are required paramaters");
-           return next(e);
-        }
+    
         const FILTEREDRESULTS =await  servicePayment.aggregate([
             { "$match": {
               "$and": [
@@ -77,10 +74,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
       const {categories} = req.query;
       const body =   await ValidationObject.validateAsync(req.query);
       const {branch_id} = req.userData;
-      if (!from||!to) {
-       const e  = new HttpError(400, "from and to are required paramaters");
-         return next(e);
-      }
+    
       const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
@@ -105,10 +99,7 @@ const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
     try {
       const body =   await ValidationObject.validateAsync(req.query);
       const {branch_id} = req.userData;
-      if (!from||!to) {
-       const e  = new HttpError(400, "from and to are required paramaters");
-         return next(e);
-      }
+    
       const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
