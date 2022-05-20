@@ -35,14 +35,14 @@ const {
 const { verifyToken } = require("../middlewares/Authorization/jwt");
 
 const router = express.Router();
-router.get('/payment-report?', fetchAllPayment);
+
 // All about service categories
 router.use(verifyToken);
 router.post("/add-service-categories", addServiceCategories);
 router.get("/fetch-all-categories", fetchAllCategories);
 router.delete("/delete-a-category/:categoryId", deleteCategories);
 router.put("/update-category/:categoryId", editServiceCategories);
-
+router.get('/payment-report?', fetchAllPayment);
 // All about service rendered.
 router.post("/add-service", addServices);
 router.get("/fetch-services", findServices);
