@@ -10,17 +10,16 @@ const ValidationObject = joi.object({
 });
 const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCategories(req,res,next){
     try {
-        const {categories} = req.query;
-        const body =   await ValidationObject.validateAsync(req.query);
+        const {categories,from, to} = req.query;
         const {branch_id} = req.userData;
         if (!from||!to) {
          const e  = new HttpError(400, "from and to are required paramaters");
            return next(e);
         }
-        const FILTEREDRESULTS =await  servicePayment.aggregate([
+        const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
             { "$match": {
               "$and": [
-                { "created_at": { "$gte": body.from, "$lte": body.to }},
+                { "created_at": { "$gte": from, "$lte": to }},
 
               ]
             }}
@@ -47,7 +46,7 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
     try {
         const body =   await ValidationObject.validateAsync(req.query);
         const {branch_id} = req.userData;
-        const FILTEREDRESULTS =await  servicePayment.aggregate([
+        const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
               { "created_at": { "$gte": body.from, "$lte":body.to }},
@@ -74,8 +73,7 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
 
 const fetchDepositByCategories = async function fetchDepositByCategories(req,res,next){
     try {
-      const {categories} = req.query;
-      const body =   await ValidationObject.validateAsync(req.query);
+      const {categories,from, to} = req.query;
       const {branch_id} = req.userData;
       if (!from||!to) {
        const e  = new HttpError(400, "from and to are required paramaters");
@@ -84,7 +82,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
       const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
-              { "created_at": { "$gte": body.from, "$lte": body.to }},
+              { "created_at": { "$gte": from, "$lte": to }},
 
             ]
           }}
@@ -103,7 +101,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
 
 const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
     try {
-      const body =   await ValidationObject.validateAsync(req.query);
+      const {from, to} = req.query;
       const {branch_id} = req.userData;
       if (!from||!to) {
        const e  = new HttpError(400, "from and to are required paramaters");
@@ -112,7 +110,7 @@ const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
       const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
-              { "created_at": { "$gte": body.from, "$lte": body.to }},
+              { "created_at": { "$gte": from, "$lte": to }},
 
             ]
           }}
@@ -126,7 +124,6 @@ const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
         }
     } catch (error) {
         
-      joiError(error, next);
     }
 }
 module.exports={
