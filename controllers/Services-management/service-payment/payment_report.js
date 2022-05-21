@@ -23,16 +23,14 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.bracn==branch_id);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.branch==branch_id);
           httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
               return next(e);
           }
     } catch (error) {
-        console.log(error);
-        const e = new HttpError(500, "An error occured when making the request");
-        return next(e);  
+      joiError(error, next); 
     }
 }
 
@@ -84,14 +82,14 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
           }}
         ]);
         if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-          const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.bracn==branch_id);
+          const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.branch==branch_id);
         httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
         }else{
             const e = new HttpError(404, "No record found within this range of date");
             return next(e);
         }
     } catch (error) {
-        
+      joiError(error, next);
     }
 }
 
