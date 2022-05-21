@@ -10,7 +10,12 @@ const ValidationObject = joi.object({
 });
 const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCategories(req,res,next){
     try {
-        const {categories} = req.query;
+        
+        const ValidationObject = joi.object({
+          from: joi.date(),
+          to: joi.date(),
+          categories: joi.string(),
+        });
         const body =   await ValidationObject.validateAsync(req.query);
         const {branch_id} = req.userData;
     
@@ -23,7 +28,7 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.branch==branch_id);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.categories==body.categories&&item.branch==branch_id);
           httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
@@ -69,10 +74,14 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
 
 const fetchDepositByCategories = async function fetchDepositByCategories(req,res,next){
     try {
-      const {categories} = req.query;
+      const ValidationObject = joi.object({
+        from: joi.date(),
+        to: joi.date(),
+        categories: joi.string(),
+      });
       const body =   await ValidationObject.validateAsync(req.query);
       const {branch_id} = req.userData;
-    
+  
       const FILTEREDRESULTS =await  servicePaymentDeposit.aggregate([
           { "$match": {
             "$and": [
@@ -82,7 +91,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
           }}
         ]);
         if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-          const branchReport = FILTEREDRESULTS.filter(item=>item.categories==categories&&item.branch==branch_id);
+          const branchReport = FILTEREDRESULTS.filter(item=>item.categories==body.categories&&item.branch==branch_id);
         httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
         }else{
             const e = new HttpError(404, "No record found within this range of date");
