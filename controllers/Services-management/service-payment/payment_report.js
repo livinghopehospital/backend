@@ -42,7 +42,7 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
              const {service_categories,...others} = report;
              return {...others, service_categories : categoryName.categories_name,}
            })
-           httpResponse({status_code:200, response_message:'Payment record available under this category', data:{branchReport:data}, res}); 
+           httpResponse({status_code:200, response_message:'Payment record available under this category', data:data, res}); 
             }else{
               const e = new HttpError(404, "No record found within the categories selected");
               return next(e);
@@ -85,7 +85,7 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
             
           
 
-          httpResponse({status_code:200, response_message:'Sales record available', data:{branchReport:data}, res});
+          httpResponse({status_code:200, response_message:'Sales record available', data:data, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
               return next(e);
@@ -159,7 +159,7 @@ const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
             const {service_categories,...others} = report;
               return {...others, service_name : service.service_name,}
             }))
-        httpResponse({status_code:200, response_message:'Service payment record available', data:{branchReport:data}, res});
+        httpResponse({status_code:200, response_message:'Service payment record available', data:data, res});
         }else{
             const e = new HttpError(404, "No record found within this range of date");
             return next(e);
