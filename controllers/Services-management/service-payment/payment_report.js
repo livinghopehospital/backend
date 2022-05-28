@@ -4,32 +4,50 @@ const { servicePaymentDeposit } = require("../../../model/service-management/ser
 const joi = require("joi");
 const joiError = require("../../../middlewares/errors/joi-error");
 const { httpResponse } = require("../../../middlewares/http/http-response");
+const serviceCategory = require("../../../model/service-management/service-categories");
+const servicesRendered = require("../../../model/service/service");
 const ValidationObject = joi.object({
   from: joi.date(),
   to: joi.date()
 });
+
+// 62756660922911504ee30155
 const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCategories(req,res,next){
     try {
         
         const ValidationObject = joi.object({
           from: joi.date(),
           to: joi.date(),
-          categories: joi.string(),
+          categories: joi.string().required(),
         });
         const body =   await ValidationObject.validateAsync(req.query);
         const {branch_id} = req.userData;
-    
+        // console.log(body);
         const FILTEREDRESULTS =await  servicePayment.aggregate([
             { "$match": {
               "$and": [
+                
                 { "created_at": { "$gte": body.from, "$lte": body.to }},
 
               ]
             }}
           ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            const branchReport = FILTEREDRESULTS.filter(item=>item.categories==body.categories&&item.branch==branch_id);
-          httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
+            // console.log(FILTEREDRESULTS, branch_id);
+            const branchReport = FILTEREDRESULTS.filter(item=>item.service_categories==body.categories&&item.branch==branch_id);
+            if (branchReport.length>0) {
+            
+           const categoryName = await serviceCategory.findOne({_id:body.categories}) 
+           const data = branchReport.map((report)=>{
+             const {service_categories,...others} = report;
+             return {...others, service_categories : categoryName.categories_name,}
+           })
+           httpResponse({status_code:200, response_message:'Payment record available under this category', data:{branchReport:data}, res}); 
+            }else{
+              const e = new HttpError(404, "No record found within the categories selected");
+              return next(e);
+            }
+          
           }else{
               const e = new HttpError(404, "No record found within this range of date");
               return next(e);
@@ -91,8 +109,18 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
           }}
         ]);
         if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-          const branchReport = FILTEREDRESULTS.filter(item=>item.categories==body.categories&&item.branch==branch_id);
-        httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
+          const branchReport = FILTEREDRESULTS.filter(item=>item.service_categories==body.categories&&item.branch==branch_id);
+          if (branchReport.length>0) {
+         const categoryName = await serviceCategory.findOne({_id:body.categories}) 
+         const data = branchReport.map((report)=>{
+           const {service_categories,...others} = report;
+           return {...others, service_categories : categoryName.categories_name,}
+         })
+         httpResponse({status_code:200, response_message:'Deposit record available under this category', data:{branchReport:data}, res}); 
+          }else{
+            const e = new HttpError(404, "No record found within the categories selected");
+            return next(e);
+          }
         }else{
             const e = new HttpError(404, "No record found within this range of date");
             return next(e);
