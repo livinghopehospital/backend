@@ -74,9 +74,18 @@ const fetchAllPayment = async function fetchAllPayment(req,res,next){
           }}
         ]);
           if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-            console.log(FILTEREDRESULTS);
+            
             const branchReport = FILTEREDRESULTS.filter(item=>item.branch==branch_id);
-          httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
+            const data = await Promise.all(  branchReport.map(async(report)=>{
+              const service =await  servicesRendered.findOne({_id: report.service_name});
+              const {service_categories,...others} = report;
+                return {...others, service_name : service.service_name,}
+              }))
+            
+            
+          
+
+          httpResponse({status_code:200, response_message:'Sales record available', data:{branchReport:data}, res});
           }else{
               const e = new HttpError(404, "No record found within this range of date");
               return next(e);
@@ -144,8 +153,13 @@ const fetchAllDeposit= async function fetchAllDeposit(req,res,next){
           }}
         ]);
         if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
-          const branchReport = FILTEREDRESULTS.filter(item=>item.branch==branch_id);
-        httpResponse({status_code:200, response_message:'Sales record available', data:branchReport, res});
+          const branchReport = FILTEREDRESULTS.filter( item=>item.branch==branch_id);
+          const data = await Promise.all(  branchReport.map(async(report)=>{
+            const service =await  servicesRendered.findOne({_id: report.service_name});
+            const {service_categories,...others} = report;
+              return {...others, service_name : service.service_name,}
+            }))
+        httpResponse({status_code:200, response_message:'Service payment record available', data:{branchReport:data}, res});
         }else{
             const e = new HttpError(404, "No record found within this range of date");
             return next(e);
