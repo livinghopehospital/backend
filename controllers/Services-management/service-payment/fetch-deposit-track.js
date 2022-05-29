@@ -11,8 +11,10 @@ const val = joi.object({
 
 
 const fetchDepositTrack = async  function fetchDepositTrack(req,res,next){
+
     try {
         const body = await val.validateAsync(req.query);
+        console.log(body);
         const {branch_id} = req.userData;
       const track = await   serviceDepositTrack.fetchDepositTrack(body.customer_name, branch_id);
 
@@ -22,7 +24,7 @@ const fetchDepositTrack = async  function fetchDepositTrack(req,res,next){
             const {service_categories,...others} = report;
               return {...others, service_name : service.service_name,}
             }));
-        httpResponse({status_code:200, response_message:'Deposit track record available', data:data, res});
+        httpResponse({status_code:200, response_message:'Deposit track record available', data:track, res});
       }else{
           return next(new HttpError(404, 'Customer currently have not made any deposits'));
       }
