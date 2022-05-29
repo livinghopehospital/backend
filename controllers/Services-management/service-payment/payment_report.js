@@ -124,7 +124,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
          const data = branchReport.map((report)=>{
            const {service_categories,...others} = report;
            return {...others, service_categories : categoryName.categories_name,}
-         })
+         });
          httpResponse({status_code:200, response_message:'Deposit record available under this category', data:{branchReport:data}, res}); 
           }else{
             const e = new HttpError(404, "No record found within the categories selected");
