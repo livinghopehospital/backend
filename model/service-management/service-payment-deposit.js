@@ -40,8 +40,8 @@ servicePaymentDepositTrackSchema.statics.createDepositTrack = function createDep
 }
 
 servicePaymentDepositTrackSchema.statics.fetchDepositTrack = async function fetchDepositTrack(customer_name, branch){
-    /***Check how payment was made by this customer */
-        const track = await serviceDepositTrack.find({customer_name, branch});
+    /***Check how payment was made by this customer ***/
+        const track = await serviceDepositTrack.find({customer_name:customer_name, branch});
         return track;
 }
 
