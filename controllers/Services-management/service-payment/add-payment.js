@@ -6,6 +6,7 @@ const joiError = require("../../../middlewares/errors/joi-error");
 const { servicePayment } = require("../../../model/service-management/service-payment");
 const { httpResponse } = require("../../../middlewares/http/http-response");
 const servicesRendered = require("../../../model/service/service");
+const serviceCategory = require("../../../model/service-management/service-categories");
 const val  = joi.object({
     service: joi.array().min(1),
     invoice_number: joi.string().required(),
@@ -43,11 +44,12 @@ const addServicePayment = async function addServicePayment(req,res,next){
             
             returnArray[index] = {product_name: '', product_price: 0}
             if (Object.keys(returnArray).length==service.length) {
-                const data = await Promise.all(  newPayment.service.map(async(report)=>{
+                const data = await Promise.all(  depositTrack.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
-                    const {service_categories,...others} = report;
-                      return {...others, service_name : service.service_name,}
-                    }))
+                    const category =await  serviceCategory.findOne({_id: report.service_categories});
+                    const {service_name,service_categories,...others} = report._doc;
+                      return { service_categories: category.categories_name,service_name : service.service_name,...others}
+                    }));
               httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
             } 
          }
