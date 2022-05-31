@@ -49,6 +49,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
                     const {service_name,service_categories,...others} = report;
                       return { service_categories: category.categories_name,service_name : service.service_name,...others}
                     }));
+                    console.log(data);
               httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
             } 
          }
