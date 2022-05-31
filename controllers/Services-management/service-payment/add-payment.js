@@ -40,15 +40,15 @@ const addServicePayment = async function addServicePayment(req,res,next){
             }
          const newPayment = servicePayment.addPayment(bodyParams);
          if (newPayment) {
-             console.log(newPayment);
+            
             returnArray[index] = {product_name: '', product_price: 0}
             if (Object.keys(returnArray).length==service.length) {
-                // const data = await Promise.all(  branchReport.map(async(report)=>{
-                //     const service =await  servicesRendered.findOne({_id: report.service_name});
-                //     const {service_categories,...others} = report;
-                //       return {...others, service_name : service.service_name,}
-                //     }))
-              httpResponse({status_code:200, response_message:'Payment successfully added',data:newPayment,res});
+                const data = await Promise.all(  newPayment.service.map(async(report)=>{
+                    const service =await  servicesRendered.findOne({_id: report.service_name});
+                    const {service_categories,...others} = report;
+                      return {...others, service_name : service.service_name,}
+                    }))
+              httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
             } 
          }
          
