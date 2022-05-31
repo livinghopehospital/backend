@@ -41,10 +41,9 @@ const addServicePayment = async function addServicePayment(req,res,next){
             }
          const newPayment = servicePayment.addPayment(bodyParams);
          if (newPayment) {
-            
             returnArray[index] = {product_name: '', product_price: 0}
             if (Object.keys(returnArray).length==service.length) {
-                const data = await Promise.all(  depositTrack.map(async(report)=>{
+                const data = await Promise.all(  newPayment.service.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
                     const category =await  serviceCategory.findOne({_id: report.service_categories});
                     const {service_name,service_categories,...others} = report._doc;
