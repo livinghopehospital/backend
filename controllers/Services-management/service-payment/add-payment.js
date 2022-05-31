@@ -45,7 +45,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
             if (Object.keys(returnArray).length==service.length) {
                 const data = await Promise.all(  req.body.service.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
-                    const category =await  serviceCategory.findOne({_id: report.service_categories});
+                    const category =await  serviceCategory.findOne({_id: report.service_category});
                     const {service_name,service_categories,...others} = report;
                       return { service_categories: category.categories_name,service_name : service.service_name,...others}
                     }));
