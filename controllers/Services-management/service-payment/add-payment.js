@@ -46,7 +46,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 const data = await Promise.all(  req.body.service.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
                     const category =await  serviceCategory.findOne({_id: report.service_categories});
-                    const {service_name,service_categories,...others} = report._doc;
+                    const {service_name,service_categories,...others} = report;
                       return { service_categories: category.categories_name,service_name : service.service_name,...others}
                     }));
               httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
