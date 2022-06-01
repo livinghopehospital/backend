@@ -42,7 +42,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
             }
          const newPayment =await  servicePayment.addPayment(bodyParams);
          const paymentMaid = [];
-         paymentMaid.push(newPayment);
+         paymentMaid.push(bodyParams);
          if (newPayment) {
          
             returnArray[index] = {product_name: '', product_price: 0}
