@@ -45,7 +45,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
          const newPayment =await  servicePayment.addPayment(bodyParams);
          if (newPayment) {
             returnArray[index] = {product_name: '', product_price: 0}
-            if (Object.keys(returnArray).length==paymentMaid.length) {
+            if (Object.keys(returnArray).length==service.length) {
                 const data = await Promise.all(  paymentMaid.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
                     const {service_name,service_categories,...others} = report;
