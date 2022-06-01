@@ -32,7 +32,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
         const {service, created_at, invoice_number, payment_type, total_amount, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
-                amount_paid: service[index].incoming_price!=null?service[index].incoming_price:service[index].original_price,
+                amount_paid: service[index].incoming_price!=''?service[index].incoming_price:service[index].original_price,
                 service_name: service[index].service_name,
                 service_categories: service[index].service_category,
                 created_at: `${created_at}Z`,
