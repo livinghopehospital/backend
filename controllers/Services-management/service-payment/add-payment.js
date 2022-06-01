@@ -40,12 +40,13 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 total_amount,
                 branch: branch_id
             }
-         const newPayment = servicePayment.addPayment(bodyParams);
+         const newPayment =await  servicePayment.addPayment(bodyParams);
+         let paymentMaid = [];
          if (newPayment) {
-             console.log(newPayment);
+             paymentMaid.push(newPayment);
             returnArray[index] = {product_name: '', product_price: 0}
             if (Object.keys(returnArray).length==service.length) {
-                const data = await Promise.all(  req.body.service.map(async(report)=>{
+                const data = await Promise.all(  paymentMaid.map(async(report)=>{
                     const service =await  servicesRendered.findOne({_id: report.service_name});
                     const category =await  serviceCategory.findOne({_id: report.service_category});
                     const {service_name,service_categories,...others} = report;
