@@ -27,6 +27,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
         const body = await val.validateAsync(req.body);
         let returnArray = [];
         const {branch_id} = req.userData;
+        const paymentMaid = [];
         const {service, created_at, invoice_number, payment_type, total_amount, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
@@ -40,11 +41,9 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 total_amount,
                 branch: branch_id
             }
-         const newPayment =await  servicePayment.addPayment(bodyParams);
-         const paymentMaid = [];
          paymentMaid.push(bodyParams);
+         const newPayment =await  servicePayment.addPayment(bodyParams);
          if (newPayment) {
-         
             returnArray[index] = {product_name: '', product_price: 0}
             if (Object.keys(returnArray).length==paymentMaid.length) {
                 const data = await Promise.all(  paymentMaid.map(async(report)=>{
