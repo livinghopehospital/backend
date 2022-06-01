@@ -41,6 +41,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 total_amount,
                 branch: branch_id
             }
+            console.log(bodyParams);
          paymentMaid.push(bodyParams);
          const newPayment =await  servicePayment.addPayment(bodyParams);
          if (newPayment) {
