@@ -10,6 +10,8 @@ const serviceCategory = require("../../../model/service-management/service-categ
 const val  = joi.object({
     service: joi.array().min(1),
     invoice_number: joi.string().required(),
+    incoming_price: joi.any(),
+    original_price: joi.any(),
     created_at: joi.date().required(),
     customer_name: joi.any(),
     payment_type: joi.string(),
@@ -29,7 +31,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
         const {service, created_at, invoice_number, payment_type, total_amount, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
-                amount_paid: service[index].amount_paid,
+                amount_paid: service[index].original_price!=null?service[index]. original_price:service[index].incoming_price,
                 service_name: service[index].service_name,
                 service_categories: service[index].service_category,
                 created_at: `${created_at}Z`,
