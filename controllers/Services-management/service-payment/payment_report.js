@@ -133,7 +133,7 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
             return next(e);
           }
         }else{
-            const e = new HttpError(404, "No record found within this range of date");
+            const e = new HttpError(404, "No   record found within this range of date");
             return next(e);
         }
     } catch (error) {
