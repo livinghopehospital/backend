@@ -38,10 +38,12 @@ const fetchPaymentByServiceCategories = async function fetchPaymentByServiceCate
             if (branchReport.length>0) {
             
            const categoryName = await serviceCategory.findOne({_id:body.categories}) 
-           const data = branchReport.map((report)=>{
-             const {service_categories,...others} = report;
-             return {...others, service_categories : categoryName.categories_name,}
-           })
+           const data = await Promise.all(  branchReport.map(async(report)=>{
+            const categoryName = await serviceCategory.findOne({_id:body.categories}) 
+            const service =await  servicesRendered.findOne({_id: report.service_name});
+            const {service_categories,...others} = report;
+              return {...others, service_name : service.service_name,service_categories:categoryName.categories_name}
+            }));
            httpResponse({status_code:200, response_message:'Payment record available under this category', data:data, res}); 
             }else{
               const e = new HttpError(404, "No record found within the categories selected");
