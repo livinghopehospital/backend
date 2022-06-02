@@ -120,11 +120,13 @@ const fetchDepositByCategories = async function fetchDepositByCategories(req,res
         if (FILTEREDRESULTS&&FILTEREDRESULTS.length>0) {
           const branchReport = FILTEREDRESULTS.filter(item=>item.service_categories==body.categories&&item.branch==branch_id);
           if (branchReport.length>0) {
-         const categoryName = await serviceCategory.findOne({_id:body.categories}) 
-         const data = branchReport.map((report)=>{
-           const {service_categories,...others} = report;
-           return {...others, service_categories : categoryName.categories_name,}
-         });
+         
+         const data = await Promise.all(  branchReport.map(async(report)=>{
+          const categoryName = await serviceCategory.findOne({_id:body.categories}) 
+          const service =await  servicesRendered.findOne({_id: report.service_name});
+          const {service_categories,...others} = report;
+            return {...others, service_name : service.service_name,service_categories:categoryName.categories_name}
+          }));
          httpResponse({status_code:200, response_message:'Deposit record available under this category', data:{branchReport:data}, res}); 
           }else{
             const e = new HttpError(404, "No record found within the categories selected");
