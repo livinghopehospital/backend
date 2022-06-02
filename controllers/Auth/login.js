@@ -7,6 +7,8 @@ const joiError = require('../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../middlewares/http/http-response');
 const { User } = require('../../model/user/user');
 
+//TODO: Handle more validation
+
 const authValidation = async(req,res,next)=>{
     try {
         const {staff_username,branch_id} = req.body;
