@@ -16,6 +16,7 @@ const val  = joi.object({
     customer_name: joi.any(),
     payment_type: joi.string(),
     total_amount: joi.string(),
+    total_amount_paid: joi.any()
 })
 
 
@@ -53,8 +54,8 @@ const addServicePayment = async function addServicePayment(req,res,next){
                     const {service_name,service_categories,...others} = report;
                       return { service_name : service.service_name,...others}
                     }));
-                    console.log(data);
-              httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
+                    // console.log(data);
+               httpResponse({status_code:200, response_message:'Payment successfully added',data:data,res});
             } 
          }
          
