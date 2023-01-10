@@ -65,10 +65,12 @@ const loginStaff =async(req,res,next)=>{
                 return;
             }
            
+        }else{
+            const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
+            return next(err);
         }
       
-        const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
-        return next(err);
+     
      }
     } catch (error) {
       joiError(error,next);  

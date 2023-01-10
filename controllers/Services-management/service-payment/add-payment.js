@@ -26,9 +26,8 @@ const val  = joi.object({
 const addServicePayment = async function addServicePayment(req,res,next){
     try {
         const body = await val.validateAsync(req.body);
-        console.log(req.body);
         let returnArray = [];
-        const {branch_id} = req.userData;
+        const {branch_id,username} = req.userData;
         const paymentMaid = [];
         const {service, created_at, invoice_number, payment_type, total_amount, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
@@ -39,6 +38,7 @@ const addServicePayment = async function addServicePayment(req,res,next){
                 created_at: `${created_at}Z`,
                 invoice_number,
                 customer_name,
+                username,
                 payment_type,
                 total_amount,
                 branch: branch_id

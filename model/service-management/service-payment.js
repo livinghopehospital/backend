@@ -8,6 +8,7 @@ const servicePaymentSchema = new mongoose.Schema({
     total_amount: {type:Number, required:true},
     payment_type:{type:String},
     branch: {type:String, required:true},
+    username: {type:String},
     service_categories: {type:String, required:true},
     customer_name: {type:String},
     created_at:{type:Date, required:true},
