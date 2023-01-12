@@ -47,7 +47,7 @@ const loginStaff =async(req,res,next)=>{
      const staffDetails =await loginDetails.validateAsync(req.body);
      const staff = await User.findUserByUserName(staffDetails.staff_username);
      if (staff) {
-        const checkPassword = await comparePassword({password:staffDetails.password,username:staff.username});
+        const checkPassword = await comparePassword({password:staffDetails.password,userPassword:staff.password});
         if (!!checkPassword) {
             const payload ={
                 email: staff.email,
@@ -61,16 +61,14 @@ const loginStaff =async(req,res,next)=>{
                 return next(err); 
             }else{
                 const token  =  signToken({payload});
-                httpResponse({status_code:200, response_message:'success',data:{token,username: staff.username},res});
+                httpResponse({status_code:200, response_message:'success',data:{token},res});
                 return;
             }
            
-        }else{
-            const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
-            return next(err);
         }
       
-     
+        const err = new HttpError(401, 'You have provided an invalid credentials. Please check and try again');
+        return next(err);
      }
     } catch (error) {
       joiError(error,next);  

@@ -7,8 +7,8 @@ const mongoose = require("mongoose");
 
 
 
-const secret = crypto.randomBytes(16);
-const salt = bcrypt.genSaltSync(16, secret);
+const secret = crypto.randomBytes(12);
+const salt = bcrypt.genSaltSync(12, secret);
 
 async function hashedPassword({password}){
     if(!password){
@@ -24,15 +24,13 @@ async function hashedPassword({password}){
     }
 }
 
-async function comparePassword({password, username}){
+async function comparePassword({password, userPassword}){
     if(!password){
         const err = new Error("Please supply a data to be hashed")
         throw err
     }
     try {
-        const User = mongoose.model("User");
-        const user =await User.findUserByUserName(username);
-        const passwordMatch =await  bcrypt.compare(password,user.password);
+        const passwordMatch =await  bcrypt.compare(password,userPassword);
         return passwordMatch;  /****A boolean*/
     } catch (error) {
         console.log(error);
