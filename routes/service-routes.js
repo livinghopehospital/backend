@@ -34,6 +34,7 @@ const {
   updateService,
 } = require("../controllers/Services-management/service/update-service");
 const { verifyToken } = require("../middlewares/Authorization/jwt");
+const { isAdmin } = require("../middlewares/Authorization/role");
 
 const router = express.Router();
 
@@ -58,7 +59,7 @@ router.post('/add-deposit', addDeposit)
 router.put('/update-deposit-payment?', updateDepositPayemt);
 router.get('/fetch-deposit', fetchDeposit);
 router.get('/fetch-deposit-track?', fetchDepositTrack);
-router.delete('/delete-service-payment/:id', deleteServicePayment);
+router.delete('/delete-service-payment/:id', isAdmin,deleteServicePayment);
 
 /****Report fetch all payment  */
 
