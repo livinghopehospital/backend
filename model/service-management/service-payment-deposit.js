@@ -1,11 +1,12 @@
 
-const { date } = require('joi');
 const mongoose = require('mongoose');
 
 const servicePaymentDepositSchema = new mongoose.Schema({
     amount_paid: {type:Number, required:true},
     amount_to_pay: {type:Number, required:true},
+    invoice_number: {type:String},
     amount_to_balance: {type:Number,required:true},
+    username: {type:String},
     service_name: {type:String, required:true},
     branch: {type:String, required:true},
     service_categories: {type:String, required:true},
@@ -60,8 +61,7 @@ servicePaymentDepositSchema.statics.fetchDeposit = async function fetchDeposit(b
 }
 
 servicePaymentDepositSchema.statics.updateServiceDeposit = async function updateDepositPayemt(depositId,data){
-    console.log(data);
-    const updateDeposit = await servicePaymentDeposit.findOneAndUpdate({_id:depositId}, data, {new:true});
+    const updateDeposit = await servicePaymentDeposit.findOneAndUpdate({_id:depositId}, data, {upsert:true,new:true});
     return updateDeposit
 }
 

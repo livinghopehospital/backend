@@ -15,6 +15,7 @@ const {
 } = require("../controllers/Services-management/categories/update-categories");
 const { addDeposit, updateDepositPayemt } = require("../controllers/Services-management/service-payment/add-deposit");
 const { addServicePayment } = require("../controllers/Services-management/service-payment/add-payment");
+const { deleteServicePayment } = require("../controllers/Services-management/service-payment/delete-service-payment");
 const { fetchDeposit } = require("../controllers/Services-management/service-payment/fetch-deposit");
 const { fetchDepositTrack } = require("../controllers/Services-management/service-payment/fetch-deposit-track");
 const { fetchAllPayment, fetchPaymentByServiceCategories, fetchAllDeposit, fetchDepositByCategories } = require("../controllers/Services-management/service-payment/payment_report");
@@ -57,8 +58,7 @@ router.post('/add-deposit', addDeposit)
 router.put('/update-deposit-payment?', updateDepositPayemt);
 router.get('/fetch-deposit', fetchDeposit);
 router.get('/fetch-deposit-track?', fetchDepositTrack);
-
-
+router.delete('/delete-service-payment/:id', deleteServicePayment);
 
 /****Report fetch all payment  */
 

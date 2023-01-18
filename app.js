@@ -24,7 +24,7 @@ app.use('/api/service/v1/', serviceRouter);
 
 
 app.use((error,req,res,next)=>{
-    console.log(error);
+    // console.log(error);
     if (res.headerSent) {
         return next(error)
     } else {

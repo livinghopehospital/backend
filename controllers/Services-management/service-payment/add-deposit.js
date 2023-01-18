@@ -3,6 +3,7 @@ const { httpResponse } = require("../../../middlewares/http/http-response");
 const { servicePaymentDeposit,serviceDepositTrack } = require("../../../model/service-management/service-payment-deposit");
 const joiError = require("../../../middlewares/errors/joi-error");
 const joi = require('joi');
+const { servicePayment } = require("../../../model/service-management/service-payment");
 
 const val  = joi.object({
     service: joi.array().min(1),
@@ -17,7 +18,7 @@ const addDeposit = async function addDeposit(req,res,next){
     try {
         const body = await val.validateAsync(req.body);
         let returnArray = [];
-        const {branch_id} = req.userData;
+        const {branch_id,username} = req.userData;
         const {service, created_at, invoice_number, customer_name} = body;
         for (let index = 0; index < service.length; index++) {
             const bodyParams = {
@@ -28,6 +29,7 @@ const addDeposit = async function addDeposit(req,res,next){
                 service_categories: service[index].service_categories,
                 created_at,
                 customer_name,
+                username,
                 invoice_number,
                 branch: branch_id
             }
@@ -75,8 +77,28 @@ const updateDepositPayemt = async function updateDepositPayemt(req,res,next){
                 amount_paid_today: amount
             }
             const depositTrack =await serviceDepositTrack.createDepositTrack(depositParams);
-            /****Move this payment to sales once this customer has successfully paid all the money */
-            httpResponse({status_code:200, response_message:'Deposit payment successfully added', data:{updatePayment}, res});
+              if (Number(updatePayment. amount_to_balance)==0) {
+                const {branch,service_name,service_categories,created_at,customer_name,username,invoice_number} = updatePayment;
+                const bodyParams = {
+                    amount_paid: amount_to_pay,
+                    service_name,
+                    service_categories,
+                    created_at,
+                    invoice_number,
+                    customer_name,
+                    username,
+                    payment_type,
+                    total_amount:amount_to_pay,
+                    branch
+                }
+              const sales = await  servicePayment.addPayment(bodyParams);
+              if (sales) {
+                httpResponse({status_code:200, response_message:'Customer has successfully balance up', data:{updatePayment}, res});
+              }
+              }else{
+                httpResponse({status_code:200, response_message:'Deposit payment successfully updated', data:{updatePayment}, res});
+              }
+           
         }else{
             return next(new HttpError(500, 'Deposit payment not updated. Please contact support if persists'));   
         }
