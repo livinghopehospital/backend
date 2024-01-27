@@ -4,14 +4,15 @@ const { HttpError } = require('../../middlewares/errors/http-error');
 const joiError = require('../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../middlewares/http/http-response');
 const { Customer } = require('../../model/customer/customer');
-const { customerRecord } = require('../../model/customer/customer-txn-list');
+const { customerRecord, healtRecordModel } = require('../../model/customer/customer-txn-list');
 
 const bodyValidation = joi.object({
     first_name: joi.string().required(),
     last_name: joi.string().required(),
-    phone_number: joi.string().required(),
-    email: joi.string().required().lowercase(),
-    address: joi.string().required()
+    phone_number: joi.string(),
+    email: joi.string().lowercase(),
+    reg_id: joi.string().required().required(),
+    address: joi.string()
 })
 
 
@@ -35,6 +36,41 @@ const addNewCustomer = async(req,res,next)=>{
     }
 }
 
+
+const AddhealthRecord= async function AddhealthRecord(req,res,next){
+    try {
+     const {diagnosis, prescription, reg_id, customer_id}= req.body;
+     if(!diagnosis||!prescription){
+        const e = new HttpError(404, 'diagnosis and prescription are required');
+        return next(e); 
+     }
+     if(!reg_id||!customer_id){
+      const e = new HttpError(404, 'reg_id and customer_id are required');
+      return next(e); 
+     }
+     const newRecord = await healtRecordModel.addHealtRecord({...req.body});
+     if(newRecord){
+     return httpResponse({status_code:201, response_message:'Record successfully added', data:{newRecord},res});
+     }
+     const e = new HttpError(404, 'Something went wrong. Try again later');
+     return next(e); 
+    } catch (error) {
+      joiError(error, next)
+    }
+    }
+
+const getHealthRecords = async function getHealthRecords(req,res,next){
+  try {
+    const {customerId} = req.params
+    const  records=  await healtRecordModel.listHealthRecord(customerId)
+    return httpResponse({status_code:201, response_message:'Record successfully added', data:{records},res});
+  } catch (error) {
+    joiError(error, next)
+  }
+}
+
 module.exports={
-addNewCustomer
+addNewCustomer,
+AddhealthRecord,
+getHealthRecords
 }

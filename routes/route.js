@@ -10,11 +10,11 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
-const { addNewCustomer } = require('../controllers/customers/add-customers');
+const { addNewCustomer, getHealthRecords, AddhealthRecord } = require('../controllers/customers/add-customers');
 const { viewTransactionHistory, viewCustomerPurchased, viewCustomerDeposit } = require('../controllers/customers/customer-txn');
 const { deleteCustomers } = require('../controllers/customers/delete-customer');
 const { updateCustomers } = require('../controllers/customers/update-customer');
-const { viewAllCustomers } = require('../controllers/customers/view-customers');
+const { viewAllCustomers, viewSingleCustomers } = require('../controllers/customers/view-customers');
 const { addExpensesCategory, viewCategory } = require('../controllers/Expenses/add-category');
 const { addExpenses } = require('../controllers/Expenses/add-expenses');
 const { EditExpenses, deleteExpenses } = require('../controllers/Expenses/manage_expenses');
@@ -150,8 +150,11 @@ router.get('/view-customer-history/:customerId', viewTransactionHistory)
 router.get('/view-customer-purchased/:customerId', viewCustomerPurchased);
 router.get('/view-customer-deposit/:customerId', viewCustomerDeposit);
 router.get('/view-all-customers', viewAllCustomers);
+router.get('/view-single-customer', viewSingleCustomers);
 router.put('/update-customer/:customerId', updateCustomers);
 router.delete('/delete-customer/:customerId', deleteCustomers)
+router.get('/list-health-record/:customerId', getHealthRecords);
+router.post('/add-health-record', AddhealthRecord)
 /*****END ***/
 /****DEPOSITS ROUTE */
 // router.post('/add-deposits', addDeposit);

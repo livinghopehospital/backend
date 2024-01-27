@@ -22,6 +22,22 @@ const viewAllCustomers = async function viewAllCustomers(req, res, next) {
 }
 
 
+const viewSingleCustomers = async function viewSingleCustomers(req, res, next) {
+
+    try {
+        const { branch_id } = req.userData;
+        const {reg_id} = req.body;
+        const customers = await Customer.viewSingleCustomer(branch_id,reg_id);
+         httpResponse({ status_code: 200, response_message: 'Customers available', data: { customers }, res });
+        
+    } catch (error) {
+        console.log(error);
+        const e = new HttpError(500, 'Internal server error');
+        return next(e);
+    }
+}
+
 module.exports={
-    viewAllCustomers
+    viewAllCustomers,
+    viewSingleCustomers
 }
