@@ -40,6 +40,7 @@ const addNewCustomer = async(req,res,next)=>{
 const AddhealthRecord= async function AddhealthRecord(req,res,next){
     try {
      const {diagnosis, prescription, reg_id, customer_id}= req.body;
+     const {username} = req.userData;
      if(!diagnosis||!prescription){
         const e = new HttpError(404, 'diagnosis and prescription are required');
         return next(e); 
@@ -48,7 +49,7 @@ const AddhealthRecord= async function AddhealthRecord(req,res,next){
       const e = new HttpError(404, 'reg_id and customer_id are required');
       return next(e); 
      }
-     const newRecord = await healtRecordModel.addHealtRecord({...req.body});
+     const newRecord = await healtRecordModel.addHealtRecord({...req.body, assigned_by:username});
      if(newRecord){
      return httpResponse({status_code:201, response_message:'Record successfully added', data:{newRecord},res});
      }

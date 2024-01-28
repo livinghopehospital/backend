@@ -17,6 +17,7 @@ const healthRecordSchema = new mongoose.Schema({
     reg_id: {type:String},
     diagnosis: {type:String, required:true},
     prescription:{type:String, required:true},
+    assigned_by:{type:String},
     customer_id: {type:mongoose.Types.ObjectId, ref:'customer', require:true},
     date:{ type: Date, default: mongoose.now()}
 })
