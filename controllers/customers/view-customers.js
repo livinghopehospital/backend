@@ -28,7 +28,11 @@ const viewSingleCustomers = async function viewSingleCustomers(req, res, next) {
         const { branch_id } = req.userData;
         const {reg_id} = req.body;
         const customers = await Customer.viewSingleCustomer(branch_id,reg_id);
-         httpResponse({ status_code: 200, response_message: 'Customers available', data: { customers }, res });
+        if (customers) {
+            httpResponse({ status_code: 200, response_message: 'Customers available', data: { customers }, res });   
+        }
+        const e = new HttpError(400, 'No customer is associated with the registration Id');
+        return next(e);
         
     } catch (error) {
         console.log(error);

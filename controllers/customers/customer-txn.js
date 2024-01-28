@@ -62,17 +62,7 @@ const viewCustomerPurchased = async function viewCustomerSales(req,res,next){
     }
 }
 
-const healthRecord= async function healthRecord(req,res,next){
-try {
- const {diagnosis, prescription}= req.body;
- if(!diagnosis||!prescription){
-    const e = new HttpError(404, 'diagnosis and prescription are required');
-    return next(e); 
- }
-} catch (error) {
-  joiError(error, next)
-}
-}
+
 
 
 module.exports={

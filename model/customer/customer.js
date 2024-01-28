@@ -41,7 +41,7 @@ newCustomerSchema.statics.viewAllCustomer = async function viewAllCustomer(branc
     return customer;
 }
 newCustomerSchema.statics.viewSingleCustomer = async function viewSingleCustomer(branch,reg_id){
-    const customer = await Customer.find({branch, reg_id});
+    const customer = await Customer.findOne({branch, reg_id});
     return customer;
 }
 
