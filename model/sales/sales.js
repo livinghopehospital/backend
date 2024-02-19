@@ -8,7 +8,7 @@ const salesFieldValidation = joi.object({
   items: joi.array().min(1).required(),
   total_amount: joi.number().required(),
   branch: joi.string().required(),
-  customer_id: joi.string(),
+  customer_id: joi.any(),
   payment_type: joi.string().required(),
   created_at: joi.date().required()
 });
@@ -28,7 +28,7 @@ const salesSchema = new mongoose.Schema({
    amount: {type: String},
    quantity: {type: String},
    created_at:{type:Date},
-   customer_id: {type: mongoose.Types.ObjectId},
+   customer_id: {type: String},
    serial_number: {type:String}
 })
 
