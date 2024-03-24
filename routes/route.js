@@ -10,7 +10,7 @@ const { addBrand } = require('../controllers/brand/add-brand');
 const { deleteProductBrand } = require('../controllers/brand/delete-brand');
 const { updateBrand } = require('../controllers/brand/update-brand');
 const { viewAllBrands } = require('../controllers/brand/view-brands');
-const { addNewCustomer, getHealthRecords, AddhealthRecord } = require('../controllers/customers/add-customers');
+const { addNewCustomer, getHealthRecords, AddhealthRecord, deleteSingleHealthRecord } = require('../controllers/customers/add-customers');
 const { viewTransactionHistory, viewCustomerPurchased, viewCustomerDeposit } = require('../controllers/customers/customer-txn');
 const { deleteCustomers } = require('../controllers/customers/delete-customer');
 const { updateCustomers } = require('../controllers/customers/update-customer');
@@ -155,6 +155,7 @@ router.put('/update-customer/:customerId', updateCustomers);
 router.delete('/delete-customer/:customerId', deleteCustomers)
 router.get('/list-health-record/:customerId', getHealthRecords);
 router.post('/add-health-record', AddhealthRecord)
+router.delete('/delete-health-record/:recordId', deleteSingleHealthRecord)
 /*****END ***/
 /****DEPOSITS ROUTE */
 // router.post('/add-deposits', addDeposit);

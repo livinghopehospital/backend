@@ -18,6 +18,7 @@ const healthRecordSchema = new mongoose.Schema({
     diagnosis: {type:String, required:true},
     prescription:{type:String, required:true},
     assigned_by:{type:String},
+    note: {type:String},
     customer_id: {type:mongoose.Types.ObjectId, ref:'customer', require:true},
     date:{ type: Date, default: mongoose.now()}
 })
@@ -61,6 +62,15 @@ healthRecordSchema.statics.listHealthRecord = async function listHealthRecord(cu
     .sort({_id:-1})
     .limit(50)
 }
+
+healthRecordSchema.statics.deleteAllHealthRecord = async function deleteAllHealthRecord(customerId) {
+  return await healtRecordModel.deleteMany({customer_id:customerId});
+}
+
+healthRecordSchema.statics.deleteSingleRecord = async function deleteSingleRecord(recordId) {
+    return await healtRecordModel.deleteMany({_id:recordId});
+  }
+
 
 
 const customerRecord = mongoose.model('customer-record', recordSchema);

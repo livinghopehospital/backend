@@ -11,14 +11,16 @@ const updateCustomers = async function updateCustomer(req, res, next) {
         const { first_name,
             last_name,
             phone_number,
-            email,
             address } = req.body;
         const data = {
             first_name,
             last_name,
             phone_number,
-            email,
             address
+        }
+        if (!customerId) {
+            const e = new HttpError(400, 'CustomerId is missing in your params');
+            return next(e);  
         }
         const updatedCustomer = await Customer.updateCustomer(data, customerId);
         if (updatedCustomer) {

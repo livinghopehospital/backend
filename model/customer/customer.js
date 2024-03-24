@@ -9,21 +9,23 @@ const newCustomerSchema = new schema({
     last_name: {type:String,required:true},
     reg_id:{type:String, required:true},
     branch:{type:String, required:true},
-    email: {type: String,},
+    gender: {type: String,},
+    age:{type:String},
     address: {type:String,},
     phone_number: {type:String,}
 });
 
 
 newCustomerSchema.statics.createNewCustomer = async function createNewCustomer(customerDetails,metadata){
-    const {first_name, last_name,email,address,phone_number,reg_id}=customerDetails
+    const {first_name, last_name,gender,age,address,phone_number,reg_id}=customerDetails
     const {branch} = metadata
     const customer = new  Customer({
         first_name,
         last_name,
         branch,
         reg_id,
-        email,
+        gender,
+        age,
         address,
         phone_number
     });
@@ -46,7 +48,7 @@ newCustomerSchema.statics.viewSingleCustomer = async function viewSingleCustomer
 }
 
 newCustomerSchema.statics.updateCustomer = async function updateCustomer(data, id) {
-    const updatedCustomer = await Customer.findOneAndUpdate({_id:id}, data);
+    const updatedCustomer = await Customer.findOneAndUpdate({_id:id}, data,{upsert:true});
     return updatedCustomer;
 }
 

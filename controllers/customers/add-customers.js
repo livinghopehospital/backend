@@ -10,7 +10,8 @@ const bodyValidation = joi.object({
     first_name: joi.string().required(),
     last_name: joi.string().required(),
     phone_number: joi.string(),
-    email: joi.string().lowercase(),
+    gender: joi.string().lowercase().required(),
+    age: joi.string().lowercase().required(),
     reg_id: joi.string().required().required(),
     address: joi.string()
 })
@@ -70,8 +71,25 @@ const getHealthRecords = async function getHealthRecords(req,res,next){
   }
 }
 
+const deleteSingleHealthRecord = async function deleteSingleHealthRecord(req,res,next){
+  try {
+    const {recordId} = req.params;
+    if (!recordId) {
+      const e = new HttpError(404, 'Please provide recordId');
+      return next(e); 
+    }
+    const deletedRecord = await healtRecordModel.deleteSingleRecord(recordId);
+    if (deletedRecord) {
+      return httpResponse({status_code:200, response_message:'Record successfully deleted', data:{deletedRecord},res});
+    }
+  } catch (error) {
+    joiError(error, next)
+  }
+}
+
 module.exports={
 addNewCustomer,
 AddhealthRecord,
-getHealthRecords
+getHealthRecords,
+deleteSingleHealthRecord
 }
